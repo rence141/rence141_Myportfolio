@@ -1,0 +1,27 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Messages directory (since it contains user-submitted data)
+/messages/
+
+# Other
+*.tmp
+*.temp 
