@@ -1,0 +1,6 @@
+- pipeline: Rence 141 MyPortfolio
+  refs:
+  - refs/heads/main
+  events:
+  - type: PUSH
+  fail_on_prepare_env_warning: true
