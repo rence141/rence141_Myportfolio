@@ -28,7 +28,8 @@ COPY . /var/www/html/
 RUN mkdir -p /var/www/html/messages \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
-    && chmod 777 /var/www/html/messages
+    && chmod 777 /var/www/html/messages \
+    && chmod 644 /var/www/html/index.php
 
 # Expose port 80
 EXPOSE 80
