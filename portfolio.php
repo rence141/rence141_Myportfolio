@@ -1,4 +1,11 @@
 <?php
+// Personal information variables
+$name = "Rence";
+$full_name = "Lorenze Fernandez Prepotente";
+$age = "20";
+$location = "Philippines";
+$course = "Bachelor of Science in Information System";
+
 // Contact form processing
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = strip_tags($_POST['name'] ?? '');
@@ -189,10 +196,10 @@ Message:
         <div class="container" style="z-index: 2;">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Hello, I'm <?php echo "Rence"; ?></h1>
-                    <p class="lead mb-4">Hello I'm Lorenze Fernandez Prepotente but you can call me Rence in short 
-                        I'm 20 years old and I live in the Philippines 
-                        I'm a student of Bachelor of Science in Information System 
+                    <h1 class="display-4 fw-bold mb-4">Hello, I'm <?php echo $name; ?></h1>
+                    <p class="lead mb-4">Hello I'm <?php echo $full_name; ?> but you can call me <?php echo $name; ?> in short 
+                        I'm <?php echo $age; ?> years old and I live in the <?php echo $location; ?> 
+                        I'm a student of <?php echo $course; ?> 
                         I'm a very simple person and I like to enjoy life coding is my passion to be a good developer.  
                     </p>
                     <a href="#contact" class="btn btn-light btn-lg">Contact me</a>
@@ -336,7 +343,7 @@ Message:
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start d-flex align-items-center">
-                    <p class="mb-0">&copy; <?php echo date("Y"); ?>  Lorenze Fernandez Prepotente. Do not Steal!</p>
+                    <p class="mb-0">&copy; <?php echo date("Y"); ?>  <?php echo $full_name; ?>. Do not Steal!</p>
                     <img src="https://th.bing.com/th/id/OIP.mPqg73O-_Ssyj2uCR9G1yAHaHa?cb=iwp2&rs=1&pid=ImgDetMain" alt="Profile" class="ms-2 rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                 </div>
                 <div class="col-md-6">
