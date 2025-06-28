@@ -8,14 +8,14 @@ $course = "Bachelor of Science in Information System";
 
 // Contact form processing
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = strip_tags($_POST['name'] ?? '');
+    $visitor_name = strip_tags($_POST['name'] ?? '');
     $visitor_email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
     $message = strip_tags($_POST['message'] ?? '');
     
     // Create message content
     $message_content = "
 Date: " . date('Y-m-d H:i:s') . "
-From: {$name}
+From: {$visitor_name}
 Email: {$visitor_email}
 Message:
 {$message}
