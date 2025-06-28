@@ -24,12 +24,15 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . /var/www/html/
 
-# Create messages directory and set permissions
+# Create messages directory and set proper permissions
 RUN mkdir -p /var/www/html/messages \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
+    && chmod 644 /var/www/html/*.php \
+    && chmod 755 /var/www/html/projects \
+    && chmod 755 /var/www/html/ims \
     && chmod 777 /var/www/html/messages \
-    && chmod 644 /var/www/html/index.php
+    && ls -la /var/www/html/
 
 # Expose port 80
 EXPOSE 80

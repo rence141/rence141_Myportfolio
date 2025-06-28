@@ -1,7 +1,11 @@
 <?php
-// Test if PHP is working
-echo "PHP is working! Loading portfolio...<br>";
+// Simple test first
+echo "PHP is working!<br>";
 
 // Include the main portfolio file
-include 'portfolio.php';
+if (file_exists('portfolio.php')) {
+    include 'portfolio.php';
+} else {
+    echo "Error: portfolio.php not found!";
+}
 ?> 
