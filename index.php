@@ -1,7 +1,7 @@
 <?php
 // Personal information variables
 $name = "Rence";
-$full_name = "Lorenze Fernandez Prepotente";
+$full_name = "Rence Fernandez";
 $age = "20";
 $location = "Philippines";
 $course = "Bachelor of Science in Information System";
