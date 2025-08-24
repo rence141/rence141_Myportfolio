@@ -1,4 +1,4 @@
-# Enable directory browsing for debugging
+# Enable directory browsing for debugging (optional)
 Options +Indexes
 
 # Set default index file
@@ -11,9 +11,3 @@ DirectoryIndex index.php index.html
 
 # Enable PHP processing
 AddType application/x-httpd-php .php
-
-# Set proper permissions
-<Directory /var/www/html>
-    Require all granted
-    AllowOverride All
-</Directory> 
