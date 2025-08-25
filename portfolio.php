@@ -246,25 +246,25 @@ Message:
             <div class="row">
                 <?php
                 $skills = [
-                    ["HTML5", "fab fa-html5", "https://developer.mozilla.org/en-US/docs/Web/HTML"],
-                    ["CSS3", "fab fa-css3-alt", "https://developer.mozilla.org/en-US/docs/Web/CSS"],
-                    ["JavaScript", "fab fa-js", "https://developer.mozilla.org/en-US/docs/Web/JavaScript"],
-                    ["PHP", "fab fa-php", "https://www.php.net/docs.php"],
-                    ["C++", "devicon-cplusplus-plain colored", "https://cplusplus.com/doc/tutorial/"],
-                    ["MySQL", "fas fa-database", "https://dev.mysql.com/doc/"]
-                ];
+                   ["HTML5", '<i class="devicon-html5-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/HTML"],
+                ["CSS3", '<i class="devicon-css3-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/CSS"],
+                ["JavaScript", '<i class="devicon-javascript-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/JavaScript"],
+                ["PHP", '<i class="devicon-php-plain colored" style="font-size:3em;"></i>', "https://www.php.net/docs.php"],
+                ["C++", '<i class="devicon-cplusplus-plain colored" style="font-size:3em;"></i>', "https://cplusplus.com/doc/tutorial/"],
+                ["MySQL", '<i class="devicon-mysql-plain colored" style="font-size:3em;"></i>', "https://dev.mysql.com/doc/"]
+            ];
 
-                foreach ($skills as $skill) {
-                    echo '<div class="col-md-4 col-lg-3">';
-                    echo '<a href="' . $skill[2] . '" target="_blank" class="text-decoration-none">';
-                    echo '<div class="skill-card text-center">';
-                    echo '<i class="' . $skill[1] . ' fa-3x mb-3"></i>';
-                    echo '<h4>' . $skill[0] . '</h4>';
-                    echo '</div>';
-                    echo '</a>';
-                    echo '</div>';
-                }
-                ?>
+               foreach ($skills as $skill) {
+                echo '<div class="col-md-4 col-lg-3">';
+                echo '<a href="' . $skill[2] . '" target="_blank" class="text-decoration-none">';
+                echo '<div class="skill-card text-center">';
+                echo $skill[1]; // Use real devicon icons
+                echo '<h4>' . $skill[0] . '</h4>';
+                echo '</div>';
+                echo '</a>';
+                echo '</div>';
+            }
+            ?>
             </div>
         </div>
     </section>
