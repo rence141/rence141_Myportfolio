@@ -73,26 +73,36 @@ Message:
             bottom: 0;
             overflow: hidden;
             z-index: 1;
+            pointer-events: none;
         }
 
         .code-character {
-            position: absolute;
-            color: rgba(204, 210, 220, 0.5);
-            font-family: monospace;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear infinite;
+           position: absolute;
+        font-family: 'Orbitron', 'Share Tech Mono', monospace;
+        font-size: 22px;
+        font-weight: bold;
+        user-select: none;
+        pointer-events: none;
+        animation: fall linear infinite;
+         color: #00fff7;
+        text-shadow:
+            0 0 8px #00fff7,
+            0 0 16px #ff00cc,
+            0 0 24px #00fff7,
+            0 0 32px #ff00cc;
+        mix-blend-mode: lighten;
         }
 
         @keyframes fall {
             0% {
                 transform: translateY(-100%);
                 opacity: 1;
+                 filter: blur(0px);
             }
             100% {
                 transform: translateY(100vh);
                 opacity: 0;
+                filter: blur(3px);
             }
         }
 
@@ -359,42 +369,43 @@ Message:
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
+    });
 
-        // Falling code animation
-        const codeCharacters = '{}[]()<>/*-+=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        const fallingCodeContainer = document.getElementById('fallingCode');
+    // Cyberpunk falling code animation
+    const cyberpunkChars = '░▒▓█▌▐▄▀■▲◆●✦✧✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿⛩⛓⛔⛩⛯⛭⛮⛲⛳⛴⛵⛶⛷⛸⛹⛺⛻⛼⛽⛾⛿☰☲☷☸☼☽☾☿♒♓♠♣♥♦★☆✡✢✣✤✥✦✧✩✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿';
+    const fallingCodeContainer = document.getElementById('fallingCode');
 
-        function createCodeCharacter() {
-            const character = document.createElement('span');
-            character.className = 'code-character';
-            character.textContent = codeCharacters[Math.floor(Math.random() * codeCharacters.length)];
-            character.style.left = Math.random() * 100 + 'vw';
-            character.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            character.style.opacity = Math.random();
-            fallingCodeContainer.appendChild(character);
+    function createCodeCharacter() {
+        const character = document.createElement('span');
+        character.className = 'code-character';
+        character.textContent = cyberpunkChars[Math.floor(Math.random() * cyberpunkChars.length)];
+        character.style.left = Math.random() * 100 + 'vw';
+        character.style.animationDuration = (Math.random() * 2.5 + 1.5) + 's';
+        character.style.opacity = Math.random() * 0.7 + 0.3;
+        character.style.fontSize = (Math.random() * 12 + 18) + 'px';
+        fallingCodeContainer.appendChild(character);
 
-            // Remove the character after animation
-            character.addEventListener('animationend', () => {
-                character.remove();
-            });
-        }
+        // Remove the character after animation
+        character.addEventListener('animationend', () => {
+            character.remove();
+        });
+    }
 
-        // Create initial characters
-        for (let i = 0; i < 50; i++) {
-            setTimeout(createCodeCharacter, Math.random() * 3000);
-        }
+    // Create initial characters
+    for (let i = 0; i < 60; i++) {
+        setTimeout(createCodeCharacter, Math.random() * 2500);
+    }
 
-        // Continue creating characters
-        setInterval(createCodeCharacter, 100);
-    </script>
+    // Continue creating characters
+    setInterval(createCodeCharacter, 80);
+</script>
 </body>
 </html> 
