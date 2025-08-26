@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         file_put_contents($filename, $content);
 
         // Send email
-        $to = "your_email@example.com"; // <-- change this
+        $to = "Lorenzezz0987@gmail.com.com"; // <-- change this
         $subject = "New Contact Message from $visitor_name";
         $headers = "From: noreply@yourdomain.com\r\n"; 
         $headers .= "Reply-To: {$visitor_email}\r\n";
