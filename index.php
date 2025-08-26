@@ -70,16 +70,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             line-height: 1.6;
         }
 
-        .falling-code {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
+        #fallingCode {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
 
         .code-character {
            position: absolute;
@@ -206,22 +205,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="falling-code" id="fallingCode"></div>
-        <div class="container" style="z-index: 2;">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Hello, I'm <?php echo $name; ?></h1>
-                    <p class="lead mb-4">Hello I'm <?php echo $full_name; ?> but you can call me <?php echo $name; ?> in short 
-                        I'm <?php echo $age; ?> years old and I live in the <?php echo $location; ?> 
-                        I'm a student of <?php echo $course; ?> 
-                        I'm a very simple person and I like to enjoy life coding is my passion to be a good developer.  
-                    </p>
-                    <a href="#contact" class="btn btn-light btn-lg">Contact me</a>
-                </div>
+<section id="home" class="hero-section">
+    <canvas id="fallingCode"></canvas>
+    <div class="container" style="z-index: 2;">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Hello, I'm Lorenze</h1>
+                <p class="lead mb-4">
+                    Hello I'm <strong>Lorenze Niño Prepotente</strong> but you can call me <strong>Rence</strong> in short.  
+                    I'm <strong>21 years old</strong> and I live in the <strong>Philippines</strong>.  
+                    I'm a student of <strong>BS Information Systems</strong>.  
+                    I'm a very simple person and I like to enjoy life. Coding is my passion to become a good developer.  
+                </p>
+                <a href="#contact" class="btn btn-light btn-lg">Contact me</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- About Section -->
     <section id="about" class="section-padding">
@@ -319,39 +319,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section-padding bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5">Get In Touch</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <?php if (isset($success_message)): ?>
-                        <div class="alert alert-success text-center mb-4">
-                            <?php echo $success_message; ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if (isset($error_message)): ?>
-                        <div class="alert alert-danger text-center mb-4">
-                            <?php echo $error_message; ?>
-                        </div>
-                    <?php endif; ?>
-                    <div class="contact-form">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>#contact" method="POST">
-                            <div class="mb-3">
-                                <input type="text" class="form-control" name="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" name="message" rows="5" placeholder="Your Message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </form>
+  <section id="contact" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Get In Touch</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Show alert only if message exists -->
+                <?php if (!empty($success)): ?>
+                    <div class="alert alert-success text-center mb-4">
+                        <?php echo $success; ?>
                     </div>
+                <?php endif; ?>
+
+                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger text-center mb-4">
+                        <?php echo $error; ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="contact-form">
+                    <form action="#contact" method="POST">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" name="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
@@ -374,43 +378,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
+   // Falling code animation with canvas
+const canvas = document.getElementById("fallingCode");
+const ctx = canvas.getContext("2d");
 
-    // Cyberpunk falling code animation
-    const cyberpunkChars = '░▒▓█▌▐▄▀■▲◆●✦✧✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿⛩⛓⛔⛩⛯⛭⛮⛲⛳⛴⛵⛶⛷⛸⛹⛺⛻⛼⛽⛾⛿☰☲☷☸☼☽☾☿♒♓♠♣♥♦★☆✡✢✣✤✥✦✧✩✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿';
-    const fallingCodeContainer = document.getElementById('fallingCode');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    function createCodeCharacter() {
-        const character = document.createElement('span');
-        character.className = 'code-character';
-        character.textContent = cyberpunkChars[Math.floor(Math.random() * cyberpunkChars.length)];
-        character.style.left = Math.random() * 100 + 'vw';
-        character.style.animationDuration = (Math.random() * 2.5 + 1.5) + 's';
-        character.style.opacity = Math.random() * 0.7 + 0.3;
-        character.style.fontSize = (Math.random() * 12 + 18) + 'px';
-        fallingCodeContainer.appendChild(character);
+const characters = "░▒▓█▌▐▄▀■▲◆●✦✧✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿";
+const fontSize = 18;
+const columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
 
-        // Remove the character after animation
-        character.addEventListener('animationend', () => {
-            character.remove();
-        });
+function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00fff7";
+    ctx.shadowColor = "#ff00cc";
+    ctx.shadowBlur = 8;
+    ctx.font = fontSize + "px Orbitron, monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        ctx.fillText(text, x, y);
+
+        if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
     }
+}
 
-    // Create initial characters
-    for (let i = 0; i < 60; i++) {
-        setTimeout(createCodeCharacter, Math.random() * 2500);
-    }
+setInterval(draw, 50);
 
-    // Continue creating characters
-    setInterval(createCodeCharacter, 80);
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+});
 </script>
 </body>
 </html> 
