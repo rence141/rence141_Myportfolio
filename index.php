@@ -91,9 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          color: #00fff7;
         text-shadow:
             0 0 8px #00fff7,
-            0 0 16px #ff00cc,
+            0 0 16px #000000ff,
             0 0 24px #00fff7,
-            0 0 32px #ff00cc;
+            0 0 32px #000000ff;
         mix-blend-mode: lighten;
         }
 
