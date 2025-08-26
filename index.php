@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         animation: fall linear infinite;
          color: #00fff7;
         text-shadow:
-            0 0 8px #00fff7,
+            0 0 8px #0026ffff,
             0 0 16px #000000ff,
             0 0 24px #00fff7,
             0 0 32px #000000ff;
@@ -395,7 +395,7 @@ function draw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#00fff7";
-    ctx.shadowColor = "#ff00cc";
+    ctx.shadowColor = "#050505ff";
     ctx.shadowBlur = 8;
     ctx.font = fontSize + "px Orbitron, monospace";
 
