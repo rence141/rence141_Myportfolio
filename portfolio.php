@@ -1,47 +1,52 @@
 <?php
-// Personal information variables
-$name = "Rence";
+// Personal info
+$my_name = "Rence";
 $full_name = "Lorenze Fernandez Prepotente";
-$age = "20";
+$age = "21";
 $location = "Philippines";
 $course = "Bachelor of Science in Information System";
+$university = "Bicol University Polangui Campus - Albay";
 
-// Contact form processing
+// Form feedback
+$success_message = "";
+$error_message = "";
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $visitor_name = strip_tags($_POST['name'] ?? '');
-    $visitor_email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
-    $message = strip_tags($_POST['message'] ?? '');
-    
-    // Create message content
-    $message_content = "
-Date: " . date('Y-m-d H:i:s') . "
-From: {$visitor_name}
-Email: {$visitor_email}
-Message:
-{$message}
-----------------------------------------
-";
-    
-    // Save to messages file
-    $file = 'messages/contact_messages.txt';
-    
-    // Create messages directory if it doesn't exist
-    if (!file_exists('messages')) {
-        mkdir('messages', 0777, true);
-    }
-    
-    // Try to save the message
-    if(file_put_contents($file, $message_content, FILE_APPEND | LOCK_EX)) {
-        $success_message = "Thank you for your message! I'll get back to you soon.";
-        
-        // Optional: Send notification to your email about new message
-        $notification = "New message received from your portfolio contact form. Check messages/contact_messages.txt";
-        error_log($notification);
+    // Get visitor input
+    $visitor_name = htmlspecialchars(trim($_POST['name']));
+    $visitor_email = htmlspecialchars(trim($_POST['email']));
+    $visitor_message = htmlspecialchars(trim($_POST['message']));
+
+    // Validate
+    if (empty($visitor_name) || empty($visitor_email) || empty($visitor_message)) {
+        $error_message = " Please fill in all fields.";
     } else {
-        $error_message = "Sorry, there was an error saving your message. Please try again.";
+        // Save messages locally
+        if (!file_exists('messages')) {
+            mkdir('messages', 0777, true);
+        }
+        $filename = "messages/" . time() . ".txt";
+        $content = "Name: $visitor_name\nEmail: $visitor_email\nMessage:\n$visitor_message\n";
+        file_put_contents($filename, $content);
+
+        // Send email
+        $to = "your_email@example.com"; // <-- change this
+        $subject = "New Contact Message from $visitor_name";
+        $headers = "From: noreply@yourdomain.com\r\n"; 
+        $headers .= "Reply-To: {$visitor_email}\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
+
+        if (mail($to, $subject, $visitor_message, $headers)) {
+            $success_message = " Thank you, your message has been sent!";
+        } else {
+            $error_message = " Message saved, but email could not be sent.";
+        }
     }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
