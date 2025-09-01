@@ -962,12 +962,11 @@ echo $about_text;
 
                 </div>
                 <div class="col-lg-6 slide-in-right">
-                    <!-- Professional profile placeholder - replace with your actual photo -->
+                    <!-- Professional profile placeholder -->
                     <div class="profile-image-container">
                         <div class="profile-placeholder">
                             <i class="fas fa-user-circle"></i>
-                            <p>Your Professional Photo</p>
-                            <small><img src="https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=P8j0vWTMc4kQ7kNvwFFwlq5&_nc_oc=Adm6UUWaZj55lSfz28zy-bObNEGXsyY9GoxIa99t7UlORnVcNJNuvTDMJNfngWj6S_E&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3Od7HXvfdglqXby7NhEICA&oh=00_AfW2N4zKAxF-epaZR7_yKuaCM_Us-ohJu9_qCwoXfjFMKw&oe=68BB51A8" alt="Profile Image">
+                            <small><img src="https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=P8j0vWTMc4kQ7kNvwFFwlq5&_nc_oc=Adm6UUWaZj55lSfz28zy-bObNEGXsyY9GoxIa99t7UlORnVcNJNuvTDMJNfngWj6S_E&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3Od7HXvfdglqXby7NhEICA&oh=00_AfW2N4zKAxF-epaZR7_yKuaCM_Us-ohJu9_qCwoXfjFMKw&oe=68BB51A8" alt="Profile Image" style="width:80px; height:auto;">
                             </small>
                         </div>
                     </div>
