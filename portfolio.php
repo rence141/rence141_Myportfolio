@@ -275,6 +275,103 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             object-fit: cover;
         }
 
+        /* Professional Profile Image */
+        .profile-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .profile-placeholder {
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border: 3px solid #00fff7;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 247, 0.3),
+                inset 0 0 20px rgba(0, 255, 247, 0.1);
+            transition: var(--transition);
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .profile-placeholder:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 247, 0.5),
+                inset 0 0 30px rgba(0, 255, 247, 0.2);
+        }
+
+        .profile-placeholder i {
+            font-size: 4rem;
+            color: #00fff7;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #00fff7;
+        }
+
+        .profile-placeholder p {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .profile-placeholder small {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Profile Placeholder */
+        .hero-profile-placeholder {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border: 3px solid #00fff7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 247, 0.5),
+                0 0 40px rgba(255, 0, 222, 0.3),
+                inset 0 0 20px rgba(0, 255, 247, 0.1);
+            transition: var(--transition);
+        }
+
+        .hero-profile-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 247, 0.7),
+                0 0 60px rgba(255, 0, 222, 0.5),
+                inset 0 0 30px rgba(0, 255, 247, 0.2);
+        }
+
+        .hero-profile-placeholder i {
+            font-size: 4rem;
+            color: #00fff7;
+            text-shadow: 0 0 10px #00fff7;
+        }
+
+        /* Footer Profile Placeholder */
+        .footer-profile-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #333, #555);
+            border: 2px solid #00fff7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 255, 247, 0.3);
+        }
+
+        .footer-profile-placeholder i {
+            font-size: 1.2rem;
+            color: #00fff7;
+        }
+
         /* Modern Loading Screen */
         .loading-screen {
             position: fixed;
@@ -710,22 +807,20 @@ body.cyberpunk::before {
                     ">
                     <div style="flex: 1;">
                         <h1 class="display-6 fw-bold mb-3" style="color:#00fff7; text-shadow:0 0 8px #00fff7,0 0 16px #ff00de;">
-                            Hello, Guest from the Internet!
+                            Hello, I'm Rence!
                         </h1>
                        <p class="lead mb-4" style="color:#e0f7fa;">
-    My name is <strong>Lorenze Niño Prepotente</strong>, though I often go by <strong>Rence</strong>.<br>
-    I am <strong>21 years old</strong> and currently reside in the <strong>Philippines</strong>.<br>
-    I am pursuing a degree in <strong>BS Information Systems</strong>.<br>
-    I am a dedicated and motivated individual with a passion for coding, committed to developing my skills and growing as a professional developer.
+    I'm <strong>Lorenze Niño Prepotente</strong>, a passionate <strong>21-year-old</strong> developer from the <strong>Philippines</strong>.<br>
+    Currently pursuing <strong>BS Information Systems</strong> and dedicated to creating innovative web solutions.<br>
+    Let's build something amazing together!
 </p>
 
                         <a href="#contact" class="btn neon-btn">Contact me</a>
                     </div>
                     <div style="flex: 0 0 160px;">
-                        <img src="https://th.bing.com/th/id/OIP.mPqg73O-_Ssyj2uCR9G1yAHaHa?cb=iwp2&rs=1&pid=ImgDetMain"
-                             alt="Profile"
-                             class="img-fluid rounded-circle"
-                             style="width: 140px; height: 140px; object-fit: cover; box-shadow: 0 0 20px #00fff799, 0 0 40px #ff00de44; border: 3px solid #00fff7;">
+                        <div class="hero-profile-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -747,8 +842,14 @@ echo $about_text;
 
                 </div>
                 <div class="col-lg-6 slide-in-right">
-                    <!-- Add your professional image here -->
-                    <img src="https://th.bing.com/th/id/OIP.mPqg73O-_Ssyj2uCR9G1yAHaHa?cb=iwp2&rs=1&pid=ImgDetMain" alt="Profile" class="img-fluid rounded lazy-load" loading="lazy">
+                    <!-- Professional profile placeholder - replace with your actual photo -->
+                    <div class="profile-image-container">
+                        <div class="profile-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                            <p>Your Professional Photo</p>
+                            <small>Replace with your actual profile image</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -836,77 +937,6 @@ echo $about_text;
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="section-padding bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5 fade-in">What People Say</h2>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="testimonial-card fade-in stagger-1">
-                        <div class="testimonial-content">
-                            <div class="stars mb-3">
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                            </div>
-                            <p class="testimonial-text">"Rence delivered an exceptional Learning Management System that has revolutionized our department's educational process. His attention to detail and technical expertise are outstanding."</p>
-                            <div class="testimonial-author">
-                                <img src="https://via.placeholder.com/60x60/0984e3/ffffff?text=DR" alt="Dr. Rodriguez" class="rounded-circle me-3">
-                                <div>
-                                    <h6 class="mb-0">Dr. Maria Rodriguez</h6>
-                                    <small class="text-muted">Department Head, Computer Studies</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="testimonial-card fade-in stagger-2">
-                        <div class="testimonial-content">
-                            <div class="stars mb-3">
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                            </div>
-                            <p class="testimonial-text">"The Course Management System developed by Rence has significantly improved our administrative efficiency. His problem-solving skills and dedication to quality are remarkable."</p>
-                            <div class="testimonial-author">
-                                <img src="https://via.placeholder.com/60x60/00b894/ffffff?text=JS" alt="John Smith" class="rounded-circle me-3">
-                                <div>
-                                    <h6 class="mb-0">John Smith</h6>
-                                    <small class="text-muted">Academic Coordinator</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="testimonial-card fade-in stagger-3">
-                        <div class="testimonial-content">
-                            <div class="stars mb-3">
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                            </div>
-                            <p class="testimonial-text">"Working with Rence was a pleasure. His technical skills, communication, and ability to meet deadlines make him an excellent developer. Highly recommended!"</p>
-                            <div class="testimonial-author">
-                                <img src="https://via.placeholder.com/60x60/6c5ce7/ffffff?text=AL" alt="Anna Lee" class="rounded-circle me-3">
-                                <div>
-                                    <h6 class="mb-0">Anna Lee</h6>
-                                    <small class="text-muted">Project Manager</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 <!-- Contact Section -->
 <section id="contact" class="section-padding bg-light">
@@ -984,7 +1014,9 @@ echo $about_text;
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start d-flex align-items-center">
                     <p class="mb-0">&copy; <?php echo date("Y"); ?>  <?php echo $full_name; ?>. Do not Steal!</p>
-                    <img src="https://th.bing.com/th/id/OIP.mPqg73O-_Ssyj2uCR9G1yAHaHa?cb=iwp2&rs=1&pid=ImgDetMain" alt="Profile" class="ms-2 rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                    <div class="footer-profile-placeholder ms-2">
+                        <i class="fas fa-user"></i>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="social-links text-center text-md-end">
