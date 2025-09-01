@@ -9,7 +9,7 @@
   body {
     margin: 0;
     background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
-    color: #0ff; /* neon blue text */
+    color: #4dd0e1; /* softer cyan text */
     font-family: 'Orbitron', 'Courier New', monospace;
     overflow: hidden;
     height: 100vh;
@@ -28,16 +28,16 @@
     width: 100%;
     height: 100%;
     background: 
-      radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, rgba(77, 208, 225, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(76, 175, 80, 0.03) 0%, transparent 50%);
     z-index: -1;
-    animation: backgroundPulse 4s ease-in-out infinite alternate;
+    animation: backgroundPulse 6s ease-in-out infinite alternate;
   }
 
   @keyframes backgroundPulse {
-    0% { opacity: 0.3; }
-    100% { opacity: 0.7; }
+    0% { opacity: 0.2; }
+    100% { opacity: 0.4; }
   }
 
   canvas {
@@ -68,8 +68,8 @@
         0deg,
         transparent,
         transparent 2px,
-        rgba(0, 255, 255, 0.03) 2px,
-        rgba(0, 255, 255, 0.03) 4px
+        rgba(77, 208, 225, 0.02) 2px,
+        rgba(77, 208, 225, 0.02) 4px
       );
     z-index: 2;
     pointer-events: none;
@@ -87,11 +87,11 @@
     width: 600px;
     background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
     padding: 30px;
-    border: 2px solid #0ff;
+    border: 2px solid #4dd0e1;
     box-shadow: 
-      0 0 20px #0ff, 
-      0 0 40px #00f,
-      inset 0 0 20px rgba(0, 255, 255, 0.1);
+      0 0 15px rgba(77, 208, 225, 0.3), 
+      0 0 30px rgba(77, 208, 225, 0.1),
+      inset 0 0 20px rgba(77, 208, 225, 0.05);
     border-radius: 10px;
     backdrop-filter: blur(10px);
   }
@@ -103,10 +103,11 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #0ff, #f0f, #0f0, #ff0, #0ff);
+    background: linear-gradient(45deg, #4dd0e1, #9c27b0, #4caf50, #ff9800, #4dd0e1);
     border-radius: 12px;
     z-index: -1;
-    animation: borderGlow 3s linear infinite;
+    animation: borderGlow 4s linear infinite;
+    opacity: 0.6;
   }
 
   @keyframes borderGlow {
@@ -120,7 +121,7 @@
     overflow-y: auto;
     white-space: pre-wrap;
     font-size: 1rem;
-    text-shadow: 0 0 5px #0ff;
+    text-shadow: 0 0 3px #4dd0e1;
     font-family: 'Orbitron', monospace;
     font-weight: 300;
   }
@@ -130,28 +131,28 @@
   }
 
   .terminal-output::-webkit-scrollbar-track {
-    background: rgba(0, 255, 255, 0.1);
+    background: rgba(77, 208, 225, 0.1);
     border-radius: 4px;
   }
 
   .terminal-output::-webkit-scrollbar-thumb {
-    background: #0ff;
+    background: #4dd0e1;
     border-radius: 4px;
-    box-shadow: 0 0 5px #0ff;
+    box-shadow: 0 0 3px #4dd0e1;
   }
 
   .progress-bar {
     width: 100%;
     height: 25px;
     background: linear-gradient(90deg, #111, #222, #111);
-    border: 2px solid #0ff;
+    border: 2px solid #4dd0e1;
     margin-top: 20px;
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 
       inset 0 0 10px rgba(0, 0, 0, 0.5),
-      0 0 10px rgba(0, 255, 255, 0.3);
+      0 0 8px rgba(77, 208, 225, 0.2);
   }
 
   .progress-bar::before {
@@ -173,9 +174,9 @@
   .progress {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, #0ff, #00f, #0ff);
+    background: linear-gradient(90deg, #4dd0e1, #2196f3, #4dd0e1);
     background-size: 200% 100%;
-    animation: progressFlow 2s ease-in-out infinite;
+    animation: progressFlow 3s ease-in-out infinite;
     border-radius: 10px;
     position: relative;
   }
@@ -336,8 +337,8 @@ const columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
 
 let stopFalling = false;
-let normalColor = "#0ff";
-let errorColor = "red";
+let normalColor = "#4dd0e1";
+let errorColor = "#e57373";
 let glitchMode = false;
 
 function draw() {
@@ -346,14 +347,14 @@ function draw() {
   
   if (glitchMode) {
     // Add glitch effect
-    ctx.fillStyle = "rgba(255,0,0,0.1)";
+    ctx.fillStyle = "rgba(229,115,115,0.08)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   
   ctx.fillStyle = stopFalling ? errorColor : normalColor;
   ctx.font = fontSize + "px 'Orbitron', monospace";
   ctx.shadowColor = stopFalling ? errorColor : normalColor;
-  ctx.shadowBlur = 10;
+  ctx.shadowBlur = 5;
 
   for (let i = 0; i < drops.length; i++) {
     const text = characters.charAt(Math.floor(Math.random() * characters.length));
@@ -440,21 +441,21 @@ function triggerErrorImpact() {
   
   const flashInterval = setInterval(() => {
     // Flash background with more colors
-    const colors = ["#ff0000", "#000000", "#ff4500", "#000000", "#8B0000"];
+    const colors = ["#e57373", "#000000", "#ff8a65", "#000000", "#d32f2f"];
     document.body.style.background = colors[flashes % colors.length];
 
     // Flicker terminal border
     const terminal = document.querySelector('.terminal');
-    terminal.style.borderColor = flashes % 2 === 0 ? "#ff0000" : "#0ff";
+    terminal.style.borderColor = flashes % 2 === 0 ? "#e57373" : "#4dd0e1";
     terminal.style.boxShadow = flashes % 2 === 0 ? 
-      "0 0 30px #ff0000, 0 0 60px #ff0000" : 
-      "0 0 20px #0ff, 0 0 40px #00f";
+      "0 0 20px #e57373, 0 0 40px #e57373" : 
+      "0 0 15px #4dd0e1, 0 0 30px #4dd0e1";
 
     // Flicker progress bar
     const progressBarEl = document.querySelector('.progress');
     progressBarEl.style.background = flashes % 2 === 0 ? 
-      "linear-gradient(90deg, #ff0000, #ff4500, #ff0000)" : 
-      "linear-gradient(90deg, #0ff, #00f, #0ff)";
+      "linear-gradient(90deg, #e57373, #ff8a65, #e57373)" : 
+      "linear-gradient(90deg, #4dd0e1, #2196f3, #4dd0e1)";
 
     // Enhanced terminal shake effect
     const shakeX = (Math.random() - 0.5) * 8;
@@ -533,7 +534,7 @@ class Particle {
     this.vy = (Math.random() - 0.5) * 0.5;
     this.size = Math.random() * 3 + 1;
     this.opacity = Math.random() * 0.5 + 0.2;
-    this.color = Math.random() > 0.5 ? '#0ff' : '#f0f';
+    this.color = Math.random() > 0.5 ? '#4dd0e1' : '#9c27b0';
   }
 
   update() {
@@ -600,7 +601,7 @@ function animateParticles() {
         particlesCtx.beginPath();
         particlesCtx.moveTo(particles[i].x, particles[i].y);
         particlesCtx.lineTo(particles[j].x, particles[j].y);
-        particlesCtx.strokeStyle = `rgba(0, 255, 255, ${0.1 * (1 - distance / 120)})`;
+        particlesCtx.strokeStyle = `rgba(77, 208, 225, ${0.05 * (1 - distance / 120)})`;
         particlesCtx.lineWidth = 1;
         particlesCtx.stroke();
       }

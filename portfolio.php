@@ -98,6 +98,126 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             --dark-bg: #1a1a1a;
         }
 
+        /* Dark mode specific styles */
+        [data-theme="dark"] body {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .hero-section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 52, 54, 0.85) 100%), url('https://static.vecteezy.com/system/resources/previews/000/696/278/original/textured-black-background-vector.jpg') center/cover no-repeat !important;
+        }
+
+        [data-theme="dark"] .section-padding {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .bg-light {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .skill-card {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+            border-color: #00b894 !important;
+        }
+
+        [data-theme="dark"] .project-card {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .project-card .card-body {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .testimonial-card {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .contact-form {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .navbar-dark {
+            background: #1a1a1a !important;
+        }
+
+        [data-theme="dark"] .bg-dark {
+            background: #1a1a1a !important;
+        }
+
+        [data-theme="dark"] .profile-placeholder {
+            background: linear-gradient(145deg, #2d3436, #1a1a1a) !important;
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .hero-profile-placeholder {
+            background: linear-gradient(145deg, #2d3436, #1a1a1a) !important;
+        }
+
+        [data-theme="dark"] .footer-profile-placeholder {
+            background: linear-gradient(145deg, #2d3436, #1a1a1a) !important;
+        }
+
+        /* Dark mode form elements */
+        [data-theme="dark"] .form-control {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+            border-color: #00b894 !important;
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            background: #2d3436 !important;
+            color: #ffffff !important;
+            border-color: #00b894 !important;
+            box-shadow: 0 0 0 0.2rem rgba(0, 184, 148, 0.25) !important;
+        }
+
+        [data-theme="dark"] .form-label {
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .btn-primary {
+            background: #00b894 !important;
+            border-color: #00b894 !important;
+        }
+
+        [data-theme="dark"] .btn-primary:hover {
+            background: #00a085 !important;
+            border-color: #00a085 !important;
+        }
+
+        [data-theme="dark"] .btn-outline-primary {
+            color: #00b894 !important;
+            border-color: #00b894 !important;
+        }
+
+        [data-theme="dark"] .btn-outline-primary:hover {
+            background: #00b894 !important;
+            border-color: #00b894 !important;
+            color: #ffffff !important;
+        }
+
+        /* Dark mode text colors */
+        [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, 
+        [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
+            color: #ffffff !important;
+        }
+
+        [data-theme="dark"] p, [data-theme="dark"] .lead {
+            color: #e0e0e0 !important;
+        }
+
+        [data-theme="dark"] .text-muted {
+            color: #b0b0b0 !important;
+        }
+
         #fallingCode {
         position: absolute;
         top: 0;
@@ -1160,7 +1280,7 @@ window.addEventListener("resize", () => {
     particlesCanvas.height = window.innerHeight;
 });
 
-// Theme Toggle Functionality
+// Enhanced Theme Toggle Functionality
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = document.getElementById('themeIcon');
 const body = document.body;
@@ -1169,6 +1289,7 @@ const body = document.body;
 const currentTheme = localStorage.getItem('theme') || 'light';
 body.setAttribute('data-theme', currentTheme);
 updateThemeIcon(currentTheme);
+applyTheme(currentTheme);
 
 themeToggle.addEventListener('click', () => {
     const currentTheme = body.getAttribute('data-theme');
@@ -1177,14 +1298,30 @@ themeToggle.addEventListener('click', () => {
     body.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon(newTheme);
+    applyTheme(newTheme);
 });
 
 function updateThemeIcon(theme) {
     if (theme === 'dark') {
         themeIcon.className = 'fas fa-sun';
+        themeToggle.title = 'Switch to Light Mode';
     } else {
         themeIcon.className = 'fas fa-moon';
+        themeToggle.title = 'Switch to Dark Mode';
     }
+}
+
+function applyTheme(theme) {
+    // Add smooth transition
+    body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    
+    // Force reflow to ensure smooth transition
+    body.offsetHeight;
+    
+    // Remove transition after animation
+    setTimeout(() => {
+        body.style.transition = '';
+    }, 300);
 }
 
 // Intersection Observer for Animations
