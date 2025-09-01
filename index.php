@@ -88,6 +88,36 @@
     background: red;
     color: black;
     box-shadow: 0 0 20px red;
+    transform: scale(1.05);
+  }
+
+  /* Modern loading animations */
+  .terminal {
+    animation: slideInUp 1s ease-out;
+  }
+
+  @keyframes slideInUp {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .progress {
+    animation: progressGlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes progressGlow {
+    from {
+      box-shadow: 0 0 5px #0ff;
+    }
+    to {
+      box-shadow: 0 0 20px #0ff, 0 0 30px #00f;
+    }
   }
 </style>
 </head>
