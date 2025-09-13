@@ -197,18 +197,26 @@ loadTerminal();
 function triggerError(){
   stopFalling = true;
   clearInterval(fallingInterval);
-  document.body.style.background = "#900"; // whole body red
-  document.querySelector(".terminal").style.display = "none";
+
+  // Hide terminal
+  const terminal = document.querySelector(".terminal");
+  terminal.style.display = "none";
+
   const errorCard = document.getElementById("errorCard");
   errorCard.style.display = "block";
 
-  // Flash effect
+  // Full-body red flash and shake
   let flashes = 0;
   const flashInterval = setInterval(()=>{
-    document.body.style.background = flashes%2===0?"#f00":"#900";
+    document.body.style.background = flashes % 2 === 0 ? "#f00" : "#900";
+    document.body.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px)`;
     flashes++;
-    if(flashes>5) clearInterval(flashInterval);
-  },200);
+    if(flashes > 6) {
+      clearInterval(flashInterval);
+      document.body.style.transform = "translate(0,0)";
+      document.body.style.background = "#900"; // keep body red
+    }
+  }, 150);
 }
 
 // Button action
