@@ -9,7 +9,7 @@
   body {
     margin: 0;
     background: black;
-    color: #0ff; /* neon blue text */
+    color: rgba(0, 0, 0, 1); /* neon blue text */
     font-family: 'Courier New', monospace;
     overflow: hidden;
     height: 100vh;
@@ -87,8 +87,8 @@
     width: 600px;
     background: #111;
     padding: 20px;
-    border: 2px solid #0ff;
-    box-shadow: 0 0 20px #0ff, 0 0 40px #00f;
+    border: 2px solid rgba(0, 255, 8, 1);
+    box-shadow: 0 0 20px rgba(26, 255, 0, 1), 0 0 40px #00f;
   }
 
   .terminal-output {
@@ -96,7 +96,7 @@
     overflow-y: auto;
     white-space: pre-wrap;
     font-size: 1rem;
-    text-shadow: 0 0 3px #4dd0e1;
+    text-shadow: 0 0 3px #4ae90bff;
     font-family: 'Orbitron', monospace;
     font-weight: 300;
   }
@@ -111,16 +111,16 @@
   }
 
   .terminal-output::-webkit-scrollbar-thumb {
-    background: #4dd0e1;
+    background: #14f804ff;
     border-radius: 4px;
-    box-shadow: 0 0 3px #4dd0e1;
+    box-shadow: 0 0 3px #2eea04ff;
   }
 
   .progress-bar {
     width: 100%;
     height: 20px;
     background: #222;
-    border: 1px solid #0ff;
+    border: 1px solid rgba(38, 255, 0, 1);
     margin-top: 15px;
     position: relative;
     border-radius: 12px;
@@ -149,7 +149,7 @@
   .progress {
     width: 0%;
     height: 100%;
-    background: #0ff;
+    background: rgba(0, 255, 42, 1);
     animation: none;
   }
 
@@ -263,10 +263,10 @@
 
   @keyframes progressGlow {
     from {
-      box-shadow: 0 0 5px #0ff;
+      box-shadow: 0 0 5px rgba(13, 255, 0, 1);
     }
     to {
-      box-shadow: 0 0 20px #0ff, 0 0 30px #00f;
+      box-shadow: 0 0 20px rgba(0, 255, 68, 1), 0 0 30px rgba(61, 170, 2, 1);
     }
   }
 </style>
@@ -303,7 +303,7 @@ const columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
 
 let stopFalling = false;
-let normalColor = "#0ff";
+let normalColor = "rgba(0, 255, 51, 1)";
 let errorColor = "red";
 
 function draw() {
@@ -411,11 +411,11 @@ function triggerErrorImpact() {
 
     // Flicker terminal border
     const terminal = document.querySelector('.terminal');
-    terminal.style.borderColor = flashes % 2 === 0 ? "darkred" : "#0ff";
+    terminal.style.borderColor = flashes % 2 === 0 ? "darkred" : "rgba(72, 241, 16, 1)";
 
     // Flicker progress bar
     const progressBarEl = document.querySelector('.progress');
-    progressBarEl.style.background = flashes % 2 === 0 ? "darkred" : "#0ff";
+    progressBarEl.style.background = flashes % 2 === 0 ? "darkred" : "rgba(244, 237, 44, 1)";
 
     // Enhanced terminal shake effect
     const shakeX = (Math.random() - 0.5) * 8;
@@ -494,7 +494,7 @@ class Particle {
     this.vy = (Math.random() - 0.5) * 0.5;
     this.size = Math.random() * 3 + 1;
     this.opacity = Math.random() * 0.5 + 0.2;
-    this.color = Math.random() > 0.5 ? '#4dd0e1' : '#9c27b0';
+    this.color = Math.random() > 0.5 ? '#15ff00ff' : '#9c27b0';
   }
 
   update() {
