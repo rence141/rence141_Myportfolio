@@ -981,12 +981,12 @@ echo $about_text;
             <div class="row">
                 <?php
                 $skills = [
-                   ["HTML5", '<i class="devicon-html5-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/HTML", 90],
-                ["CSS3", '<i class="devicon-css3-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/CSS", 85],
-                ["JavaScript", '<i class="devicon-javascript-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/JavaScript", 80],
-                ["PHP", '<i class="devicon-php-plain colored" style="font-size:3em;"></i>', "https://www.php.net/docs.php", 85],
-                ["C++", '<i class="devicon-cplusplus-plain colored" style="font-size:3em;"></i>', "https://cplusplus.com/doc/tutorial/", 75],
-                ["MySQL", '<i class="devicon-mysql-plain colored" style="font-size:3em;"></i>', "https://dev.mysql.com/doc/", 80]
+                   ["HTML5", '<i class="devicon-html5-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/HTML"],
+                ["CSS3", '<i class="devicon-css3-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/CSS"],
+                ["JavaScript", '<i class="devicon-javascript-plain colored" style="font-size:3em;"></i>', "https://developer.mozilla.org/en-US/docs/Web/JavaScript"],
+                ["PHP", '<i class="devicon-php-plain colored" style="font-size:3em;"></i>', "https://www.php.net/docs.php"],
+                ["C++", '<i class="devicon-cplusplus-plain colored" style="font-size:3em;"></i>', "https://cplusplus.com/doc/tutorial/"],
+                ["MySQL", '<i class="devicon-mysql-plain colored" style="font-size:3em;"></i>', "https://dev.mysql.com/doc/"]
             ];
 
                $staggerClasses = ['stagger-1', 'stagger-2', 'stagger-3', 'stagger-4', 'stagger-5', 'stagger-6'];
@@ -999,9 +999,7 @@ echo $about_text;
                 echo '<h4>' . $skill[0] . '</h4>';
                 echo '</a>';
                 echo '<div class="progress mt-3" style="height: 8px;">';
-                echo '<div class="progress-bar" role="progressbar" style="width: 0%" data-width="' . $skill[3] . '%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>';
                 echo '</div>';
-                echo '<small class="text-muted mt-2 d-block">' . $skill[3] . '% Proficiency</small>';
                 echo '</div>';
                 echo '</div>';
             }
