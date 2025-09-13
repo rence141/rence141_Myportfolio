@@ -8,7 +8,7 @@
   body {
     margin: 0;
     background: black;
-    color: #0ff; /* neon blue text */
+    color: rgba(4, 32, 242, 1); /* neon blue text */
     font-family: 'Courier New', monospace;
     overflow: hidden;
     height: 100vh;
@@ -30,8 +30,8 @@
     width: 600px;
     background: #111;
     padding: 20px;
-    border: 2px solid #0ff;
-    box-shadow: 0 0 20px #0ff, 0 0 40px #00f;
+    border: 2px solid rgba(0, 0, 0, 1);
+    box-shadow: 0 0 20px rgba(26, 255, 0, 1), 0 0 40px rgba(34, 101, 1, 1);
   }
 
   .terminal-output {
@@ -45,7 +45,7 @@
     width: 100%;
     height: 20px;
     background: #222;
-    border: 1px solid #0ff;
+    border: 1px solid rgba(6, 255, 6, 1);
     margin-top: 15px;
     position: relative;
   }
@@ -53,7 +53,7 @@
   .progress {
     width: 0%;
     height: 100%;
-    background: #0ff;
+    background: rgba(35, 249, 7, 1);
     animation: none;
   }
 
@@ -121,7 +121,7 @@ const columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
 
 let stopFalling = false;
-let normalColor = "#0ff";
+let normalColor = "rgba(30, 0, 255, 1)";
 let errorColor = "red";
 
 function draw() {
@@ -184,11 +184,11 @@ function triggerErrorImpact() {
 
     // Flicker terminal border
     const terminal = document.querySelector('.terminal');
-    terminal.style.borderColor = flashes % 2 === 0 ? "darkred" : "#0ff";
+    terminal.style.borderColor = flashes % 2 === 0 ? "darkred" : "rgba(39, 251, 7, 1)";
 
     // Flicker progress bar
     const progressBarEl = document.querySelector('.progress');
-    progressBarEl.style.background = flashes % 2 === 0 ? "darkred" : "#0ff";
+    progressBarEl.style.background = flashes % 2 === 0 ? "darkred" : "rgba(95, 255, 15, 1)";
 
     // Terminal shake effect
     terminal.style.transform = `translate(${Math.random()*4-2}px, ${Math.random()*4-2}px)`;
