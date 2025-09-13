@@ -17,6 +17,7 @@
     align-items: center;
     position: relative;
     color: #0f0;
+    transition: background 0.5s ease;
   }
 
   canvas {
@@ -33,6 +34,7 @@
     padding: 20px;
     border: 2px solid #0f0;
     box-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+    transition: opacity 0.5s ease;
   }
 
   .terminal-output {
@@ -66,24 +68,39 @@
     transform: translate(-50%, -50%);
     background: #900;
     border: 3px solid #f00;
-    padding: 30px 50px;
+    padding: 40px 60px;
     color: #f00;
     text-align: center;
     z-index: 10;
-    border-radius: 15px;
-    box-shadow: 0 0 30px #f00, 0 0 60px #900;
+    border-radius: 20px;
+    box-shadow: 0 0 40px #f00, 0 0 80px #900;
+    animation: pulseRed 1s infinite alternate;
+  }
+
+  #errorCard h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #f00, 0 0 20px #900;
   }
 
   #errorCard button {
     margin-top: 20px;
-    padding: 10px 25px;
+    padding: 15px 30px;
     font-family: 'Orbitron', monospace;
     font-weight: bold;
     cursor: pointer;
     background: #600;
     border: 2px solid #f00;
     color: #f00;
-    border-radius: 10px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  @keyframes pulseRed {
+    0% { box-shadow: 0 0 20px #f00, 0 0 40px #900; transform: translate(-50%, -50%) scale(1); }
+    50% { box-shadow: 0 0 40px #f00, 0 0 80px #900; transform: translate(-50%, -50%) scale(1.05); }
+    100% { box-shadow: 0 0 20px #f00, 0 0 40px #900; transform: translate(-50%, -50%) scale(1); }
   }
 </style>
 </head>
@@ -97,7 +114,8 @@
 </div>
 
 <div id="errorCard">
-  <div>ERROR: There was an issue with the system!</div>
+  <h1>SYSTEM FAILURE!</h1>
+  <p>An unexpected critical error occurred.</p>
   <button onclick="goPortfolio()">Proceed to Portfolio</button>
 </div>
 
@@ -116,7 +134,7 @@ let drops = Array(columns).fill(1);
 let stopFalling = false;
 
 function draw() {
-  if(stopFalling) return; // stop all effects on error
+  if(stopFalling) return;
   ctx.fillStyle = "rgba(0,0,0,0.15)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = "#0f0";
@@ -179,10 +197,18 @@ loadTerminal();
 function triggerError(){
   stopFalling = true;
   clearInterval(fallingInterval);
-  // turn background red and hide terminal border
-  document.body.style.background = "#900";
+  document.body.style.background = "#900"; // whole body red
   document.querySelector(".terminal").style.display = "none";
-  document.getElementById("errorCard").style.display = "block";
+  const errorCard = document.getElementById("errorCard");
+  errorCard.style.display = "block";
+
+  // Flash effect
+  let flashes = 0;
+  const flashInterval = setInterval(()=>{
+    document.body.style.background = flashes%2===0?"#f00":"#900";
+    flashes++;
+    if(flashes>5) clearInterval(flashInterval);
+  },200);
 }
 
 // Button action
