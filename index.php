@@ -1,338 +1,357 @@
+<?php
+// Simple redirect option (optional)
+$main_portfolio = "portfolio.php"; // Path to your main portfolio file
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My GitHub Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-color: rgba(0,0,0,0.4);
-    --text-color: #fff;
-    --accent-color: #0f0;
-    --border-color: #0f0;
-    --container-bg: rgba(0,0,0,0.4);
-    --nav-bg: rgba(0,0,0,0.6);
-  }
-  
-  [data-theme="dark"] {
-    --bg-color: rgba(0,0,0,0.7);
-    --text-color: #fff;
-    --accent-color: #00ffaa;
-    --border-color: #00ffaa;
-    --container-bg: rgba(0,0,0,0.7);
-    --nav-bg: rgba(0,0,0,0.8);
-  }
-  
-  /* Animation keyframes */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rence - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e293b;
+            --accent-color: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
 
-  @keyframes slideInFromBottom {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --secondary-color: #0f172a;
+            --accent-color: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+        }
 
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-  }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
 
-  @keyframes glow {
-    0% { box-shadow: 0 0 5px var(--accent-color); }
-    50% { box-shadow: 0 0 20px var(--accent-color); }
-    100% { box-shadow: 0 0 5px var(--accent-color); }
-  }
-  
-  body {
-    margin: 0;
-    font-family: 'Orbitron', monospace;
-    height: 100vh;
-    overflow: hidden;
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    position: relative;
-    transition: all 0.3s ease;
-  }
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #1e293b 100%);
+        }
 
-  /* Video background */
-  #bgVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.5);
-  }
+        .container {
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            padding: 2rem;
+        }
 
-  /* Navbar */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    background: var(--nav-bg);
-    z-index: 2;
-    backdrop-filter: blur(5px);
-    transition: background 0.3s ease;
-  }
-  
-  /* Dark mode toggle */
-  .theme-switch {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    margin-right: 15px;
-  }
-  
-  .theme-switch-icon {
-    font-size: 1.2rem;
-    margin-right: 5px;
-    color: var(--accent-color);
-  }
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
 
-  nav button {
-    padding: 8px 16px;
-    font-family: 'Orbitron', monospace;
-    cursor: pointer;
-    background: var(--accent-color);
-    border: none;
-    border-radius: 8px;
-    color: #000;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    border-radius: 8px;
-    color: #000;
-    font-weight: bold;
-  }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
 
-  nav button:hover {
-    background: #00ff99;
-    color: #000;
-  }
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.4s both;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
 
-  .container {
-  text-align: center;
-  z-index: 1;
-  background: var(--container-bg);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px var(--accent-color);
-  width: 90%;
-  max-width: 400px;
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
-  animation: fadeIn 1s ease-out, slideInFromBottom 1s ease-out;
-}
+        [data-theme="dark"] .profile-card {
+            background: var(--secondary-color);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
 
-.container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 25px var(--accent-color);
-}
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
 
-  .pfp {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--accent-color);
-    margin: 20px auto;
-    display: block;
-    transition: transform 0.5s, border 0.3s ease, box-shadow 0.3s;
-    animation: pulse 2s infinite ease-in-out;
-    box-shadow: 0 0 10px var(--accent-color);
-  }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--primary-color);
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+            transition: all 0.3s ease;
+        }
 
-  .pfp.loaded {
-    transform: rotateY(360deg);
-    animation: float 3s infinite ease-in-out;
-  }
-  
-  .pfp:hover {
-    transform: scale(1.1) rotate(5deg);
-    border-width: 4px;
-    box-shadow: 0 0 20px var(--accent-color);
-  }
+        .profile-card:hover .avatar {
+            transform: scale(1.05);
+        }
 
-  h1, h3, p {
-    margin: 10px 0;
-  }
+        .name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
 
-  a {
-    display: inline-block;
-    color: var(--accent-color);
-    text-decoration: none;
-    margin: 10px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
+        .title {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
 
-  a:hover {
-    color: #00ff99;
-    filter: brightness(1.2);
-  }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
 
-</style>
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(30, 41, 59, 0.9);
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .loading-dots {
+            display: inline-flex;
+            gap: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: loadingDots 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes loadingDots {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .profile-card {
+                padding: 2rem;
+            }
+            
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Floating background elements */
+        .bg-element {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .bg-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: rgba(37, 99, 235, 0.3);
+            border-radius: 30%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
 
-<!-- Background video -->
-<video autoplay muted loop id="bgVideo">
-  <source src="mp4/cyberpunk-2077-car-radio-moewalls-com.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+    <!-- Background Elements -->
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
 
-<!-- Navbar -->
-<nav>
-  <div>My Portfolio</div>
-  <div style="display: flex; align-items: center;">
-    <div class="theme-switch" onclick="toggleTheme()">
-      <span class="theme-switch-icon">🌓</span>
-      <span id="theme-text">Dark Mode</span>
+    <div class="container">
+        <h1 class="logo">Rence</h1>
+        <p class="subtitle">Full Stack Developer</p>
+        
+        <div class="profile-card">
+            <img src="https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=CZhng25oJLsQ7kNvwHtTv-8&_nc_oc=AdlP46qr6Y28oTlmWYpAb_y2iDoNTjFYiepVLbVxdUv0V1iN3cHz79yAbdHaInpQ4Ik&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=b2UNYjCJ5bWwwwcW5m-3lQ&oh=00_AfeTlRpQoBU3Ovu0d1o02YTHZGs4aTW9spx-_2v0Y79m1Q&oe=69039BE8" 
+                 alt="Rence Profile" class="avatar" 
+                 loading="lazy">
+            
+            <h2 class="name">Lorenze Niño Prepotente</h2>
+            <p class="title">
+                <i class="fas fa-map-marker-alt"></i> Philippines | 
+                <i class="fas fa-graduation-cap"></i> BS Information Systems
+            </p>
+            
+            <a href="<?php echo $main_portfolio; ?>" class="cta-button">
+                <i class="fas fa-arrow-right"></i>
+                <span>Enter Portfolio</span>
+                <div class="loading-dots" id="loadingDots" style="display: none;">
+                    <span></span>
+                    <span></span>
+                </div>
+            </a>
+        </div>
     </div>
-    <button onclick="playAudio()">Play Audio</button>
-  </div>
-  <audio id="navAudio" src="mp3/te conocí (super slowed) - bxkq [edit audio].mp3" loop></audio>
-</nav>
 
-<!-- Profile Card -->
-<div class="container" id="profileCard">
-  <img src="" alt="GitHub Avatar" class="pfp" id="githubAvatar">
-  <h1 id="githubName"></h1>
-  <div id="githubBadge" style="margin: 10px 0; display: none;">
-    <span style="background: var(--accent-color); color: #000; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Developer</span>
-  </div>
-  <p id="githubBio"></p>
-  <div class="github-stats" style="display: flex; justify-content: center; gap: 15px; margin: 15px 0;">
-    <div class="stat-box" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color);">
-      <div style="font-size: 1.5rem; font-weight: bold;" id="githubRepos">0</div>
-      <div>Repositories</div>
-    </div>
-    <div class="stat-box" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color);">
-      <div style="font-size: 1.5rem; font-weight: bold;" id="githubFollowers">0</div>
-      <div>Followers</div>
-    </div>
-    <div class="stat-box" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color);">
-      <div style="font-size: 1.5rem; font-weight: bold;" id="githubFollowing">0</div>
-      <div>Following</div>
-    </div>
-  </div>
-  <div id="githubLocation" style="margin-bottom: 10px;"></div>
-  <div style="display: flex; justify-content: center; gap: 10px;">
-    <a href="#" id="githubLink" target="_blank" style="background: var(--accent-color); color: #000; padding: 8px 15px; border-radius: 8px;">View Profile</a>
-    <a href="#" id="githubRepoLink" target="_blank" style="background: rgba(0,0,0,0.3); color: var(--accent-color); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--accent-color);">View Repositories</a>
-  </div>
-</div>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const icon = themeToggle.querySelector('i');
 
-<script>
-// Check for saved theme preference or set default
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  document.getElementById('theme-text').textContent = savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
-});
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
 
-// Toggle theme function
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-  
-  // Update toggle text
-  document.getElementById('theme-text').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
-}
+        function updateThemeIcon(theme) {
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
 
-const githubUsername = "rence141"; // Your GitHub username
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
 
-// Navbar audio autoplay
-window.addEventListener('load', () => {
-  const audio = document.getElementById('navAudio');
-  audio.volume = 0.5;
-  audio.play().catch(() => {
-    console.log("Autoplay blocked, click Play Audio button.");
-  });
+        // CTA Button Animation
+        const ctaButton = document.querySelector('.cta-button');
+        const loadingDots = document.getElementById('loadingDots');
 
-  // Fetch your GitHub profile automatically
-  fetch(`https://api.github.com/users/${githubUsername}`)
-    .then(res => res.json())
-    .then(data => {
-      displayGithubProfile(data);
-    })
-    .catch(err => {
-      console.error("Error fetching GitHub profile:", err);
-    });
-});
+        ctaButton.addEventListener('click', (e) => {
+            // Prevent default navigation
+            e.preventDefault();
+            
+            // Show loading state
+            const text = ctaButton.querySelector('span:not(.loading-dots)');
+            loadingDots.style.display = 'inline-flex';
+            text.style.opacity = '0.5';
+            
+            // Simulate loading
+            setTimeout(() => {
+                // Navigate to portfolio
+                window.location.href = ctaButton.getAttribute('href');
+            }, 800);
+        });
 
-// Function to display GitHub profile
-function displayGithubProfile(data) {
-  // Set avatar with animation
-  document.getElementById('githubAvatar').src = data.avatar_url;
-  document.getElementById('githubAvatar').classList.add('loaded');
-  
-  // Set name and show badge
-  document.getElementById('githubName').textContent = data.name || data.login;
-  document.getElementById('githubBadge').style.display = 'block';
-  
-  // Set bio with fallback
-  document.getElementById('githubBio').textContent = data.bio || 'No bio available';
-  
-  // Set stats with animation
-  const reposEl = document.getElementById('githubRepos');
-  const followersEl = document.getElementById('githubFollowers');
-  const followingEl = document.getElementById('githubFollowing');
-  
-  // Animate the numbers counting up
-  animateValue(reposEl, 0, data.public_repos, 1000);
-  animateValue(followersEl, 0, data.followers, 1000);
-  animateValue(followingEl, 0, data.following, 1000);
-  
-  // Set location if available
-  if (data.location) {
-    document.getElementById('githubLocation').innerHTML = `<i style="margin-right: 5px;">📍</i>${data.location}`;
-  } else {
-    document.getElementById('githubLocation').style.display = 'none';
-  }
-  
-  // Set links
-  document.getElementById('githubLink').href = data.html_url;
-  document.getElementById('githubRepoLink').href = `${data.html_url}?tab=repositories`;
-}
+        // Add subtle entrance animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
 
-// Function to animate counting up
-function animateValue(obj, start, end, duration) {
-  let startTimestamp = null;
-  const step = (timestamp) => {
-    if (!startTimestamp) startTimestamp = timestamp;
-    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-    obj.innerHTML = Math.floor(progress * (end - start) + start);
-    if (progress < 1) {
-      window.requestAnimationFrame(step);
-    }
-  };
-  window.requestAnimationFrame(step);
-}
-
-function playAudio() {
-  document.getElementById('navAudio').play();
-}
-</script>
-
+        // Preload portfolio page
+        ctaButton.addEventListener('mouseenter', () => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = ctaButton.getAttribute('href');
+            document.head.appendChild(link);
+        });
+    </script>
 </body>
 </html>
