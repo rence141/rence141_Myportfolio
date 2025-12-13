@@ -5,14 +5,14 @@ session_start();
    CONFIGURATION & DATA
    ────────────────────────────────────── */
 $config = [
-    'email_to'   => '@gmail.com',
+    'email_to'   => 'renceprepotente@gmail.com', // UPDATED: Your email here
     'full_name'  => 'Rence',
     'role'       => 'Full-Stack Developer',
     'location'   => 'Albay, Philippines',
     'socials'    => [
         'github'   => 'https://github.com/rence141',
         'facebook' => 'https://facebook.com',
-        'linkedin' => '#' // Add your LinkedIn
+        'linkedin' => '#' 
     ],
     'avatar'     => 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=77RNBuqIJegQ7kNvwHwst1U&_nc_oc=AdkejvgpMoWfBk7zDMoKbegOkkpgaN-du_g3rCZpMRE4WZQt48QSc1hHevd9oJn05i4&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3TIaa_tnnfb0dEM1jhJKjQ&oh=00_AfmQrZAj_ua5JtRSfxubSfmhgQ0mPBy5tFYm-TwmoI4oRA&oe=6942ABA8'
 ];
@@ -45,17 +45,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Please fill in all fields correctly.'];
     } else {
+        // Save to local log file
         if (!is_dir('messages')) mkdir('messages', 0755, true);
         $log_entry = "Date: " . date('Y-m-d H:i:s') . "\nName: $name\nEmail: $email\nMessage:\n$message\n-------------------\n";
         file_put_contents("messages/contact_log.txt", $log_entry, FILE_APPEND);
 
+        // Prepare Email
         $subject = "Portfolio Contact: $name";
-        $headers = "From: noreply@portfolio.local\r\nReply-To: $email\r\nX-Mailer: PHP/" . phpversion();
+        $headers = "From: noreply@portfolio.local\r\n";
+        $headers .= "Reply-To: $email\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
         
+        // Attempt to Send
         if (@mail($config['email_to'], $subject, $message, $headers)) {
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully! I will reply soon.'];
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully to Rence!'];
         } else {
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved! (Email disabled in demo)'];
+            // Fallback message if mail server is not configured (common on Localhost)
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved to logs! (Email requires live server)'];
         }
     }
     
@@ -98,7 +104,7 @@ if (isset($_SESSION['flash'])) {
         --card-bg: #ffffff;
         --radius: 16px;
         --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
-        --hero-text-size: clamp(2.5rem, 5vw, 4rem); /* Responsive Text */
+        --hero-text-size: clamp(2.5rem, 5vw, 4rem);
     }
 
     [data-theme="dark"] {
@@ -132,7 +138,6 @@ if (isset($_SESSION['flash'])) {
     .text-muted { color: var(--text-muted) !important; }
     [data-theme="dark"] .text-muted { color: var(--text-muted) !important; }
     
-    /* Icon adjustments for dark mode */
     [data-theme="dark"] .devicon-github-original, 
     [data-theme="dark"] .devicon-linkedin-plain, 
     [data-theme="dark"] .devicon-facebook-plain { color: var(--text-muted) !important; }
@@ -151,7 +156,6 @@ if (isset($_SESSION['flash'])) {
         border-bottom: 1px solid var(--glass-border);
     }
 
-    /* Fixed Typo in original CSS (.btn-unique) */
     .btn-unique {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         border: none;
@@ -212,6 +216,14 @@ if (isset($_SESSION['flash'])) {
         width: 100%; left: 0;
     }
 
+    /* Navbar Typing Effect Specifics */
+    #navbar-brand-text {
+        border-right: 2px solid var(--primary);
+        animation: blinkBrand 0.75s step-end infinite;
+    }
+    @keyframes blinkBrand { 50% { border-color: transparent; } }
+
+
     /* ──────────────────────────────────────
        HERO
        ────────────────────────────────────── */
@@ -220,7 +232,6 @@ if (isset($_SESSION['flash'])) {
         display: flex;
         align-items: center;
         position: relative;
-        /* Prevent navbar overlap on mobile */
         padding-top: 80px; 
         padding-bottom: 50px;
         background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
@@ -384,7 +395,6 @@ if (isset($_SESSION['flash'])) {
             padding-top: 100px;
         }
         
-        /* Scale down hero image for mobile */
         .hero-img { 
             width: 220px; 
             height: 220px; 
@@ -398,13 +408,11 @@ if (isset($_SESSION['flash'])) {
             margin: 0 auto 40px; 
         }
 
-        /* Adjust button stack on very small screens */
         .hero .d-flex.gap-3 {
             flex-wrap: wrap;
             justify-content: center;
         }
         
-        /* Mobile Toast (Centered Bottom) */
         .toast-container {
             right: 0; left: 0; bottom: 20px;
             display: flex; justify-content: center;
@@ -427,7 +435,7 @@ if (isset($_SESSION['flash'])) {
     <nav class="navbar navbar-expand-lg fixed-top glass">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#" style="font-family:'Space Grotesk'; font-size:1.5rem;">
-                <span style="color:var(--primary)">Rence</span>.
+                <span id="navbar-brand-text" style="color:var(--primary)"></span>
             </a>
             <div class="d-flex align-items-center gap-3">
                 <div class="theme-switch d-lg-none" id="themeToggleMobile">
@@ -606,7 +614,7 @@ if (isset($_SESSION['flash'])) {
 
     <footer class="py-4 text-center text-muted small">
         <div class="container">
-            <p class="mb-0">&copy; <?= date("Y") ?> Rence Prepotente. Built with PHP & Bootstrap 5.</p>
+            <p class="mb-0">&copy; <?= date("Y") ?> Rence. Built with PHP & Bootstrap 5.</p>
         </div>
     </footer>
 
@@ -653,7 +661,7 @@ if (isset($_SESSION['flash'])) {
         if(toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
         if(toggleBtnMobile) toggleBtnMobile.addEventListener('click', toggleTheme);
 
-        // 2. Typing Effect
+        // 2a. Typing Effect (Hero)
         const textElement = document.getElementById('typing-text');
         const texts = ["Full-Stack Developer", "PHP Enthusiast", "System Analyst"];
         let textIndex = 0;
@@ -682,6 +690,34 @@ if (isset($_SESSION['flash'])) {
             }
         }
         type();
+
+        // 2b. Typing Effect (Navbar Brand) - ADDED
+        const brandElement = document.getElementById('navbar-brand-text');
+        const brandText = "Rence.";
+        let brandIndex = 0;
+        let isBrandDeleting = false;
+
+        function typeBrand() {
+            if (isBrandDeleting) {
+                brandElement.textContent = brandText.substring(0, brandIndex - 1);
+                brandIndex--;
+            } else {
+                brandElement.textContent = brandText.substring(0, brandIndex + 1);
+                brandIndex++;
+            }
+
+            if (!isBrandDeleting && brandIndex === brandText.length) {
+                isBrandDeleting = true;
+                setTimeout(typeBrand, 5000); // Wait 5 seconds before retyping
+            } else if (isBrandDeleting && brandIndex === 0) {
+                isBrandDeleting = false;
+                setTimeout(typeBrand, 500);
+            } else {
+                setTimeout(typeBrand, isBrandDeleting ? 100 : 150);
+            }
+        }
+        typeBrand();
+
 
         // 3. Toast Notification
         <?php if ($toast_message): ?>
