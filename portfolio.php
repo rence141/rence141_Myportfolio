@@ -20,13 +20,12 @@ $config = [
 /* ──────────────────────────────────────
    BACKEND LOGIC (Security & Form)
    ────────────────────────────────────── */
-// CSRF Token Generation
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 $toast_message = "";
-$toast_type = ""; // success or danger
+$toast_type = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. CSRF Check
@@ -34,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Security violation: Invalid CSRF token.");
     }
 
-    // 2. Honeypot Check (Anti-Spam)
+    // 2. Honeypot Check
     if (!empty($_POST['website'])) {
-        die(); // Bot detected, silent fail
+        die(); 
     }
 
     $name    = htmlspecialchars(trim($_POST['name']));
@@ -46,30 +45,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Please fill in all fields correctly.'];
     } else {
-        // Log to file (Secure timestamp name)
         if (!is_dir('messages')) mkdir('messages', 0755, true);
         $log_entry = "Date: " . date('Y-m-d H:i:s') . "\nName: $name\nEmail: $email\nMessage:\n$message\n-------------------\n";
         file_put_contents("messages/contact_log.txt", $log_entry, FILE_APPEND);
 
-        // Send Email
         $subject = "Portfolio Contact: $name";
         $headers = "From: noreply@portfolio.local\r\nReply-To: $email\r\nX-Mailer: PHP/" . phpversion();
         
-        // Note: mail() requires a configured SMTP server (Sendmail/Postfix/XAMPP)
         if (@mail($config['email_to'], $subject, $message, $headers)) {
             $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully! I will reply soon.'];
         } else {
-            // Fallback for local testing where mail() often fails
             $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved! (Email disabled in demo)'];
         }
     }
     
-    // PRG Pattern: Redirect to clear POST data
     header("Location: " . $_SERVER['PHP_SELF'] . "#contact");
     exit;
 }
 
-// Handle Flash Messages
 if (isset($_SESSION['flash'])) {
     $toast_message = $_SESSION['flash']['msg'];
     $toast_type    = $_SESSION['flash']['type'];
@@ -80,7 +73,7 @@ if (isset($_SESSION['flash'])) {
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Portfolio of <?= $config['full_name'] ?>, a Full-Stack Developer">
     <title>Rence | <?= $config['role'] ?></title>
     
@@ -105,6 +98,7 @@ if (isset($_SESSION['flash'])) {
         --card-bg: #ffffff;
         --radius: 16px;
         --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        --hero-text-size: clamp(2.5rem, 5vw, 4rem); /* Responsive Text */
     }
 
     [data-theme="dark"] {
@@ -137,9 +131,12 @@ if (isset($_SESSION['flash'])) {
     [data-theme="dark"] a { color: var(--primary); }
     .text-muted { color: var(--text-muted) !important; }
     [data-theme="dark"] .text-muted { color: var(--text-muted) !important; }
+    
+    /* Icon adjustments for dark mode */
     [data-theme="dark"] .devicon-github-original, 
     [data-theme="dark"] .devicon-linkedin-plain, 
     [data-theme="dark"] .devicon-facebook-plain { color: var(--text-muted) !important; }
+    
     [data-theme="dark"] .text-primary { color: var(--primary) !important; }
     [data-theme="dark"] .text-success { color: #10b981 !important; }
     [data-theme="dark"] .text-danger { color: #ef4444 !important; }
@@ -151,27 +148,28 @@ if (isset($_SESSION['flash'])) {
         background: var(--glass-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
+        border-bottom: 1px solid var(--glass-border);
     }
 
-    .btn-custom {
+    /* Fixed Typo in original CSS (.btn-unique) */
+    .btn-unique {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         border: none;
-        color: white;
+        color: white !important;
         padding: 12px 30px;
         border-radius: 50px;
         font-weight: 600;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px var(--primary-glow);
     }
-    .btn-custom:hover {
+    .btn-unique:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px var(--primary-glow);
         color: white;
     }
 
     .section-title {
-        font-size: 2.5rem;
+        font-size: clamp(2rem, 4vw, 2.5rem);
         font-weight: 700;
         margin-bottom: 3rem;
         position: relative;
@@ -185,23 +183,6 @@ if (isset($_SESSION['flash'])) {
         background: var(--primary);
         margin: 10px auto 0;
         border-radius: 3px;
-    }
-
-    btn-unique {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border: none;
-        color: white;
-        padding: 12px 30px;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px var(--primary-glow);
-        
-    }
-    btn-unique:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px var(--primary-glow);
-        color: white;
     }
 
     /* ──────────────────────────────────────
@@ -221,9 +202,6 @@ if (isset($_SESSION['flash'])) {
         margin: 0 8px;
         position: relative;
     }
-    [data-theme="dark"] .nav-link {
-        color: var(--text-main) !important;
-    }
     .nav-link::after {
         content: '';
         position: absolute; width: 0; height: 2px;
@@ -242,9 +220,18 @@ if (isset($_SESSION['flash'])) {
         display: flex;
         align-items: center;
         position: relative;
+        /* Prevent navbar overlap on mobile */
+        padding-top: 80px; 
+        padding-bottom: 50px;
         background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
                     radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
     }
+    
+    .hero-title {
+        font-size: var(--hero-text-size);
+        line-height: 1.2;
+    }
+
     .hero-img-container {
         position: relative;
         z-index: 2;
@@ -298,7 +285,6 @@ if (isset($_SESSION['flash'])) {
         box-shadow: 0 20px 40px var(--primary-glow);
     }
     
-    /* Project Badge */
     .badge-tech {
         background: rgba(79, 70, 229, 0.1);
         color: var(--primary);
@@ -306,6 +292,8 @@ if (isset($_SESSION['flash'])) {
         padding: 5px 10px;
         border-radius: 6px;
         font-weight: 600;
+        display: inline-block;
+        margin-bottom: 4px;
     }
 
     /* ──────────────────────────────────────
@@ -350,6 +338,7 @@ if (isset($_SESSION['flash'])) {
     .custom-toast.show { transform: translateX(0); }
     .custom-toast.danger { border-left-color: #ef4444; }
 
+    /* FORM */
     .form-control {
         background: var(--bg-body) !important;
         color: var(--text-main) !important;
@@ -358,22 +347,11 @@ if (isset($_SESSION['flash'])) {
     .form-control::placeholder {
         color: var(--text-muted) !important;
     }
-    .form-label {
-        color: var(--text-muted) !important;
-    }
     [data-theme="dark"] .form-control {
         background: rgba(255, 255, 255, 0.08) !important;
-        color: var(--text-main) !important;
         border: 1px solid var(--glass-border) !important;
     }
-    [data-theme="dark"] .form-control::placeholder {
-        color: var(--text-muted) !important;
-    }
 
-    small, .small {
-        color: var(--text-muted) !important;
-    }
-    
     .theme-switch {
         cursor: pointer;
         width: 45px; height: 45px;
@@ -383,12 +361,64 @@ if (isset($_SESSION['flash'])) {
         box-shadow: var(--shadow);
         font-size: 1.2rem;
         border: 1px solid var(--glass-border);
+        transition: transform 0.2s;
+    }
+    .theme-switch:active { transform: scale(0.9); }
+
+    /* ──────────────────────────────────────
+       MOBILE SPECIFIC OPTIMIZATIONS
+       ────────────────────────────────────── */
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-top: 15px;
+        }
     }
 
     @media (max-width: 768px) {
-        .section-title { font-size: 2rem; }
-        .hero { text-align: center; padding-top: 100px; }
-        .hero-img-container { margin: 0 auto 30px; }
+        .hero { 
+            text-align: center; 
+            padding-top: 100px;
+        }
+        
+        /* Scale down hero image for mobile */
+        .hero-img { 
+            width: 220px; 
+            height: 220px; 
+        }
+        
+        .hero-blob {
+            top: -10px; bottom: -10px; left: -10px; right: -10px;
+        }
+        
+        .hero-img-container { 
+            margin: 0 auto 40px; 
+        }
+
+        /* Adjust button stack on very small screens */
+        .hero .d-flex.gap-3 {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        /* Mobile Toast (Centered Bottom) */
+        .toast-container {
+            right: 0; left: 0; bottom: 20px;
+            display: flex; justify-content: center;
+            width: 100%;
+            pointer-events: none;
+        }
+        .custom-toast {
+            width: 90%;
+            pointer-events: auto;
+            transform: translateY(150%);
+        }
+        .custom-toast.show {
+            transform: translateY(0);
+        }
     }
     </style>
 </head>
@@ -399,16 +429,23 @@ if (isset($_SESSION['flash'])) {
             <a class="navbar-brand fw-bold" href="#" style="font-family:'Space Grotesk'; font-size:1.5rem;">
                 <span style="color:var(--primary)">Rence</span>.
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon" style="filter: invert(var(--invert));"></span>
-            </button>
+            <div class="d-flex align-items-center gap-3">
+                <div class="theme-switch d-lg-none" id="themeToggleMobile">
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon" style="filter: invert(var(--invert));"></span>
+                </button>
+            </div>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav ms-auto align-items-center text-center text-lg-start">
                     <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item ms-3">
+                    <li class="nav-item ms-3 d-none d-lg-block">
                         <div class="theme-switch" id="themeToggle">
                             <i class="fa-solid fa-moon"></i>
                         </div>
@@ -421,9 +458,9 @@ if (isset($_SESSION['flash'])) {
     <section id="home" class="hero">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 order-2 order-lg-1 fade-up">
+                <div class="col-lg-6 order-2 order-lg-1 fade-up text-center text-lg-start">
                     <p class="mb-2" style="color:var(--primary); font-weight:600;">👋 Welcome to my portfolio</p>
-                    <h1 class="display-3 fw-bold mb-3">I'm <?= explode(' ', $config['full_name'])[0] ?></h1>
+                    <h1 class="hero-title fw-bold mb-3">I'm <?= explode(' ', $config['full_name'])[0] ?></h1>
                     <h2 class="h3 mb-4 text-muted typewriter">I am a <span id="typing-text"></span></h2>
                     <p class="lead mb-5">
                         Passionate about building scalable web applications and intuitive user experiences. 
@@ -450,7 +487,7 @@ if (isset($_SESSION['flash'])) {
     </section>
 
     <section id="about" class="py-5">
-        <div class="container py-5">
+        <div class="container py-4">
             <div class="text-center">
                 <h2 class="section-title">About Me</h2>
             </div>
@@ -477,8 +514,8 @@ if (isset($_SESSION['flash'])) {
                     </div>
                 </div>
                 <div class="col-lg-6 fade-up" style="animation-delay: 0.2s;">
-                    <h3 class="mb-4 ps-4">Education & Experience</h3>
-                    <div class="timeline">
+                    <h3 class="mb-4 ps-lg-4 text-center text-lg-start">Education & Experience</h3>
+                    <div class="timeline ms-lg-4">
                         <div class="timeline-item">
                             <span class="text-muted small">2021 - Present</span>
                             <h5 class="mt-1">BS Information Systems</h5>
@@ -498,7 +535,7 @@ if (isset($_SESSION['flash'])) {
     </section>
 
     <section id="projects" class="py-5" style="background: rgba(0,0,0,0.02);">
-        <div class="container py-5">
+        <div class="container py-4">
             <div class="text-center">
                 <h2 class="section-title">Featured Projects</h2>
                 <p class="mb-5 mx-auto" style="max-width: 600px;">Here are some of the systems I've developed during my academic and freelance journey.</p>
@@ -532,7 +569,7 @@ if (isset($_SESSION['flash'])) {
     </section>
 
     <section id="contact" class="py-5">
-        <div class="container py-5">
+        <div class="container py-4">
             <div class="row justify-content-center">
                 <div class="col-lg-8 fade-up">
                     <div class="custom-card glass text-center">
@@ -546,18 +583,18 @@ if (isset($_SESSION['flash'])) {
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold text-uppercase text-muted">Your Name</label>
-                                    <input type="text" name="name" class="form-control form-control-lg" placeholder="Full-Name" required style="background:var(--bg-body); border:none;">
+                                    <input type="text" name="name" class="form-control form-control-lg" placeholder="Full-Name" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold text-uppercase text-muted">Email Address</label>
-                                    <input type="email" name="email" class="form-control form-control-lg" placeholder="@example.com" required style="background:var(--bg-body); border:none;">
+                                    <input type="email" name="email" class="form-control form-control-lg" placeholder="@example.com" required>
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label small fw-bold text-uppercase text-muted">Message</label>s
-                                    <textarea name="message" rows="5" class="form-control form-control-lg" placeholder="Tell me about your project..." required style="background:var(--bg-body); border:none;"></textarea>
+                                    <label class="form-label small fw-bold text-uppercase text-muted">Message</label>
+                                    <textarea name="message" rows="5" class="form-control form-control-lg" placeholder="Tell me about your project..." required></textarea>
                                 </div>
                                 <div class="col-12 text-center mt-4">
-                                    <button type="submit" class="btn btn-custom px-5">Send Message <i class="fa-solid fa-paper-plane ms-2"></i></button>
+                                    <button type="submit" class="btn btn-unique px-5 w-100 w-md-auto">Send Message <i class="fa-solid fa-paper-plane ms-2"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -587,23 +624,34 @@ if (isset($_SESSION['flash'])) {
     <script>
         // 1. Theme Logic
         const html = document.documentElement;
+        
+        // Handle both Desktop and Mobile toggles
         const toggleBtn = document.getElementById('themeToggle');
-        const icon = toggleBtn.querySelector('i');
+        const toggleBtnMobile = document.getElementById('themeToggleMobile');
         
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        html.setAttribute('data-theme', currentTheme);
-        icon.className = currentTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        
-        // CSS Variable Update for Bootstrap Toggler (Invert color in dark mode)
-        if(currentTheme === 'dark') html.style.setProperty('--invert', '1');
+        function updateIcons(theme) {
+            const iconClass = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            if(toggleBtn) toggleBtn.querySelector('i').className = iconClass;
+            if(toggleBtnMobile) toggleBtnMobile.querySelector('i').className = iconClass;
+        }
 
-        toggleBtn.addEventListener('click', () => {
-            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        function setTheme(theme) {
             html.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-            icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            updateIcons(theme);
             html.style.setProperty('--invert', theme === 'dark' ? '1' : '0');
-        });
+        }
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        setTheme(currentTheme);
+
+        const toggleTheme = () => {
+            const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            setTheme(theme);
+        };
+
+        if(toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
+        if(toggleBtnMobile) toggleBtnMobile.addEventListener('click', toggleTheme);
 
         // 2. Typing Effect
         const textElement = document.getElementById('typing-text');
@@ -665,6 +713,16 @@ if (isset($_SESSION['flash'])) {
         // 5. Active Nav Link on Scroll
         const sections = document.querySelectorAll('section');
         const navLi = document.querySelectorAll('.nav-link');
+        
+        // Close mobile menu when link is clicked
+        const navCollapse = document.getElementById('navbarNav');
+        const bsCollapse = new bootstrap.Collapse(navCollapse, {toggle: false});
+        navLi.forEach((li) => {
+            li.addEventListener('click', () => { 
+                if(window.innerWidth < 992) bsCollapse.hide(); 
+            });
+        });
+
         window.onscroll = () => {
             var current = "";
             sections.forEach((section) => {

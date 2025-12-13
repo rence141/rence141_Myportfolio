@@ -1,3 +1,4 @@
+
 <?php
 // Configuration
 $main_portfolio = "portfolio.php"; 
@@ -8,7 +9,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rence | Full Stack Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700;900&family=Inter:wght@400;600&family=Playfair+Display:ital@1&family=VT323&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -23,8 +24,8 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             --gradient-main: linear-gradient(135deg, #4f46e5, #9333ea);
             
             /* --- SIZES --- */
-            --hero-font: clamp(3.5rem, 9vw, 8rem);   /* Huge size for Intro/Full Screen */
-            --side-font: clamp(2.5rem, 5vw, 4rem);   /* Smaller size for Sidebar */
+            --hero-font: clamp(3rem, 7vw, 8rem);
+            --side-font: clamp(2rem, 4vw, 4rem);
             
             --anim-speed: 1s;
             --anim-ease: cubic-bezier(0.77, 0, 0.175, 1);
@@ -37,7 +38,9 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             background-color: var(--bg-dark);
             color: var(--text-main);
             height: 100vh;
+            height: 100dvh; /* Fix for mobile browsers */
             overflow: hidden;
+            width: 100vw;
         }
 
         /* --- LAYOUT --- */
@@ -48,6 +51,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             display: flex;
         }
 
+        /* --- LEFT ZONE (PROFILE) --- */
         .left-zone {
             width: 60%;
             height: 100%;
@@ -65,7 +69,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 3rem;
-            width: 90%;
+            width: 85%;
             max-width: 450px;
             text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -76,7 +80,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
 
         .profile-card.active { opacity: 1; transform: translateX(0); }
 
-        /* --- RIGHT ZONE --- */
+        /* --- RIGHT ZONE (ANIMATION & CYCLER) --- */
         .right-zone {
             position: absolute;
             right: 0;
@@ -89,7 +93,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             justify-content: center;
             z-index: 20;
             overflow: hidden; 
-            transition: width var(--anim-speed) var(--anim-ease);
+            transition: all var(--anim-speed) var(--anim-ease);
         }
 
         .right-zone.enter { width: 40%; }
@@ -97,42 +101,30 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
 
         /* --- THE ANIMATED TEXT --- */
         .font-cycler-container {
-            /* Initial State: Matches Typewriter */
             font-size: var(--hero-font);
             font-family: 'Space Grotesk', monospace;
             line-height: 1.1;
             font-weight: 700;
             text-align: center;
-            
             opacity: 0;
             color: #000; 
-            
-            /* Important: Start with nowrap to match typewriter exactly */
             white-space: nowrap; 
-            
-            /* Transitions for Size, Color, and Opacity */
             transition: 
                 opacity 0.1s linear, 
                 color 0.8s ease, 
                 font-size var(--anim-speed) var(--anim-ease);
-            
             position: relative;
-            padding: 0 20px; /* Safety padding */
+            padding: 0 20px;
         }
         
         .font-cycler-container.show { opacity: 1; }
         
-        /* --- DYNAMIC MODE (Triggered on Revert) --- */
+        /* --- DYNAMIC MODE (Revert state) --- */
         .font-cycler-container.glitch-mode {
-            /* 1. Change Color to White */
             color: #ffffff; 
             mix-blend-mode: overlay; 
             opacity: 0.9;
-            
-            /* 2. Shrink Font Size so it fits in the 40% box */
             font-size: var(--side-font);
-            
-            /* 3. Allow wrapping so it doesn't overflow horizontally */
             white-space: normal; 
             word-wrap: break-word;
         }
@@ -160,10 +152,12 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             transition: opacity 0.2s linear;
         }
 
+        /* The black text wrapper handles the "fill" effect */
         .text-layer-black-wrapper {
             position: fixed; inset: 0;
             display: flex; align-items: center; justify-content: center;
             z-index: 31; pointer-events: none;
+            /* Default Desktop Clip: Reveal from Right to Left */
             clip-path: inset(0 0 0 100%);
             transition: clip-path var(--anim-speed) var(--anim-ease), opacity 0.2s linear;
         }
@@ -172,11 +166,13 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
         .text-layer-black-wrapper.full { clip-path: inset(0 0 0 0%); }
 
         .type-text-black { color: black; }
+        
         .cursor-bar {
             display: inline-block; width: 5px; height: 1em;
             background: var(--primary); margin-left: 10px;
             animation: blinkCursor 0.75s step-end infinite;
         }
+        
         .fade-out { opacity: 0 !important; }
 
         @keyframes blinkCursor { 50% { opacity: 0; } }
@@ -189,16 +185,73 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
         .cta-btn { display: inline-block; background: var(--primary); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px var(--primary-glow); }
         .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
 
+        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            .split-container { flex-direction: column-reverse; }
-            .right-zone { width: 100%; height: 0%; top: auto; bottom: 0; }
-            .right-zone.enter { height: 25%; width: 100%; }
-            .right-zone.full { height: 100%; } 
-            .text-layer-black-wrapper { clip-path: inset(100% 0 0 0); } 
-            .text-layer-black-wrapper.enter { clip-path: inset(75% 0 0 0); }
-            .text-layer-black-wrapper.full { clip-path: inset(0 0 0 0); }
-            .left-zone { width: 100%; height: 75%; }
-            :root { --hero-font: 3rem; --side-font: 2rem; }
+            :root {
+                --hero-font: 3rem; 
+                --side-font: 1.5rem;
+            }
+
+            .split-container {
+                flex-direction: column; /* Stack vertically */
+            }
+
+            .left-zone {
+                width: 100%;
+                height: 100%;
+                /* Add padding at top so profile isn't hidden under the banner */
+                padding-top: 30vh; 
+                /* Allow scrolling on small phones if card is tall */
+                overflow-y: auto;
+                align-items: flex-start; /* Start from top */
+            }
+
+            .profile-card {
+                padding: 2rem 1.5rem;
+                width: 90%;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                /* Reset transform for mobile specific animation */
+                transform: translateY(30px);
+            }
+            .profile-card.active {
+                transform: translateY(0);
+            }
+
+            /* On Mobile, the 'Right Zone' becomes the 'Top Zone' */
+            .right-zone {
+                width: 100%;
+                height: 0%; 
+                top: 0; 
+                right: auto;
+                left: 0;
+            }
+
+            /* Animation States for Mobile: Expand Height, not Width */
+            .right-zone.enter { 
+                width: 100%; 
+                height: 30%; /* Stays as a header banner */
+            }
+            .right-zone.full { 
+                width: 100%; 
+                height: 100%; /* Fill screen vertically */
+            }
+
+            /* Clip Path Logic for Mobile (Top-Down Reveal) */
+            .text-layer-black-wrapper {
+                /* Initially hidden at top */
+                clip-path: inset(0 0 100% 0); 
+            }
+            .text-layer-black-wrapper.enter {
+                /* Match the 30% header height */
+                clip-path: inset(0 0 70% 0); 
+            }
+            .text-layer-black-wrapper.full {
+                clip-path: inset(0 0 0 0); /* Full reveal */
+            }
+            
+            .tech-stack { gap: 10px; font-size: 1.2rem; }
+            .name { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -219,6 +272,12 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
     </div>
 
     <div class="split-container">
+        
+        <div class="right-zone" id="rightRectangle">
+            <div class="font-cycler-container" id="fontCycler">
+            </div>
+        </div>
+
         <div class="left-zone">
             <div class="profile-card" id="profileCard">
                 <img src="<?php echo $profile_image; ?>" alt="Profile" class="avatar">
@@ -227,15 +286,11 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
                 <div class="tech-stack">
                     <i class="fab fa-php"></i><i class="fab fa-js"></i><i class="fab fa-laravel"></i><i class="fab fa-react"></i><i class="fas fa-database"></i>
                 </div>
-                <p style="margin-bottom: 1.5rem; opacity: 0.8;">Crafting digital solutions with code. <br>Welcome to my universe.</p>
+                <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.95rem;">Crafting digital solutions with code. <br>Welcome to my universe.</p>
                 <a href="<?php echo $main_portfolio; ?>" class="cta-btn">Enter Portfolio</a>
             </div>
         </div>
 
-        <div class="right-zone" id="rightRectangle">
-            <div class="font-cycler-container" id="fontCycler">
-                </div>
-        </div>
     </div>
 
     <script>
@@ -289,7 +344,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
                 whiteLayer.classList.add('fade-out');
                 blackWrapper.classList.add('fade-out');
 
-                // 2. Revert to Side
+                // 2. Revert to Side (or Top on Mobile)
                 setTimeout(() => {
                     rightRect.classList.remove('full');
                     
@@ -316,6 +371,7 @@ $profile_image = "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881
             fontCycler.style.transform = `scale(${randomScale})`;
         }
 
+        // Use 'load' but add a fallback for faster mobile rendering
         window.addEventListener('load', () => {
             setTimeout(type, 500);
         });
