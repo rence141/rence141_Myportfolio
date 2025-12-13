@@ -1,4 +1,3 @@
-
 <?php
 // Configuration
 $main_portfolio = "portfolio.php"; 
@@ -93,11 +92,41 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             justify-content: center;
             z-index: 20;
             overflow: hidden; 
-            transition: all var(--anim-speed) var(--anim-ease);
+            /* Smoother transitions for the morph */
+            transition: width var(--anim-speed) var(--anim-ease), height var(--anim-speed) var(--anim-ease), border-radius 2s ease-in-out;
+            border-radius: 0; /* Start Sharp */
         }
 
-        .right-zone.enter { width: 40%; }
+        /* Reach to 55% to cover UNIVERSE */
+        .right-zone.enter { width: 55%; }
         .right-zone.full { width: 100%; }
+
+        /* --- STEP A: THE MORPH (Smooth Melt) --- */
+        /* This state bridges the gap between Rectangle and Puddle */
+        .right-zone.morph-state {
+            width: 50%; 
+            /* Set the initial curve target here */
+            border-radius: 30% 0 0 30% / 50% 0 0 50%;
+            box-shadow: -10px 0 30px rgba(79, 70, 229, 0.3);
+        }
+
+        /* --- STEP B: THE WOBBLE (Infinite Animation) --- */
+        .right-zone.wobble-state {
+            animation: liquid-wall 6s ease-in-out infinite; 
+        }
+
+        @keyframes liquid-wall {
+            0% { border-radius: 30% 0 0 30% / 50% 0 0 50%; }
+            33% { border-radius: 50% 0 0 50% / 40% 0 0 60%; }
+            66% { border-radius: 20% 0 0 20% / 60% 0 0 40%; }
+            100% { border-radius: 30% 0 0 30% / 50% 0 0 50%; }
+        }
+
+        @keyframes liquid-drip-mobile {
+            0% { border-radius: 0 0 50% 50% / 0 0 20% 20%; }
+            50% { border-radius: 0 0 50% 50% / 0 0 40% 40%; }
+            100% { border-radius: 0 0 50% 50% / 0 0 20% 20%; }
+        }
 
         /* --- THE ANIMATED TEXT --- */
         .font-cycler-container {
@@ -152,17 +181,15 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             transition: opacity 0.2s linear;
         }
 
-        /* The black text wrapper handles the "fill" effect */
         .text-layer-black-wrapper {
             position: fixed; inset: 0;
             display: flex; align-items: center; justify-content: center;
             z-index: 31; pointer-events: none;
-            /* Default Desktop Clip: Reveal from Right to Left */
             clip-path: inset(0 0 0 100%);
             transition: clip-path var(--anim-speed) var(--anim-ease), opacity 0.2s linear;
         }
 
-        .text-layer-black-wrapper.enter { clip-path: inset(0 0 0 60%); }
+        .text-layer-black-wrapper.enter { clip-path: inset(0 0 0 45%); }
         .text-layer-black-wrapper.full { clip-path: inset(0 0 0 0%); }
 
         .type-text-black { color: black; }
@@ -193,17 +220,15 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             }
 
             .split-container {
-                flex-direction: column; /* Stack vertically */
+                flex-direction: column; 
             }
 
             .left-zone {
                 width: 100%;
                 height: 100%;
-                /* Add padding at top so profile isn't hidden under the banner */
                 padding-top: 30vh; 
-                /* Allow scrolling on small phones if card is tall */
                 overflow-y: auto;
-                align-items: flex-start; /* Start from top */
+                align-items: flex-start; 
             }
 
             .profile-card {
@@ -211,14 +236,12 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
                 width: 90%;
                 margin-top: 2rem;
                 margin-bottom: 2rem;
-                /* Reset transform for mobile specific animation */
                 transform: translateY(30px);
             }
             .profile-card.active {
                 transform: translateY(0);
             }
 
-            /* On Mobile, the 'Right Zone' becomes the 'Top Zone' */
             .right-zone {
                 width: 100%;
                 height: 0%; 
@@ -227,28 +250,29 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
                 left: 0;
             }
 
-            /* Animation States for Mobile: Expand Height, not Width */
             .right-zone.enter { 
                 width: 100%; 
-                height: 30%; /* Stays as a header banner */
+                height: 30%; 
             }
             .right-zone.full { 
                 width: 100%; 
-                height: 100%; /* Fill screen vertically */
+                height: 100%; 
+            }
+            
+            /* Mobile Puddle States */
+            .right-zone.morph-state {
+                width: 100%;
+                height: 35%; 
+                border-radius: 0 0 50% 50% / 0 0 20% 20%;
+                box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+            }
+            .right-zone.wobble-state {
+                animation: liquid-drip-mobile 5s ease-in-out infinite;
             }
 
-            /* Clip Path Logic for Mobile (Top-Down Reveal) */
-            .text-layer-black-wrapper {
-                /* Initially hidden at top */
-                clip-path: inset(0 0 100% 0); 
-            }
-            .text-layer-black-wrapper.enter {
-                /* Match the 30% header height */
-                clip-path: inset(0 0 70% 0); 
-            }
-            .text-layer-black-wrapper.full {
-                clip-path: inset(0 0 0 0); /* Full reveal */
-            }
+            .text-layer-black-wrapper { clip-path: inset(0 0 100% 0); }
+            .text-layer-black-wrapper.enter { clip-path: inset(0 0 70% 0); }
+            .text-layer-black-wrapper.full { clip-path: inset(0 0 0 0); }
             
             .tech-stack { gap: 10px; font-size: 1.2rem; }
             .name { font-size: 1.5rem; }
@@ -278,7 +302,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             </div>
         </div>
 
-       <!-- <div class="left-zone">
+        <div class="left-zone">
             <div class="profile-card" id="profileCard">
                 <img src="<?php echo $profile_image; ?>" alt="Profile" class="avatar">
                 <h1 class="name">Rence</h1>
@@ -289,7 +313,8 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
                 <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.95rem;">Crafting digital solutions with code. <br>Welcome to my universe.</p>
                 <a href="<?php echo $main_portfolio; ?>" class="cta-btn">Enter Portfolio</a>
             </div>
-        </div>-->
+        </div>
+
     </div>
 
     <script>
@@ -304,7 +329,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         const fontCycler = document.getElementById('fontCycler');
         
         // --- CONFIG ---
-        const textToType = "LMAO IP SECURED!";
+        const textToType = "Welcome to my UNIVERSE.";
         const fonts = ["'Space Grotesk'", "'Playfair Display'", "'VT323'", "'Permanent Marker'", "'Arial Black'", "'Courier New'"];
         let charIndex = 0;
 
@@ -336,7 +361,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
                 blackWrapper.classList.add('full');
             }, 1400); 
 
-            // THE HANDOFF
+            // THE HANDOFF sequence
             setTimeout(() => {
                 // 1. Swap visibility
                 fontCycler.classList.add('show');
@@ -345,9 +370,23 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
 
                 // 2. Revert to Side (or Top on Mobile)
                 setTimeout(() => {
+                    // Start Shrinking back to a RECTANGLE first
                     rightRect.classList.remove('full');
                     
-                    // 3. Trigger DYNAMIC RESIZE + COLOR CHANGE
+                    // 3. THE SMOOTH MORPH TRICK:
+                    // Wait 900ms (just before width finishes) to start smoothly bending the border
+                    setTimeout(() => {
+                        rightRect.classList.add('morph-state'); 
+                    }, 900); 
+
+                    // 4. THE WOBBLE START:
+                    // Wait for the bend (morph) to fully finish (2.5s) before turning on the infinite loop
+                    setTimeout(() => {
+                        rightRect.classList.add('wobble-state');
+                    }, 2900);
+
+
+                    // Trigger DYNAMIC RESIZE + COLOR CHANGE
                     fontCycler.classList.add('glitch-mode'); 
                     
                     setInterval(cycleFonts, 150);
@@ -370,7 +409,6 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             fontCycler.style.transform = `scale(${randomScale})`;
         }
 
-        // Use 'load' but add a fallback for faster mobile rendering
         window.addEventListener('load', () => {
             setTimeout(type, 500);
         });
