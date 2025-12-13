@@ -2,11 +2,39 @@
 session_start();
 
 /* ──────────────────────────────────────
+   UNIQUE VISITOR TRACKING (JSON Based)
+   ────────────────────────────────────── */
+// Ensure the storage directory exists
+if (!is_dir('messages')) mkdir('messages', 0755, true);
+$stats_file = 'messages/visitor_stats.json';
+
+// Get User IP & Hash it (Privacy Protection)
+$user_ip = $_SERVER['REMOTE_ADDR'];
+$ip_hash = md5($user_ip); 
+
+// Initialize or Load Data
+if (!file_exists($stats_file)) {
+    $stats = ['views' => 0, 'ips' => []];
+} else {
+    $stats = json_decode(file_get_contents($stats_file), true);
+    if (!$stats) $stats = ['views' => 0, 'ips' => []]; 
+}
+
+// Check if this IP is new
+if (!in_array($ip_hash, $stats['ips'])) {
+    $stats['views']++;          
+    $stats['ips'][] = $ip_hash; 
+    file_put_contents($stats_file, json_encode($stats));
+}
+
+$total_views = $stats['views'];
+
+/* ──────────────────────────────────────
    CONFIGURATION & DATA
    ────────────────────────────────────── */
 $config = [
-    'email_to'   => 'renceprepotente@gmail.com', // UPDATED: Your email here
-    'full_name'  => 'Rence',
+    'email_to'   => 'renceprepotente@gmail.com', 
+    'full_name'  => 'Lorenze Fernandez Prepotente',
     'role'       => 'Full-Stack Developer',
     'location'   => 'Albay, Philippines',
     'socials'    => [
@@ -46,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Please fill in all fields correctly.'];
     } else {
         // Save to local log file
-        if (!is_dir('messages')) mkdir('messages', 0755, true);
         $log_entry = "Date: " . date('Y-m-d H:i:s') . "\nName: $name\nEmail: $email\nMessage:\n$message\n-------------------\n";
         file_put_contents("messages/contact_log.txt", $log_entry, FILE_APPEND);
 
@@ -58,9 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         // Attempt to Send
         if (@mail($config['email_to'], $subject, $message, $headers)) {
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully to Rence!'];
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully!'];
         } else {
-            // Fallback message if mail server is not configured (common on Localhost)
             $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved to logs! (Email requires live server)'];
         }
     }
@@ -216,7 +242,6 @@ if (isset($_SESSION['flash'])) {
         width: 100%; left: 0;
     }
 
-    /* Navbar Typing Effect Specifics */
     #navbar-brand-text {
         border-right: 2px solid var(--primary);
         animation: blinkBrand 0.75s step-end infinite;
@@ -428,6 +453,14 @@ if (isset($_SESSION['flash'])) {
             transform: translateY(0);
         }
     }
+
+    /* Pulse Animation for the Live Dot */
+    @keyframes ping {
+        75%, 100% { transform: scale(2); opacity: 0; }
+    }
+    .animate-ping {
+        animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
     </style>
 </head>
 <body>
@@ -494,47 +527,72 @@ if (isset($_SESSION['flash'])) {
         </div>
     </section>
 
-    <section id="about" class="py-5">
+   <section id="about" class="py-5">
         <div class="container py-4">
             <div class="text-center">
                 <h2 class="section-title">About Me</h2>
             </div>
             <div class="row g-5">
                 <div class="col-lg-6 fade-up">
-                    <div class="custom-card">
-                        <h3>Who am I?</h3>
-                        <p class="mt-3">
-                            I am <strong><?= $config['full_name'] ?></strong>, a 21-year-old developer based in <?= $config['location'] ?>. 
-                            Currently pursuing a <strong>BS in Information Systems</strong> at Bicol University.
-                        </p>
-                        <p>
-                            I specialize in backend development with PHP and database management, but I also love crafting beautiful front-end interfaces.
-                            My goal is to bridge the gap between complex data and user-friendly design.
-                        </p>
-                        
-                        <h4 class="mt-4 mb-3">Tech Stack</h4>
-                        <div class="d-flex flex-wrap gap-2">
-                            <?php 
-                            $stack = ['PHP', 'MySQL', 'Laravel', 'Bootstrap', 'JavaScript', 'Git', 'C++'];
-                            foreach($stack as $tech) echo "<span class='badge-tech'>$tech</span>";
-                            ?>
+                    <div class="custom-card h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h3>Who am I?</h3>
+                            <p class="mt-3">
+                                I am <strong><?= $config['full_name'] ?></strong>, a 21-year-old developer based in <?= $config['location'] ?>. 
+                                Currently pursuing a <strong>BS in Information Systems</strong> at Bicol University.
+                            </p>
+                            <p>
+                                I specialize in backend development with PHP and database management, but I also love crafting beautiful front-end interfaces.
+                            </p>
+                            
+                            <h4 class="mt-4 mb-3">Tech Stack</h4>
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+                                <?php 
+                                $stack = ['PHP', 'MySQL', 'Laravel', 'Bootstrap', 'JavaScript', 'Git', 'C++'];
+                                foreach($stack as $tech) echo "<span class='badge-tech'>$tech</span>";
+                                ?>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="p-3 rounded-4 border d-flex align-items-center justify-content-between mt-auto"
+                             style="background: var(--bg-body); border-color: var(--glass-border) !important;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:50px; height:50px; background: rgba(79, 70, 229, 0.1); color: var(--primary);">
+                                    <i class="fa-solid fa-users-viewfinder fs-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="fw-bold mb-0" style="line-height: 1;"><?= number_format($total_views) ?></h3>
+                                    <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Portfolio Visits</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 px-3 py-1 rounded-pill" style="background: rgba(16, 185, 129, 0.1);">
+                                <span class="position-relative d-flex" style="width: 10px; height: 10px;">
+                                  <span class="position-absolute w-100 h-100 rounded-circle bg-success opacity-75 animate-ping"></span>
+                                  <span class="position-relative w-100 h-100 rounded-circle bg-success"></span>
+                                </span>
+                                <span class="small text-success fw-bold" style="font-size: 0.75rem;">Online</span>
+                            </div>
+                        </div>
+                        </div>
                 </div>
+
                 <div class="col-lg-6 fade-up" style="animation-delay: 0.2s;">
-                    <h3 class="mb-4 ps-lg-4 text-center text-lg-start">Education & Experience</h3>
-                    <div class="timeline ms-lg-4">
-                        <div class="timeline-item">
-                            <span class="text-muted small">2021 - Present</span>
-                            <h5 class="mt-1">BS Information Systems</h5>
-                            <p class="mb-0 text-primary">Bicol University Polangui Campus</p>
-                            <small class="text-muted">Dean's Lister • System Analysis Focus</small>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-muted small">2023</span>
-                            <h5 class="mt-1">Freelance Web Developer</h5>
-                            <p class="mb-0 text-primary">Remote</p>
-                            <small class="text-muted">Developed custom CMS solutions and landing pages for local businesses.</small>
+                    <div class="h-100 d-flex flex-column justify-content-center">
+                        <h3 class="mb-4 ps-lg-4 text-center text-lg-start">Education & Experience</h3>
+                        <div class="timeline ms-lg-4">
+                            <div class="timeline-item">
+                                <span class="text-muted small">2021 - Present</span>
+                                <h5 class="mt-1">BS Information Systems</h5>
+                                <p class="mb-0 text-primary">Bicol University Polangui Campus</p>
+                                <small class="text-muted">Dean's Lister • System Analysis Focus</small>
+                            </div>
+                            <div class="timeline-item">
+                                <span class="text-muted small">2023</span>
+                                <h5 class="mt-1">Freelance Web Developer</h5>
+                                <p class="mb-0 text-primary">Remote</p>
+                                <small class="text-muted">Developed custom CMS solutions and landing pages for local businesses.</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -612,9 +670,9 @@ if (isset($_SESSION['flash'])) {
         </div>
     </section>
 
-    <footer class="py-4 text-center text-muted small">
+    <footer class="py-5 text-center text-muted small position-relative">
         <div class="container">
-            <p class="mb-0">&copy; <?= date("Y") ?> Rence. Built with PHP & Bootstrap 5.</p>
+            <p class="mb-2">&copy; <?= date("Y") ?> Rence. Built with PHP & Bootstrap 5.</p>
         </div>
     </footer>
 
@@ -691,7 +749,7 @@ if (isset($_SESSION['flash'])) {
         }
         type();
 
-        // 2b. Typing Effect (Navbar Brand) - ADDED
+        // 2b. Typing Effect (Navbar Brand)
         const brandElement = document.getElementById('navbar-brand-text');
         const brandText = "Rence.";
         let brandIndex = 0;
