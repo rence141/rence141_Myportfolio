@@ -281,7 +281,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         <div class="left-zone">
             <div class="profile-card" id="profileCard">
                 <img src="<?php echo $profile_image; ?>" alt="Profile" class="avatar">
-                <h1 class="name">Lorenze Niño Prepotente</h1>
+                <h1 class="name">Rence</h1>
                 <div class="role">Full Stack Developer</div>
                 <div class="tech-stack">
                     <i class="fab fa-php"></i><i class="fab fa-js"></i><i class="fab fa-laravel"></i><i class="fab fa-react"></i><i class="fas fa-database"></i>

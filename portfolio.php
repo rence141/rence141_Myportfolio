@@ -5,8 +5,8 @@ session_start();
    CONFIGURATION & DATA
    ────────────────────────────────────── */
 $config = [
-    'email_to'   => 'Lorenzezz0987@gmail.com',
-    'full_name'  => 'Lorenze Fernandez Prepotente',
+    'email_to'   => '@gmail.com',
+    'full_name'  => 'Rence',
     'role'       => 'Full-Stack Developer',
     'location'   => 'Albay, Philippines',
     'socials'    => [
