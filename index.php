@@ -278,7 +278,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             </div>
         </div>
 
-        <div class="left-zone">
+       <!-- <div class="left-zone">
             <div class="profile-card" id="profileCard">
                 <img src="<?php echo $profile_image; ?>" alt="Profile" class="avatar">
                 <h1 class="name">Rence</h1>
@@ -289,8 +289,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
                 <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.95rem;">Crafting digital solutions with code. <br>Welcome to my universe.</p>
                 <a href="<?php echo $main_portfolio; ?>" class="cta-btn">Enter Portfolio</a>
             </div>
-        </div>
-
+        </div>-->
     </div>
 
     <script>
@@ -305,7 +304,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         const fontCycler = document.getElementById('fontCycler');
         
         // --- CONFIG ---
-        const textToType = "Welcome to my UNIVERSE.";
+        const textToType = "LMAO IP SECURED!";
         const fonts = ["'Space Grotesk'", "'Playfair Display'", "'VT323'", "'Permanent Marker'", "'Arial Black'", "'Courier New'"];
         let charIndex = 0;
 
