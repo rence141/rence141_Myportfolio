@@ -289,7 +289,7 @@
                 <div class="col-12 col-sm-6 col-lg-3 animate-up delay-2">
                     <div class="ui-card">
                         <div class="card-img-wrapper">
-                            <img src="../ims/notification.jpeg" alt="Notifications">
+                            <img src="../ims/Notification.jpeg" alt="Notifications">
                             <div class="hover-overlay"><i class="fas fa-expand-alt"></i></div>
                         </div>
                         <div class="card-body">
@@ -337,7 +337,7 @@
                 <div class="col-12 col-sm-6 col-lg-3 animate-up delay-3">
                     <div class="ui-card">
                         <div class="card-img-wrapper">
-                            <img src="../ims/checkout.jpeg" alt="Checkout">
+                            <img src="../ims/Checkout.jpeg" alt="Checkout">
                             <div class="hover-overlay"><i class="fas fa-expand-alt"></i></div>
                         </div>
                         <div class="card-body">

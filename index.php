@@ -305,7 +305,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         const fontCycler = document.getElementById('fontCycler');
         
         // --- CONFIG ---
-        const textToType = "Hello, World.";
+        const textToType = "Welcome to my UNIVERSE.";
         const fonts = ["'Space Grotesk'", "'Playfair Display'", "'VT323'", "'Permanent Marker'", "'Arial Black'", "'Courier New'"];
         let charIndex = 0;
 
