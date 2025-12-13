@@ -14,7 +14,7 @@ $config = [
         'facebook' => 'https://facebook.com',
         'linkedin' => '#' // Add your LinkedIn
     ],
-    'avatar'     => 'https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/475635881_1306306950496192_645015941813715254_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFrQXcu6hzt4SCwnsa0-8nIL9x1e9THidIv3HV71MeJ0lM6PCYyzK7G3--lvXqnEtJzD5faR2XF33rruoUfxESo&_nc_ohc=dfJLvhuTeowQ7kNvwGjZruW&_nc_oc=Adl9J_hLWcsOLauWgAeQrTURhXoXRfRoTJhWhaGbm9GLX4K5q6QdY5bplJi88BaPYcE&_nc_zt=23&_nc_ht=scontent.fmnl3-2.fna&_nc_gid=1bnrjZPJPDKanq2REEsXNQ&oh=00_Afkq_TvNwqXke9GN-7e7Gl-xtIXrhYlJDQVZrZDq8YdpbA&oe=69420562'
+    'avatar'     => 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=77RNBuqIJegQ7kNvwHwst1U&_nc_oc=AdkejvgpMoWfBk7zDMoKbegOkkpgaN-du_g3rCZpMRE4WZQt48QSc1hHevd9oJn05i4&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3TIaa_tnnfb0dEM1jhJKjQ&oh=00_AfmQrZAj_ua5JtRSfxubSfmhgQ0mPBy5tFYm-TwmoI4oRA&oe=6942ABA8'
 ];
 
 /* ──────────────────────────────────────
