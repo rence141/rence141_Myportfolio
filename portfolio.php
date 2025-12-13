@@ -1,51 +1,57 @@
 <?php
+// 1. TURN ON ERROR REPORTING (Remove these two lines when finished debugging)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 
 /* ──────────────────────────────────────
-   UNIQUE VISITOR TRACKING (FIXED)
+   SIMPLE VISITOR TRACKING (DEBUG MODE)
    ────────────────────────────────────── */
-// 1. Use Absolute Paths to avoid directory errors
+
+// Define file paths
 $base_dir = __DIR__ . '/messages';
 $stats_file = $base_dir . '/visitor_stats.json';
 
-// 2. Create the directory if it doesn't exist
+// 2. CHECK/CREATE DIRECTORY
 if (!is_dir($base_dir)) {
+    // Attempt to create directory
     if (!mkdir($base_dir, 0755, true)) {
-        // If this fails, it's a permission issue on your server
-        error_log("Portfolio Error: Cannot create 'messages' directory.");
+        echo "<div style='background:red;color:white;padding:10px;font-weight:bold;z-index:9999;position:fixed;top:0;left:0;width:100%;text-align:center;'>
+                CRITICAL ERROR: PHP cannot create the 'messages' folder. <br>
+                Please create a folder named <strong>messages</strong> manually in your file manager.
+              </div>";
+        die(); 
     }
 }
 
-// 3. Initialize or Load Data
-$stats = ['views' => 0, 'ips' => []]; // Default
-
+// 3. LOAD CURRENT STATS
+$stats = ['views' => 0]; // Simple structure for debugging
 if (file_exists($stats_file)) {
-    $json_content = file_get_contents($stats_file);
-    $decoded = json_decode($json_content, true);
-    if (is_array($decoded)) {
+    $content = file_get_contents($stats_file);
+    $decoded = json_decode($content, true);
+    if (is_array($decoded) && isset($decoded['views'])) {
         $stats = $decoded;
     }
 }
 
-// 4. Get User IP & Hash it
-$user_ip = $_SERVER['REMOTE_ADDR'];
-$ip_hash = md5($user_ip); 
+// 4. INCREMENT COUNT (Removed IP check for testing)
+$stats['views']++; 
 
-// 5. Update Logic (Unique Visitors Only)
-// Note: If you refresh the page, the count WON'T go up. This is normal.
-// It only goes up for *new* visitors.
-if (!in_array($ip_hash, $stats['ips'])) {
-    $stats['views']++;          
-    $stats['ips'][] = $ip_hash; 
-    
-    // Save back to file
-    file_put_contents($stats_file, json_encode($stats));
+// 5. SAVE FILE
+$saved = file_put_contents($stats_file, json_encode($stats));
+
+if ($saved === false) {
+    echo "<div style='background:darkred;color:white;padding:10px;font-weight:bold;z-index:9999;position:fixed;top:0;left:0;width:100%;text-align:center;'>
+            PERMISSION ERROR: PHP cannot write to '$stats_file'. <br>
+            Fix: Right-click the 'messages' folder > Properties > Permissions > Set to 777 (or ensure Write is enabled).
+          </div>";
 }
 
 $total_views = $stats['views'];
 
 /* ──────────────────────────────────────
-   CONFIGURATION & DATA
+   CONFIGURATION 
    ────────────────────────────────────── */
 $config = [
     'email_to'   => 'renceprepotente@gmail.com', 
@@ -61,7 +67,7 @@ $config = [
 ];
 
 /* ──────────────────────────────────────
-   BACKEND LOGIC (Security & Form)
+   BACKEND FORM LOGIC
    ────────────────────────────────────── */
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -71,15 +77,10 @@ $toast_message = "";
 $toast_type = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // 1. CSRF Check
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        die("Security violation: Invalid CSRF token.");
+        die("Security violation");
     }
-
-    // 2. Honeypot Check
-    if (!empty($_POST['website'])) {
-        die(); 
-    }
+    if (!empty($_POST['website'])) die(); 
 
     $name    = htmlspecialchars(trim($_POST['name']));
     $email   = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
@@ -88,25 +89,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Please fill in all fields correctly.'];
     } else {
-        // Save to local log file using Absolute Path
+        // Log file path fix
         $log_file = $base_dir . "/contact_log.txt";
         $log_entry = "Date: " . date('Y-m-d H:i:s') . "\nName: $name\nEmail: $email\nMessage:\n$message\n-------------------\n";
         file_put_contents($log_file, $log_entry, FILE_APPEND);
 
-        // Prepare Email
         $subject = "Portfolio Contact: $name";
-        $headers = "From: noreply@portfolio.local\r\n";
-        $headers .= "Reply-To: $email\r\n";
-        $headers .= "X-Mailer: PHP/" . phpversion();
+        $headers = "From: noreply@portfolio.local\r\nReply-To: $email\r\n";
         
-        // Attempt to Send
         if (@mail($config['email_to'], $subject, $message, $headers)) {
             $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message sent successfully!'];
         } else {
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved to logs! (Email requires live server)'];
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Message saved to logs!'];
         }
     }
-    
     header("Location: " . $_SERVER['PHP_SELF'] . "#contact");
     exit;
 }
