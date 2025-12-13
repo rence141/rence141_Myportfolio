@@ -100,7 +100,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <img src="../ims/Screenshot 2025-05-15 215335.png" alt="CSD LMS Screenshot" class="img-fluid rounded mb-4 w-100 shadow-sm">
+                    <img src="../ims/screenshot-215335.png" alt="CSD LMS Screenshot" class="img-fluid rounded mb-4 w-100 shadow-sm">
                     
                     <h2 class="mb-4">Project Overview</h2>
                     <p>The CSD Learning Management System is a comprehensive educational platform designed specifically for the Computer Studies Department. This system provides a secure and intuitive interface for both students and faculty members to manage their educational activities effectively.</p>

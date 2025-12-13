@@ -2,28 +2,43 @@
 session_start();
 
 /* ──────────────────────────────────────
-   UNIQUE VISITOR TRACKING (JSON Based)
+   UNIQUE VISITOR TRACKING (FIXED)
    ────────────────────────────────────── */
-// Ensure the storage directory exists
-if (!is_dir('messages')) mkdir('messages', 0755, true);
-$stats_file = 'messages/visitor_stats.json';
+// 1. Use Absolute Paths to avoid directory errors
+$base_dir = __DIR__ . '/messages';
+$stats_file = $base_dir . '/visitor_stats.json';
 
-// Get User IP & Hash it (Privacy Protection)
+// 2. Create the directory if it doesn't exist
+if (!is_dir($base_dir)) {
+    if (!mkdir($base_dir, 0755, true)) {
+        // If this fails, it's a permission issue on your server
+        error_log("Portfolio Error: Cannot create 'messages' directory.");
+    }
+}
+
+// 3. Initialize or Load Data
+$stats = ['views' => 0, 'ips' => []]; // Default
+
+if (file_exists($stats_file)) {
+    $json_content = file_get_contents($stats_file);
+    $decoded = json_decode($json_content, true);
+    if (is_array($decoded)) {
+        $stats = $decoded;
+    }
+}
+
+// 4. Get User IP & Hash it
 $user_ip = $_SERVER['REMOTE_ADDR'];
 $ip_hash = md5($user_ip); 
 
-// Initialize or Load Data
-if (!file_exists($stats_file)) {
-    $stats = ['views' => 0, 'ips' => []];
-} else {
-    $stats = json_decode(file_get_contents($stats_file), true);
-    if (!$stats) $stats = ['views' => 0, 'ips' => []]; 
-}
-
-// Check if this IP is new
+// 5. Update Logic (Unique Visitors Only)
+// Note: If you refresh the page, the count WON'T go up. This is normal.
+// It only goes up for *new* visitors.
 if (!in_array($ip_hash, $stats['ips'])) {
     $stats['views']++;          
     $stats['ips'][] = $ip_hash; 
+    
+    // Save back to file
     file_put_contents($stats_file, json_encode($stats));
 }
 
@@ -73,9 +88,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['flash'] = ['type' => 'danger', 'msg' => 'Please fill in all fields correctly.'];
     } else {
-        // Save to local log file
+        // Save to local log file using Absolute Path
+        $log_file = $base_dir . "/contact_log.txt";
         $log_entry = "Date: " . date('Y-m-d H:i:s') . "\nName: $name\nEmail: $email\nMessage:\n$message\n-------------------\n";
-        file_put_contents("messages/contact_log.txt", $log_entry, FILE_APPEND);
+        file_put_contents($log_file, $log_entry, FILE_APPEND);
 
         // Prepare Email
         $subject = "Portfolio Contact: $name";
