@@ -81,7 +81,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <img src="../ims/Screenshot 2025-05-15 214456.png" alt="Course Management System Screenshot" class="img-fluid rounded mb-4">
+                    <img src="../ims/screenshot-214449.png" alt="Course Management System Screenshot" class="img-fluid rounded mb-4">
                     
                     <h2 class="mb-4">Project Overview</h2>
                     <p>The Course Activity Management System revolutionizes how students and faculty interact with academic schedules and activities. This innovative platform provides real-time tracking, dynamic course management, and an intuitive calendar interface that has significantly improved student engagement and academic planning efficiency.</p>

@@ -1,51 +1,36 @@
 <?php
-// 1. TURN ON ERROR REPORTING (Remove these two lines when finished debugging)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 
 /* ──────────────────────────────────────
-   SIMPLE VISITOR TRACKING (DEBUG MODE)
+   VISITOR TRACKING
    ────────────────────────────────────── */
 
 // Define file paths
 $base_dir = __DIR__ . '/messages';
 $stats_file = $base_dir . '/visitor_stats.json';
 
-// 2. CHECK/CREATE DIRECTORY
+// Ensure directory exists
 if (!is_dir($base_dir)) {
-    // Attempt to create directory
-    if (!mkdir($base_dir, 0755, true)) {
-        echo "<div style='background:red;color:white;padding:10px;font-weight:bold;z-index:9999;position:fixed;top:0;left:0;width:100%;text-align:center;'>
-                CRITICAL ERROR: PHP cannot create the 'messages' folder. <br>
-                Please create a folder named <strong>messages</strong> manually in your file manager.
-              </div>";
-        die(); 
-    }
+    @mkdir($base_dir, 0755, true);
 }
 
-// 3. LOAD CURRENT STATS
-$stats = ['views' => 0]; // Simple structure for debugging
+// Load current stats
+$stats = ['views' => 0];
 if (file_exists($stats_file)) {
-    $content = file_get_contents($stats_file);
+    $content = @file_get_contents($stats_file);
     $decoded = json_decode($content, true);
     if (is_array($decoded) && isset($decoded['views'])) {
         $stats = $decoded;
     }
 }
 
-// 4. INCREMENT COUNT (Removed IP check for testing)
-$stats['views']++; 
-
-// 5. SAVE FILE
-$saved = file_put_contents($stats_file, json_encode($stats));
-
-if ($saved === false) {
-    echo "<div style='background:darkred;color:white;padding:10px;font-weight:bold;z-index:9999;position:fixed;top:0;left:0;width:100%;text-align:center;'>
-            PERMISSION ERROR: PHP cannot write to '$stats_file'. <br>
-            Fix: Right-click the 'messages' folder > Properties > Permissions > Set to 777 (or ensure Write is enabled).
-          </div>";
+// Increment count only if new session
+if (!isset($_SESSION['has_visited'])) {
+    $stats['views']++;
+    $_SESSION['has_visited'] = true;
+    
+    // Save file
+    @file_put_contents($stats_file, json_encode($stats));
 }
 
 $total_views = $stats['views'];
@@ -63,7 +48,7 @@ $config = [
         'facebook' => 'https://facebook.com',
         'linkedin' => '#' 
     ],
-    'avatar'     => 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=77RNBuqIJegQ7kNvwHwst1U&_nc_oc=AdkejvgpMoWfBk7zDMoKbegOkkpgaN-du_g3rCZpMRE4WZQt48QSc1hHevd9oJn05i4&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3TIaa_tnnfb0dEM1jhJKjQ&oh=00_AfmQrZAj_ua5JtRSfxubSfmhgQ0mPBy5tFYm-TwmoI4oRA&oe=6942ABA8'
+    'avatar'     => 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=HdIB67FdxH0Q7kNvwG5e8KY&_nc_oc=Adn53OcUCd3a6J2UopSqJUElTu3DO14qIf4eQ_sSQhBXdUhqLlvB2hmspnD-8N_nSqg&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=NE385TUns4Am13TgAmnlQw&oh=00_AfnwUHyegha8wDvdI-61vUq6lWs5ft_J5_kLwgpc5OQMLg&oe=694D37A8'
 ];
 
 /* ──────────────────────────────────────
