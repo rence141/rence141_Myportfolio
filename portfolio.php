@@ -48,7 +48,7 @@ $config = [
         'facebook' => 'https://facebook.com',
         'linkedin' => '#' 
     ],
-    'avatar'     => 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=HdIB67FdxH0Q7kNvwG5e8KY&_nc_oc=Adn53OcUCd3a6J2UopSqJUElTu3DO14qIf4eQ_sSQhBXdUhqLlvB2hmspnD-8N_nSqg&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=NE385TUns4Am13TgAmnlQw&oh=00_AfnwUHyegha8wDvdI-61vUq6lWs5ft_J5_kLwgpc5OQMLg&oe=694D37A8'
+    'avatar'     => 'ims/my%20pic.jpg'
 ];
 
 /* ──────────────────────────────────────
@@ -579,13 +579,13 @@ if (isset($_SESSION['flash'])) {
                         <h3 class="mb-4 ps-lg-4 text-center text-lg-start">Education & Experience</h3>
                         <div class="timeline ms-lg-4">
                             <div class="timeline-item">
-                                <span class="text-muted small">2021 - Present</span>
+                                <span class="text-muted small">2023 - Present</span>
                                 <h5 class="mt-1">BS Information Systems</h5>
                                 <p class="mb-0 text-primary">Bicol University Polangui Campus</p>
-                                <small class="text-muted">Dean's Lister • System Analysis Focus</small>
+                                <small class="text-muted"Student • System Analysis Focus</small>
                             </div>
                             <div class="timeline-item">
-                                <span class="text-muted small">2023</span>
+                                <span class="text-muted small">2025</span>
                                 <h5 class="mt-1">Freelance Web Developer</h5>
                                 <p class="mb-0 text-primary">Remote</p>
                                 <small class="text-muted">Developed custom CMS solutions and landing pages for local businesses.</small>

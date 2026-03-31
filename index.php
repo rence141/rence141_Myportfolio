@@ -1,7 +1,7 @@
 <?php
 // Configuration
 $main_portfolio = "portfolio.php"; 
-$profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044_1306906997102854_5197075266384357703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFZ7caDZEXQhVFX0RGVbvJSRYAWgSF3QiBFgBaBIXdCIOuAKBLpFTWkJp5Ie9ewoufhNdjNRPiidF633snSoay4&_nc_ohc=77RNBuqIJegQ7kNvwHwst1U&_nc_oc=AdkejvgpMoWfBk7zDMoKbegOkkpgaN-du_g3rCZpMRE4WZQt48QSc1hHevd9oJn05i4&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=3TIaa_tnnfb0dEM1jhJKjQ&oh=00_AfmQrZAj_ua5JtRSfxubSfmhgQ0mPBy5tFYm-TwmoI4oRA&oe=6942ABA8";
+$profile_image = "ims/my%20pic.jpg";
 ?>
 
 <!DOCTYPE html>
@@ -207,7 +207,8 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         /* --- ASSETS --- */
         .avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--primary); margin-bottom: 1.5rem; object-fit: cover; box-shadow: 0 0 20px var(--primary-glow); }
         .name { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; background: linear-gradient(90deg, var(--text-main), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .role { color: var(--primary); font-weight: 600; background: rgba(79, 70, 229, 0.1); padding: 0.25rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1.5rem; }
+        .role { color: var(--primary); font-weight: 600; background: rgba(79, 70, 229, 0.1); padding: 0.25rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; }
+        .intro-copy { margin-bottom: 1.75rem; opacity: 0.85; font-size: 0.98rem; line-height: 1.7; }
         .tech-stack { display: flex; justify-content: center; gap: 15px; margin-bottom: 2rem; font-size: 1.4rem; opacity: 0.8; }
         .cta-btn { display: inline-block; background: var(--primary); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px var(--primary-glow); }
         .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
@@ -275,6 +276,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             .text-layer-black-wrapper.full { clip-path: inset(0 0 0 0); }
             
             .tech-stack { gap: 10px; font-size: 1.2rem; }
+            .intro-copy { font-size: 0.92rem; }
             .name { font-size: 1.5rem; }
         }
     </style>
@@ -306,12 +308,12 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
             <div class="profile-card" id="profileCard">
                 <img src="<?php echo $profile_image; ?>" alt="Profile" class="avatar">
                 <h1 class="name">Rence</h1>
-                <div class="role">Full Stack Developer</div>
+                <div class="role">Full-Stack Developer</div>
                 <div class="tech-stack">
                     <i class="fab fa-php"></i><i class="fab fa-js"></i><i class="fab fa-laravel"></i><i class="fab fa-react"></i><i class="fas fa-database"></i>
                 </div>
-                <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.95rem;">Crafting digital solutions with code. <br>Welcome to my universe.</p>
-                <a href="<?php echo $main_portfolio; ?>" class="cta-btn">Enter Portfolio</a>
+                <p class="intro-copy">I turn ideas into reliable web systems with PHP, Laravel, React, and MySQL.<br>Clean architecture, practical UX, and solutions built to last.</p>
+                <a href="<?php echo $main_portfolio; ?>" class="cta-btn">Explore Portfolio</a>
             </div>
         </div>
 
@@ -329,7 +331,7 @@ $profile_image = "https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/475687044
         const fontCycler = document.getElementById('fontCycler');
         
         // --- CONFIG ---
-        const textToType = "Welcome to my UNIVERSE.";
+        const textToType = "Turning ideas into systems.";
         const fonts = ["'Space Grotesk'", "'Playfair Display'", "'VT323'", "'Permanent Marker'", "'Arial Black'", "'Courier New'"];
         let charIndex = 0;
 
