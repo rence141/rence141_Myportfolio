@@ -153,6 +153,7 @@ export const projects: Project[] = [
       { src: "/ims/Jirai_landingPage.png", title: "Landing Page", caption: "Public-facing entry screen for the Jirai IDE workspace.", badge: "Public" },
       { src: "/ims/Jirai_IDE_Editor(Personal).jpg", title: "Personal Editor", caption: "Personal coding workspace for individual development.", badge: "Editor" },
       { src: "/ims/Jirai_IDE_Editor_(Workspace).jpg", title: "Workspace Editor", caption: "Shared editor view for collaborative workspace development.", badge: "Editor" },
+      { src: "/ims/Jirai_IDE_SharedWorkspace.png", title: "Jirai IDE Editor", caption: "Collaborative editor workspace for shared development sessions.", badge: "Editor" },
       { src: "/ims/Jirai_Code_review.jpg", title: "Code Review", caption: "Review interface for inspecting and improving code changes.", badge: "Review" },
       { src: "/ims/Jirai_IDE_General_workspaces.jpeg", title: "General Workspaces", caption: "Workspace overview for managing project environments.", badge: "Workspace" },
       { src: "/ims/Jirai_IDE_messages.jpeg", title: "Messages", caption: "Messaging interface for coordination inside the tool.", badge: "Chat" },
