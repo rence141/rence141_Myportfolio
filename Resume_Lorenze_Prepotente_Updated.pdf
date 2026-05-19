@@ -1,0 +1,132 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Length 4948 >>
+stream
+BT /F2 22 Tf 0.08 0.08 0.12 rg 54 730 Td (LORENZE PREPOTENTE) Tj ET
+BT /F1 9.5 Tf 0.25 0.25 0.32 rg 54 710 Td (lorenzeprepotente@gmail.com | +63 967 247 9726 | GitHub / Portfolio Available Upon Request) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 689 m 558 689 l S
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 665 Td (ABOUT) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 658 m 558 658 l S
+BT /F1 9.8 Tf 0 0 0 rg 54 645 Td (Motivated and adaptable Full-Stack Developer with experience in building web applications, desktop systems,) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 631.5 Td (Discord bots, and collaborative development tools. Skilled in React.js, TypeScript, APIs, Supabase,) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 618 Td (Flutter, and modern software development workflows. Passionate about creating innovative systems that) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 604.5 Td (improve user experience and productivity.) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 578 Td (SKILLS) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 571 m 558 571 l S
+BT /F2 10 Tf 0 0 0 rg 54 558 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 558 Td (React.js & TypeScript) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 543 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 543 Td (Web Development) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 528 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 528 Td (API Integration) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 513 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 513 Td (MongoDB & Supabase) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 498 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 498 Td (Flutter Development) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 483 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 483 Td (Desktop & Mobile Applications) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 468 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 468 Td (Git & GitHub Collaboration) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 453 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 453 Td (Problem Solving & Teamwork) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 430 Td (EXPERIENCE) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 423 m 558 423 l S
+BT /F2 10.5 Tf 0 0 0 rg 54 410 Td (FULL-STACK DEVELOPER) Tj ET
+BT /F1 9.5 Tf 0.32 0.32 0.38 rg 494.16 410 Td (2025 - Present) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 395 Td (Developed custom applications including collaborative IDE systems, freelancer marketplaces, Discord bots,) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 382 Td (and productivity tools. Worked with React.js, APIs, Supabase, and cloud deployment platforms such as) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 369 Td (Railway and Render.) Tj ET
+BT /F2 10.5 Tf 0 0 0 rg 54 352 Td (INDEPENDENT DEVELOPER / FREELANCER) Tj ET
+BT /F1 9.5 Tf 0.32 0.32 0.38 rg 507.84000000000003 352 Td (2024 - 2025) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 337 Td (Collaborated with clients to understand requirements and deliver tailored software solutions.) Tj ET
+BT /F2 10.5 Tf 0 0 0 rg 54 320 Td (DISCORD BOT DEVELOPER - FREELANCE) Tj ET
+BT /F1 9.5 Tf 0.32 0.32 0.38 rg 539.76 320 Td (2024) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 305 Td (Created and maintained Discord bots focused on community engagement, automation, interactive commands, and) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 292 Td (server management.) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 267 Td (PROJECTS) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 260 m 558 260 l S
+BT /F2 10 Tf 0 0 0 rg 54 247 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 247 Td (Jirai IDE - Custom collaborative IDE workspace with project management, shared workspaces, code review,) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 234 Td (messaging, extensions, portfolio pages, and developer tools.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 219 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 219 Td (Freelancer Marketplace \(trabaho\) - Platform connecting freelancers and clients with authentication,) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 206 Td (dashboards, marketplace browsing, workspaces, invoices, payments, reviews, subscriptions, and portfolio) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 193 Td (settings.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 178 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 178 Td (Interactive Discord Bot \(Larpy\) - Automation and engagement bot with interactive commands, activities,) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 165 Td (moderation features, and server management tools.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 150 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 150 Td (META SHARK Admin Dashboard - E-commerce administration dashboard for revenue, inventory, users, orders,) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 137 Td (seller shops, appeals, category analytics, and geographic reports.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 122 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 122 Td (META SHARK E-Commerce - Multi-role marketplace ecosystem with buyer, seller, and administrator interfaces,) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 109 Td (checkout flow, notifications, inventory tracking, and order management.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 94 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 94 Td (CSD Learning Management System - Secure learning platform for course content, user management, role-based) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 81 Td (access, and progress tracking.) Tj ET
+endstream
+endobj
+4 0 obj
+<< /Length 1852 >>
+stream
+BT /F2 10 Tf 0 0 0 rg 54 730 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 730 Td (Student Management System - Academic planning and student administration platform with scheduling, grade) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 717 Td (monitoring, prerequisite checks, and roadmap planning.) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 702 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 702 Td (Course Activity Management System - Academic activity tracking tool with dynamic calendar views, automated) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 689 Td (reminders, schedule management, and analytics.) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 666 Td (CERTIFICATIONS) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 659 m 558 659 l S
+BT /F2 10 Tf 0 0 0 rg 54 646 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 646 Td (Introduction to Kubernetes - The Linux Foundation) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 631 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 631 Td (Secure AI/ML-Driven Software Development - The Linux Foundation) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 616 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 616 Td (Getting Started with OpenTelemetry - The Linux Foundation) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 601 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 601 Td (Introduction to JavaScript Security - The Linux Foundation) Tj ET
+BT /F2 10 Tf 0 0 0 rg 54 586 Td (-) Tj ET
+BT /F1 9.6 Tf 0 0 0 rg 68 586 Td (Build a Free Website with WordPress - Coursera) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 563 Td (EDUCATION) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 556 m 558 556 l S
+BT /F1 9.8 Tf 0 0 0 rg 54 543 Td (Bachelor of Science in Information Systems) Tj ET
+BT /F1 9.8 Tf 0 0 0 rg 54 524.5 Td (Bicol University - Polangui Campus) Tj ET
+BT /F2 11 Tf 0.22 0.17 0.55 rg 54 498 Td (CERTIFICATION STATEMENT) Tj ET
+0.72 w 0.70 0.70 0.78 RG 54 491 m 558 491 l S
+BT /F1 9.8 Tf 0 0 0 rg 54 478 Td (I certify that the information provided is true and correct.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 7 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 7 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 4 0 R >>
+endobj
+7 0 obj
+<< /Type /Pages /Kids [5 0 R 6 0 R] /Count 2 >>
+endobj
+8 0 obj
+<< /Type /Catalog /Pages 7 0 R >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000154 00000 n 
+0000005154 00000 n 
+0000007058 00000 n 
+0000007194 00000 n 
+0000007330 00000 n 
+0000007393 00000 n 
+trailer
+<< /Size 9 /Root 8 0 R >>
+startxref
+7442
+%%EOF

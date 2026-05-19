@@ -1,24 +1,18 @@
-FROM php:8.2-apache
+FROM node:22-alpine AS build
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Copy all files
+COPY package*.json ./
+RUN npm install
+
 COPY . .
+RUN npm run build
 
-# Create messages directory
-RUN mkdir -p messages
+FROM nginx:1.27-alpine
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html \
-    && chmod 777 messages
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# List files for debugging
-RUN ls -la /var/www/html/
-
-# Expose port 80
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"] 
+CMD ["nginx", "-g", "daemon off;"]

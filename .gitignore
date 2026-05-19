@@ -9,6 +9,7 @@ Thumbs.db
 # Dependencies
 /vendor/
 /node_modules/
+/dist/
 
 # Environment files
 .env
@@ -16,6 +17,7 @@ Thumbs.db
 
 # Logs and databases
 *.log
+*.tsbuildinfo
 *.sql
 *.sqlite
 

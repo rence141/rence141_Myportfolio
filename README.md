@@ -1,143 +1,52 @@
 # My Portfolio
 
-A modern, responsive portfolio website built with PHP, HTML, CSS, and Bootstrap. Features a contact form, project showcase, and animated elements.
+A React + TypeScript portfolio converted from the original PHP version. It keeps the animated intro, main portfolio sections, project detail pages, theme toggle, responsive layouts, and existing screenshots.
 
-## Features
+## Tech Stack
 
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Contact Form**: Functional contact form that saves messages to a file
-- **Animated Background**: Falling code animation for a tech-focused aesthetic
-- **Project Showcase**: Display your projects with images and descriptions
-- **Skills Section**: Highlight your technical skills with icons
-- **Modern UI**: Clean, professional design using Bootstrap 5
+- React
+- TypeScript
+- Vite
+- CSS
+- Docker + Nginx for production
 
-## Technologies Used
+## Local Development
 
-- **PHP 8.2**: Backend processing and contact form handling
-- **HTML5**: Semantic markup
-- **CSS3**: Custom styling and animations
-- **Bootstrap 5**: Responsive framework
-- **Font Awesome**: Icons
-- **Devicon**: Technology icons
-
-## Quick Start with Docker
-
-### Prerequisites
-- Docker installed on your system
-
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/rence141/rence141_Myportfolio.git
-   cd rence141_Myportfolio
-   ```
-
-2. **Build the Docker image**
-   ```bash
-   docker build -t my-portfolio .
-   ```
-
-3. **Run the container**
-   ```bash
-   docker run -p 8080:80 my-portfolio
-   ```
-
-4. **Access your portfolio**
-   Open your browser and go to: `http://localhost:8080`
-
-### Production Deployment
-
-#### Option 1: Render (Recommended)
-
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Add Docker support"
-   git push origin main
-   ```
-
-2. **Deploy on Render**
-   - Go to [Render.com](https://render.com)
-   - Create a new Web Service
-   - Connect your GitHub repository
-   - Set the following:
-     - **Build Command**: `docker build -t portfolio .`
-     - **Start Command**: `docker run -p $PORT:80 portfolio`
-   - Deploy!
-
-#### Option 2: Railway
-
-1. **Deploy on Railway**
-   - Go to [Railway.app](https://railway.app)
-   - Create a new project
-   - Connect your GitHub repository
-   - Railway will automatically detect the Dockerfile and deploy
-
-#### Option 3: DigitalOcean App Platform
-
-1. **Deploy on DigitalOcean**
-   - Go to [DigitalOcean App Platform](https://cloud.digitalocean.com/apps)
-   - Create a new app
-   - Connect your GitHub repository
-   - Select Docker as the source type
-   - Deploy!
-
-## File Structure
-
-```
-rence141_Myportfolio/
-├── portfolio.php          # Main portfolio page
-├── projects/              # Project images and assets
-├── ims/                   # Additional assets
-├── messages/              # Contact form messages (auto-created)
-├── Dockerfile             # Docker configuration
-├── .dockerignore          # Docker ignore file
-└── README.md              # This file
+```bash
+npm install
+npm run dev
 ```
 
-## Customization
+Open the URL shown by Vite, usually `http://localhost:5173`.
 
-### Personal Information
-Edit `portfolio.php` to update:
-- Your name and introduction
-- Contact information
-- Social media links
-- Skills and technologies
-- Project descriptions
+## Production Build
 
-### Styling
-The CSS is embedded in the HTML file. You can modify:
-- Color scheme (CSS variables at the top)
-- Animations
-- Layout and spacing
-- Typography
+```bash
+npm run build
+npm run preview
+```
 
-### Contact Form
-The contact form saves messages to `messages/contact_messages.txt`. You can:
-- Modify the form fields
-- Change the message format
-- Add email notifications
-- Integrate with a database
+## Docker
 
-## Contributing
+```bash
+docker build -t my-portfolio .
+docker run -p 8080:80 my-portfolio
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test locally with Docker
-5. Submit a pull request
+Open `http://localhost:8080`.
 
-## License
+## Project Structure
 
-This project is open source and available under the [MIT License](LICENSE).
+```text
+src/
+  App.tsx              React app, routes, pages, and components
+  data/projects.ts     Portfolio/project data
+  styles.css           Global styling
+public/ims/            Portfolio image assets copied from ims/
+Dockerfile             Multi-stage React build served by Nginx
+nginx.conf             SPA fallback config
+```
 
-## Contact
+## Notes
 
-- **Name**: Lorenze Fernandez Prepotente (Rence)
-- **Email**: [Your Email]
-- **GitHub**: [https://github.com/rence141](https://github.com/rence141)
-
----
-
-Built with ❤️ using PHP and Docker 
+The previous PHP contact form used server-side sessions and mail. In this React build, the form opens the visitor's email app with the message pre-filled. For hosted form delivery, connect the form to an email API or form service later.
