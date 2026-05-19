@@ -101,7 +101,7 @@ export function Portfolio() {
     <main className="site-shell">
       <nav className="navbar">
         <a className="brand" href="#/">
-          Rence.
+          Rence
         </a>
         <button className="menu-button" onClick={() => setMenuOpen((open) => !open)} aria-label="Toggle navigation">
           <i className="fa-solid fa-bars" />
