@@ -58,6 +58,22 @@ export function WelcomeBoard({ name }: { name: string }) {
   const [fetched, setFetched] = useState<Record<number, LyricLine[]>>({});
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef<Promise<YTPlayer> | null>(null);
+  const playbackRequest = useRef(0);
+
+  // Call play inside the tap handler so mobile browsers retain user activation.
+  const selectSong = (index: number) => {
+    const request = ++playbackRequest.current;
+    const media = mediaRef.current;
+    playerRef.current?.stopVideo();
+    media?.pause();
+    if (media && songs[index]?.src) {
+      media.src = songs[index].src!;
+      void media.play().catch(() => {
+        if (playbackRequest.current === request) setSongIndex(-1);
+      });
+    }
+    setSongIndex(index);
+  };
 
   const getPlayer = useCallback(() => {
     if (!readyRef.current) readyRef.current = loadYouTubeApi().then(YT => new Promise<YTPlayer>(resolve => {
@@ -76,14 +92,11 @@ export function WelcomeBoard({ name }: { name: string }) {
   useEffect(() => {
     const stopAll = () => { playerRef.current?.stopVideo(); mediaRef.current?.pause(); };
     if (songIndex < 0) { stopAll(); setLyric(undefined); return; }
-    stopAll();
     const song = songs[songIndex];
     setLyric(songHeading(song));
     let cancelled = false;
-    if (song.src) {
-      const media = mediaRef.current;
-      if (media) { media.src = song.src; media.currentTime = 0; void media.play().catch(() => setSongIndex(-1)); }
-    } else if (song.youtubeId) {
+    if (!song.src && song.youtubeId) {
+      stopAll();
       getPlayer().then(player => { if (!cancelled) player.loadVideoById(song.youtubeId as string); });
     }
     return () => { cancelled = true; };
@@ -137,7 +150,6 @@ export function WelcomeBoard({ name }: { name: string }) {
       if (!song.src && !player) return;
       const time = song.src ? (media?.currentTime ?? 0) : player!.getCurrentTime();
       const duration = song.src ? (media?.duration || 0) : (player!.getDuration() || 0);
-      if (song.src && media?.ended) { setSongIndex(index => (index + 1 >= songs.length ? -1 : index + 1)); return; }
       let current = -1;
       for (let i = 0; i < song.lines.length; i++) if (song.lines[i].t <= time) current = i;
       if (current < 0) { setLyric(songHeading(song)); return; }
@@ -156,15 +168,22 @@ export function WelcomeBoard({ name }: { name: string }) {
     const canvas = canvasRef.current;
     const media = mediaRef.current;
     if (!song?.src || !canvas || !media) return;
-    const cols = 128, rows = 72, cell = 6;
+    const compact = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
+    const cols = compact ? 64 : 128, rows = compact ? 36 : 72, cell = compact ? 12 : 6;
+    const frameInterval = 1000 / (compact ? 12 : 24);
     canvas.width = cols * cell; canvas.height = rows * cell;
     const ctx = canvas.getContext('2d');
     const sample = document.createElement('canvas'); sample.width = cols; sample.height = rows;
     const sctx = sample.getContext('2d', { willReadFrequently: true });
     if (!ctx || !sctx) return;
     let raf = 0;
-    const draw = () => {
-      if (media.readyState >= 2) {
+    let lastDraw = -Infinity;
+    let lastMediaTime = -1;
+    const draw = (now: number) => {
+      if (!document.hidden && !media.paused && media.readyState >= 2 &&
+          now - lastDraw >= frameInterval && media.currentTime !== lastMediaTime) {
+        lastDraw = now;
+        lastMediaTime = media.currentTime;
         sctx.drawImage(media, 0, 0, cols, rows);
         const data = sctx.getImageData(0, 0, cols, rows).data;
         ctx.fillStyle = '#0d0a14';
@@ -188,10 +207,10 @@ export function WelcomeBoard({ name }: { name: string }) {
     playerRef.current?.destroy();
   }, []);
 
-  const start = () => setSongIndex(0);
-  const prev = () => setSongIndex(index => (index - 1 + songs.length) % songs.length);
-  const next = () => setSongIndex(index => (index + 1) % songs.length);
-  const stop = () => setSongIndex(-1);
+  const start = () => selectSong(0);
+  const prev = () => selectSong((songIndex - 1 + songs.length) % songs.length);
+  const next = () => selectSong((songIndex + 1) % songs.length);
+  const stop = () => selectSong(-1);
 
   return <div className={songIndex >= 0 ? 'welcome-board playing' : 'welcome-board'}>
     {lyric === undefined ? <PixelTitle name={name} /> : <LyricBoard text={lyric} />}
@@ -236,6 +255,7 @@ export function WelcomeBoard({ name }: { name: string }) {
       </div>
     )}
     <div ref={hostRef} className="egg-player" aria-hidden="true" />
-    <video ref={mediaRef} className="egg-video-src" playsInline preload="none" aria-hidden="true" />
+    <video ref={mediaRef} className="egg-video-src" playsInline preload="metadata" aria-hidden="true"
+      onEnded={() => selectSong(songIndex + 1 < songs.length ? songIndex + 1 : -1)} />
   </div>;
 }
