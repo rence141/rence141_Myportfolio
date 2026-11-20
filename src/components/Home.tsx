@@ -5,7 +5,7 @@ import { ParticlePortrait } from "./ParticlePortrait";
 import { GifParticles } from "./GifParticles";
 import { GitHubGraph } from "./GitHubGraph";
 import { CyberIntro } from "./CyberIntro";
-import { PixelTitle } from "./PixelTitle";
+import { WelcomeBoard } from "./WelcomeBoard";
 import "./home-retro.css";
 
 const services = [
@@ -51,7 +51,7 @@ export function Home({ splash }: { splash: boolean }) {
       <div className="retro" id="home">
         <header className="retro-masthead">
           <div className="retro-dateline"><span>{profile.location}</span><span>{new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span><span>Independent &middot; Full-Stack</span></div>
-          <PixelTitle name={profile.shortName} />
+          <WelcomeBoard name={profile.shortName} />
           <nav className="retro-nav" aria-label="Main navigation">
             <a href="#/portfolio#projects" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>Projects</a> <b>|</b>{" "}
             <a href="#/portfolio#services" onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>What I do</a> <b>|</b>{" "}

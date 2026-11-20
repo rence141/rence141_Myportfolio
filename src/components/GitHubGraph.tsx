@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { profile } from '../data/profile';
 import { GitHubActivity } from './GitHubActivity';
 
@@ -9,6 +9,8 @@ export function GitHubGraph() {
   return <section className="retro-github" aria-labelledby="github-title">
     <div className="retro-github-heading"><h2 id="github-title">GitHub activity</h2><a href={profile.socials.github} target="_blank" rel="noreferrer"><i className="fa-brands fa-github" aria-hidden="true" /> {username}</a></div>
     <p>My contribution history over the past year.</p>
+    <div className="retro-github-row">
+      <div className="retro-github-calendar">
     {!failed ? <div className="retro-github-scroll" tabIndex={0} role="region" aria-label="GitHub contribution calendar; scroll horizontally on small screens" aria-busy={!loaded}>
       {!loaded && <span className="retro-github-loading" role="status">Loading contribution graph...</span>}
       <a href={profile.socials.github} target="_blank" rel="noreferrer">
@@ -16,6 +18,8 @@ export function GitHubGraph() {
       </a>
     </div> : <p role="status">The contribution graph is unavailable. <a href={profile.socials.github} target="_blank" rel="noreferrer">View my activity on GitHub</a>.</p>}
     <small>Contribution calendar via <a href="https://ghchart.rshah.org/" target="_blank" rel="noreferrer">GitHub Chart</a>.</small>
+      </div>
     <GitHubActivity username={username} />
+    </div>
   </section>;
 }

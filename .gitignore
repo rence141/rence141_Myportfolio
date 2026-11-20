@@ -27,3 +27,5 @@ Thumbs.db
 # Other
 *.tmp
 *.temp 
+*.mp4
+/raw_media/
