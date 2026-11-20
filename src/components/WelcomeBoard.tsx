@@ -50,7 +50,9 @@ const songHeading = (song: { title: string; artist: string }) => (song.artist ? 
 // corner starts playing favourite songs with live pixel lyrics and pixelated
 // video, revealing pixel prev, stop, and next buttons.
 export function WelcomeBoard({ name }: { name: string }) {
+  const [nativeVideo] = useState(() => window.matchMedia('(max-width: 600px), (pointer: coarse)').matches);
   const [songIndex, setSongIndex] = useState(-1);
+  const [playbackError, setPlaybackError] = useState(false);
   const [lyric, setLyric] = useState<string | undefined>(undefined);
   const hostRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLVideoElement | null>(null);
@@ -62,6 +64,7 @@ export function WelcomeBoard({ name }: { name: string }) {
 
   // Call play inside the tap handler so mobile browsers retain user activation.
   const selectSong = (index: number) => {
+    setPlaybackError(false);
     const request = ++playbackRequest.current;
     const media = mediaRef.current;
     playerRef.current?.stopVideo();
@@ -69,8 +72,12 @@ export function WelcomeBoard({ name }: { name: string }) {
     if (media && songs[index]?.src) {
       media.src = songs[index].src!;
       void media.play().catch(() => {
-        if (playbackRequest.current === request) setSongIndex(-1);
+        if (playbackRequest.current === request) setPlaybackError(true);
       });
+    } else if (media) {
+      // Cancel pending downloads and release the decoder when playback stops.
+      media.removeAttribute('src');
+      media.load();
     }
     setSongIndex(index);
   };
@@ -144,7 +151,9 @@ export function WelcomeBoard({ name }: { name: string }) {
   useEffect(() => {
     if (songIndex < 0) return;
     const song = { ...songs[songIndex], lines: songs[songIndex].lines.length ? songs[songIndex].lines : (fetched[songIndex] ?? []) };
+    const lyricChunks = song.lines.map(line => chunkWide(line.text));
     const timer = window.setInterval(() => {
+      if (document.hidden) return;
       const media = mediaRef.current;
       const player = song.src ? null : playerRef.current;
       if (!song.src && !player) return;
@@ -155,7 +164,7 @@ export function WelcomeBoard({ name }: { name: string }) {
       if (current < 0) { setLyric(songHeading(song)); return; }
       const line = song.lines[current];
       const end = song.lines[current + 1]?.t ?? Math.max(line.t + 4, duration || line.t + 4);
-      const chunks = chunkWide(line.text);
+      const chunks = lyricChunks[current];
       const progress = Math.min(.999, Math.max(0, (time - line.t) / Math.max(.5, end - line.t)));
       setLyric(chunks[Math.floor(progress * chunks.length)] ?? '');
     }, 120);
@@ -167,21 +176,22 @@ export function WelcomeBoard({ name }: { name: string }) {
     const song = songIndex >= 0 ? songs[songIndex] : undefined;
     const canvas = canvasRef.current;
     const media = mediaRef.current;
-    if (!song?.src || !canvas || !media) return;
-    const compact = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
-    const cols = compact ? 64 : 128, rows = compact ? 36 : 72, cell = compact ? 12 : 6;
-    const frameInterval = 1000 / (compact ? 12 : 24);
+    if (nativeVideo || !song?.src || !canvas || !media) return;
+    const cols = 128, rows = 72, cell = 6;
+    const frameInterval = 1000 / 24;
     canvas.width = cols * cell; canvas.height = rows * cell;
     const ctx = canvas.getContext('2d');
     const sample = document.createElement('canvas'); sample.width = cols; sample.height = rows;
     const sctx = sample.getContext('2d', { willReadFrequently: true });
     if (!ctx || !sctx) return;
     let raf = 0;
+    let videoFrame = 0;
+    const decodedFrames = typeof media.requestVideoFrameCallback === 'function';
     let lastDraw = -Infinity;
     let lastMediaTime = -1;
     const draw = (now: number) => {
       if (!document.hidden && !media.paused && media.readyState >= 2 &&
-          now - lastDraw >= frameInterval && media.currentTime !== lastMediaTime) {
+          (decodedFrames || now - lastDraw >= frameInterval) && media.currentTime !== lastMediaTime) {
         lastDraw = now;
         lastMediaTime = media.currentTime;
         sctx.drawImage(media, 0, 0, cols, rows);
@@ -197,14 +207,31 @@ export function WelcomeBoard({ name }: { name: string }) {
           ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1);
         }
       }
-      raf = requestAnimationFrame(draw);
+      schedule();
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
-  }, [songIndex]);
-  useEffect(() => () => {
-    mediaRef.current?.pause();
-    playerRef.current?.destroy();
+    // Only process decoded frames; older browsers use the throttled RAF path.
+    const schedule = () => {
+      if (decodedFrames) {
+        videoFrame = media.requestVideoFrameCallback(draw);
+      } else {
+        raf = requestAnimationFrame(draw);
+      }
+    };
+    schedule();
+    return () => {
+      cancelAnimationFrame(raf);
+      if (videoFrame) media.cancelVideoFrameCallback(videoFrame);
+    };
+  }, [songIndex, nativeVideo]);
+  useEffect(() => {
+    const media = mediaRef.current;
+    return () => {
+      ++playbackRequest.current;
+      media?.pause();
+      media?.removeAttribute('src');
+      media?.load();
+      playerRef.current?.destroy();
+    };
   }, []);
 
   const start = () => selectSong(0);
@@ -220,9 +247,16 @@ export function WelcomeBoard({ name }: { name: string }) {
         <button id="egg-play-btn" type="button" className="egg-button" onClick={start} aria-label="Play song" title="Play song" />
       </div>
     )}
-    {songIndex >= 0 && (
-      <div className="song-stage">
-        {songs[songIndex].src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
+    <div className="song-stage" hidden={songIndex < 0}>
+        <video ref={mediaRef} className={nativeVideo ? 'song-video song-video-native' : 'egg-video-src'}
+          hidden={nativeVideo && !songs[songIndex]?.src}
+          playsInline preload="metadata" aria-label={nativeVideo ? 'Music video' : undefined}
+          aria-hidden={nativeVideo ? undefined : true}
+          onError={() => { if (songIndex >= 0) setPlaybackError(true); }}
+          onEnded={() => selectSong(songIndex + 1 < songs.length ? songIndex + 1 : -1)} />
+        {songIndex >= 0 && <>
+        {playbackError && <div role="status">Video could not start. <button type="button" className="egg-ctrl" onClick={() => selectSong(songIndex)}>Retry</button></div>}
+        {!nativeVideo && songs[songIndex].src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
         <div className="song-bar">
           <span className="song-meta">
             <span className="song-meta-title">♪ {songs[songIndex].title}</span>
@@ -252,10 +286,8 @@ export function WelcomeBoard({ name }: { name: string }) {
             </button>
           </div>
         </div>
-      </div>
-    )}
+        </>}
+    </div>
     <div ref={hostRef} className="egg-player" aria-hidden="true" />
-    <video ref={mediaRef} className="egg-video-src" playsInline preload="metadata" aria-hidden="true"
-      onEnded={() => selectSong(songIndex + 1 < songs.length ? songIndex + 1 : -1)} />
   </div>;
 }

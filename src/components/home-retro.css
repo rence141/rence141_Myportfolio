@@ -276,6 +276,8 @@ to{transform:translate(0)}
 
 
 .song-video{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(180px,46vh,380px);margin:0 auto;background:#0d0a14;image-rendering:pixelated}
+.song-stage[hidden],.song-video[hidden]{display:none}
+.song-video-native{image-rendering:auto;object-fit:contain}
 
 
 .lyric-board{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(54px,12vh,100px);margin:0 auto;image-rendering:pixelated}

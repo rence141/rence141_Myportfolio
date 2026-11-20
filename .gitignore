@@ -28,4 +28,8 @@ Thumbs.db
 *.tmp
 *.temp 
 *.mp4
+!public/ims/song1.mp4
+!public/ims/song2.mp4
+!public/ims/song3.mp4
+!public/ims/song4-by-n-buna.mp4
 /raw_media/

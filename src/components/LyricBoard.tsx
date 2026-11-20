@@ -67,6 +67,7 @@ export function LyricBoard({ text }: { text: string }) {
     canvas.width = COLS * CELL; canvas.height = ROWS * CELL;
     let tick = 0;
     const draw = () => {
+      if (document.hidden) return;
       tick++;
       ctx.fillStyle = '#100d18';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -78,7 +79,8 @@ export function LyricBoard({ text }: { text: string }) {
         ctx.fillRect(x * CELL + .5, y * CELL + .5, CELL - 1, CELL - 1);
       }
     };
-    const timer = window.setInterval(draw, 90);
+    const compact = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
+    const timer = window.setInterval(draw, compact ? 250 : 90);
     draw();
     return () => window.clearInterval(timer);
   }, []);
