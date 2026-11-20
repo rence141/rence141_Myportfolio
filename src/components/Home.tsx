@@ -3,59 +3,22 @@ import { profile } from "../data/profile";
 import { projects } from "../data/projects";
 import { ParticlePortrait } from "./ParticlePortrait";
 import { GifParticles } from "./GifParticles";
+import { CyberIntro } from "./CyberIntro";
 import "./home-retro.css";
 
 const introText = "Turning ideas into systems.";
-const fonts = ["Space Grotesk", "Playfair Display", "VT323", "Permanent Marker", "Arial Black", "Courier New"];
 const services = [
   ["Business websites & online stores", "A clear, mobile-friendly site that explains what you offer and makes the next step easy."],
   ["Dashboards & internal tools", "Orders, records and everyday tasks in one practical workspace instead of a pile of spreadsheets."],
   ["Automation & integrations", "Connect your tools and let routine steps, notifications and community tasks run themselves."],
 ];
 
-function Splash({ onDone }: { onDone: () => void }) {
-  const [typed, setTyped] = useState("");
-  const [phase, setPhase] = useState<"typing" | "wipe" | "settled">("typing");
-  const [font, setFont] = useState(fonts[0]);
-  const [leaving, setLeaving] = useState(false);
-
-  useEffect(() => {
-    if (typed.length < introText.length) {
-      const timer = window.setTimeout(() => setTyped(introText.slice(0, typed.length + 1)), 90);
-      return () => window.clearTimeout(timer);
-    }
-    const wipe = window.setTimeout(() => setPhase("wipe"), 700);
-    const settled = window.setTimeout(() => setPhase("settled"), 2400);
-    const leave = window.setTimeout(() => setLeaving(true), 4600);
-    const done = window.setTimeout(onDone, 5200);
-    return () => [wipe, settled, leave, done].forEach(window.clearTimeout);
-  }, [typed, onDone]);
-
-  useEffect(() => {
-    if (phase !== "settled") return;
-    const timer = window.setInterval(() => setFont(fonts[Math.floor(Math.random() * fonts.length)]), 350);
-    return () => window.clearInterval(timer);
-  }, [phase]);
-
-  return (
-    <div className={`retro-splash${leaving ? " leaving" : ""}`}>
-      <main className="intro-screen">
-        <button className="intro-skip" type="button" onClick={onDone}>Skip intro <i className="fa-solid fa-forward" aria-hidden="true" /></button>
-        <div className={`intro-panel ${phase}`}>
-          <div className="intro-cycler" style={{ fontFamily: font }}>{introText}</div>
-        </div>
-        {phase !== "settled" && <div className="intro-type" aria-label={introText}>{typed}<span /></div>}
-      </main>
-    </div>
-  );
-}
-
 export function Home({ splash }: { splash: boolean }) {
-  const [showSplash, setShowSplash] = useState(() => splash && !sessionStorage.getItem("introSeen"));
+  const [showSplash, setShowSplash] = useState(splash);
+  useEffect(() => { setShowSplash(splash); }, [splash]);
   const [notice, setNotice] = useState("");
 
   function finishSplash() {
-    sessionStorage.setItem("introSeen", "1");
     setShowSplash(false);
   }
 
@@ -69,8 +32,8 @@ export function Home({ splash }: { splash: boolean }) {
 
   return (
     <>
-      {showSplash && <Splash onDone={finishSplash} />}
-      <div className="retro" id="home">
+      {showSplash && <CyberIntro onDone={finishSplash} />}
+      <div className="retro" id="home" inert={showSplash}>
         <header className="retro-masthead">
           <div className="retro-dateline"><span>{profile.location}</span><span>{new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span><span>Independent &middot; Full-Stack</span></div>
           <h1>The {profile.shortName} Portfolio</h1>
@@ -149,7 +112,7 @@ export function Home({ splash }: { splash: boolean }) {
 
         <hr />
         <footer>
-          <small>&copy; {new Date().getFullYear()} Lorenze Prepotente &mdash; Thoughtful code. Practical solutions. <a href="#/portfolio#home">Back to top</a></small>
+          <small>&copy; {new Date().getFullYear()} Lorenze Prepotente &mdash; Thoughtful code. Practical solutions. <a href="#/portfolio#home">Back to top</a> <button className="retro-replay" type="button" onClick={() => { window.scrollTo(0,0); setShowSplash(true); }}>Replay intro</button></small>
         </footer>
       </div>
     </>
