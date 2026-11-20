@@ -236,7 +236,6 @@ body, .business-site, .project-detail, .intro-wow .intro-card {
   font-family: var(--font-reading);
 }
 .business-site h1, .business-site h2, .business-site h3,
-.project-hero h1, .project-main h2, .project-sidebar h3,
 .intro-wow .intro-card h1, .intro-wow .intro-type {
   font-family: var(--font-display);
   font-weight: 400;
@@ -266,9 +265,6 @@ body, .business-site, .project-detail, .intro-wow .intro-card {
 .b-contact input, .b-contact select, .b-contact textarea { font-family: var(--font-reading); font-size: 16px; }
 .intro-wow .intro-card .pill { font-size: 14px; letter-spacing: .025em; }
 .w-note { font-size: 13px; font-weight: 700; line-height: 1.5; text-transform: uppercase; }
-.project-hero h1 { font-size: clamp(42px, 6vw, 78px); }
-.project-main h2 { font-size: 38px; }
-.project-sidebar h3 { font-size: 29px; }
 .b-project-index { font-family: var(--font-display); font-size: 44px; }
 @media(max-width:650px) {
   .business-site h1 { font-size: clamp(42px, 11vw, 62px); }

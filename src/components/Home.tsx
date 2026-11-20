@@ -133,14 +133,18 @@ export function Home({ splash }: { splash: boolean }) {
         <section id="contact">
           <h2>Contact</h2>
           <p>Tell me about your business and what you have in mind. No technical brief needed.</p>
-          <p>Email: <a href={`mailto:${profile.email}`}>{profile.email}</a><br />Phone: <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a></p>
+          <p className="retro-contact-channels">
+            Email: <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            <br />
+            Phone: <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
+          </p>
           <form className="retro-form" onSubmit={sendMessage}>
             <label>Your name<br /><input name="name" autoComplete="name" required /></label>
             <label>Email address<br /><input name="email" type="email" autoComplete="email" required /></label>
             <label>Your message<br /><textarea name="message" rows={5} maxLength={3000} required /></label>
             <button type="submit">Send message</button>
           </form>
-          {notice && <p role="status">{notice}</p>}
+          {notice && <p role="status" className="retro-status-notice">{notice}</p>}
         </section>
 
         <hr />

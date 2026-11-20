@@ -178,44 +178,44 @@ export const projects: Project[] = [
     },
     {
       "src": "/wcc-mobile-intro.jpg",
-      "title": "intro",
-      "caption": "West Coast College student mobile app.",
+      "title": "Welcome Screen",
+      "caption": "Student mobile authentication and onboarding gateway.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-homescreen.jpg",
-      "title": "homescreen",
-      "caption": "West Coast College student mobile app.",
+      "title": "Dashboard Homescreen",
+      "caption": "Real-time overview of current units, quick links, and active term.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-schedule.jpg",
-      "title": "schedule",
-      "caption": "West Coast College student mobile app.",
+      "title": "Class Schedule",
+      "caption": "Weekly class timetable with room assignments and professor details.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-grades-current.jpg",
-      "title": "grades current",
-      "caption": "West Coast College student mobile app.",
+      "title": "Current Term Grades",
+      "caption": "Midterm and final grade submissions with GPA calculations.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-grades-history.jpg",
-      "title": "grades history",
-      "caption": "West Coast College student mobile app.",
+      "title": "Academic History",
+      "caption": "Cumulative transcript across semesters and completed prerequisites.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-announcement.jpg",
-      "title": "announcement",
-      "caption": "West Coast College student mobile app.",
+      "title": "Campus Announcements",
+      "caption": "Registrar notices, enrollment deadlines, and institutional news.",
       "badge": "Mobile"
     },
     {
       "src": "/wcc-mobile-profile.jpg",
-      "title": "profile",
-      "caption": "West Coast College student mobile app.",
+      "title": "Student Profile",
+      "caption": "Personal information, student ID, and enrolled curriculum status.",
       "badge": "Mobile"
     }
   ]
