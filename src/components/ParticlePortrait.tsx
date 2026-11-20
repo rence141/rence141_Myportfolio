@@ -7,6 +7,12 @@ export function ParticlePortrait({ src, alt, active, reducedMotion }: { src: str
   const pointer = useRef({ x: 0, y: 0, inside: false });
   const scatterTime = useRef(-10000);
   const [ready, setReady] = useState(false);
+  const [lightTheme, setLightTheme] = useState(() => document.documentElement.dataset.theme === 'light');
+  useEffect(() => {
+    const observer = new MutationObserver(() => setLightTheme(document.documentElement.dataset.theme === 'light'));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
   const [paused, setPaused] = useState(false);
   const [enabledByUser, setEnabledByUser] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -109,6 +115,9 @@ export function ParticlePortrait({ src, alt, active, reducedMotion }: { src: str
           if (light < .27) { const s = Math.round(8 + light * 60); tone = [s, s - 2, s + 8]; }
           else if (isSkin) { const s = Math.round(170 + 85 * Math.min(1, light * 1.1)); tone = [s, s, s]; }
           else { const s = .72 + .28 * light; tone = [Math.round(122 * s), Math.round(84 * s), Math.round(210 * s)]; }
+          if (lightTheme && light >= .27) {
+            tone = isSkin ? [72, 36, 108] : [Math.round(128 * (.8 + .2 * light)), Math.round(88 * (.8 + .2 * light)), Math.round(178 * (.8 + .2 * light))];
+          }
           particles.push({ x: nx, y: ny, z: (1 - Math.min(1, Math.hypot(nx / 120, ny / 130))) * 38 + light * 8, color: `rgb(${tone[0]},${tone[1]},${tone[2]})`, phase: Math.random() * 6.28, spreadX: (Math.random() - .5) * 450, spreadY: (Math.random() - .5) * 450 });
         }
         setFailed(false);
@@ -121,7 +130,7 @@ export function ParticlePortrait({ src, alt, active, reducedMotion }: { src: str
     };
     img.src = src;
     return () => { disposed = true; restartRef.current = () => {}; cancelAnimationFrame(frame); observer?.disconnect(); document.removeEventListener('visibilitychange', restart); };
-  }, [src, active, staticMode, paused]);
+  }, [src, active, staticMode, paused, lightTheme]);
   const animated = ready && !staticMode;
   void scatter; void animated;
   return <div className="particle-portrait">

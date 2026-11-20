@@ -104,7 +104,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             <h3>Project Inquiries</h3>
             <p>Interested in a similar system or technical consulting?</p>
             <p>
-              [ <a href="#/portfolio#contact">Send a project inquiry &rarr;</a> ]
+              [ <a href="#/portfolio#contact">Send a project inquiry <i className="fa-regular fa-envelope" aria-hidden="true" /></a> ]
             </p>
           </div>
         </div>

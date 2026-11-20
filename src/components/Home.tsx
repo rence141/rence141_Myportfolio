@@ -3,10 +3,11 @@ import { profile } from "../data/profile";
 import { projects } from "../data/projects";
 import { ParticlePortrait } from "./ParticlePortrait";
 import { GifParticles } from "./GifParticles";
+import { GitHubGraph } from "./GitHubGraph";
 import { CyberIntro } from "./CyberIntro";
+import { PixelTitle } from "./PixelTitle";
 import "./home-retro.css";
 
-const introText = "Turning ideas into systems.";
 const services = [
   ["Business websites & online stores", "A clear, mobile-friendly site that explains what you offer and makes the next step easy."],
   ["Dashboards & internal tools", "Orders, records and everyday tasks in one practical workspace instead of a pile of spreadsheets."],
@@ -16,7 +17,21 @@ const services = [
 export function Home({ splash }: { splash: boolean }) {
   const [showSplash, setShowSplash] = useState(splash);
   useEffect(() => { setShowSplash(splash); }, [splash]);
+  useEffect(() => {
+    if (!showSplash) return;
+    // Always release the page, even if canvas rendering fails or stops.
+    const timeout = window.setTimeout(() => setShowSplash(false), 3600);
+    const skip = (event: KeyboardEvent) => { if (event.key === 'Escape') setShowSplash(false); };
+    window.addEventListener('keydown', skip);
+    return () => { window.clearTimeout(timeout); window.removeEventListener('keydown', skip); };
+  }, [showSplash]);
   const [notice, setNotice] = useState("");
+
+  useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(""), 6000);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
 
   function finishSplash() {
     setShowSplash(false);
@@ -33,11 +48,10 @@ export function Home({ splash }: { splash: boolean }) {
   return (
     <>
       {showSplash && <CyberIntro onDone={finishSplash} />}
-      <div className="retro" id="home" inert={showSplash}>
+      <div className="retro" id="home">
         <header className="retro-masthead">
           <div className="retro-dateline"><span>{profile.location}</span><span>{new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span><span>Independent &middot; Full-Stack</span></div>
-          <h1>The {profile.shortName} Portfolio</h1>
-          <p className="retro-motto">&ldquo;{introText}&rdquo;</p>
+          <PixelTitle name={profile.shortName} />
           <nav className="retro-nav" aria-label="Main navigation">
             <a href="#/portfolio#projects" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>Projects</a> <b>|</b>{" "}
             <a href="#/portfolio#services" onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>What I do</a> <b>|</b>{" "}
@@ -91,6 +105,7 @@ export function Home({ splash }: { splash: boolean }) {
           </p>
         </div><GifParticles src="/ims/gif-1.gif" />
         </section>
+        <GitHubGraph />
 
         <hr />
         <section id="contact">
@@ -107,7 +122,7 @@ export function Home({ splash }: { splash: boolean }) {
             <label>Your message<br /><textarea name="message" rows={5} maxLength={3000} required /></label>
             <button type="submit">Send message</button>
           </form>
-          {notice && <p role="status" className="retro-status-notice">{notice}</p>}
+          {notice && <p role="status" className="retro-toast">{notice}</p>}
         </section>
 
         <hr />

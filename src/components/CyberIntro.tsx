@@ -8,12 +8,12 @@ export function CyberIntro({ onDone }: { onDone: () => void }) {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { doneRef.current(); return; }
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
-    if (!canvas || !context) return;
+    if (!canvas || !context) { doneRef.current(); return; }
     let raf = 0, disposed = false;
     let width = 0, height = 0;
     const artwork = document.createElement('canvas');
     const art = artwork.getContext('2d');
-    if (!art) return;
+    if (!art) { doneRef.current(); return; }
     function resize() {
       if (!canvas || !context || !art) return;
       const dpr = Math.min(devicePixelRatio || 1, 1.5);
@@ -21,23 +21,30 @@ export function CyberIntro({ onDone }: { onDone: () => void }) {
       canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
       artwork.width = canvas.width; artwork.height = canvas.height;
       art.setTransform(dpr, 0, 0, dpr, 0, 0);
-      art.fillStyle = '#111019'; art.fillRect(0, 0, width, height);
-      art.strokeStyle = '#b8a0ff09'; art.lineWidth = 1;
+      const colors = getComputedStyle(document.documentElement);
+      const bg = colors.getPropertyValue('--site-bg').trim() || '#111019';
+      const accent = colors.getPropertyValue('--site-accent').trim() || '#b8a0ff';
+      const text = colors.getPropertyValue('--site-text').trim() || '#eeedf6';
+      const muted = colors.getPropertyValue('--site-muted').trim() || '#b1a8bf';
+      art.fillStyle = bg; art.fillRect(0, 0, width, height);
+      art.strokeStyle = accent + '12'; art.lineWidth = 1;
       for(let x=0;x<width;x+=32) { art.beginPath();art.moveTo(x,0);art.lineTo(x,height);art.stroke(); }
       for(let y=0;y<height;y+=32) { art.beginPath();art.moveTo(0,y);art.lineTo(width,y);art.stroke(); }
       art.textAlign = 'center';art.textBaseline = 'middle';
-      art.font = '12px "Courier New", monospace'; art.fillStyle = '#b8a0ff';
+      art.font = '12px "Courier New", monospace'; art.fillStyle = accent;
       art.fillText('RENCE / PORTFOLIO', width/2,height/2-100);
       const fontSize = Math.max(36,Math.min(112,width*.105));
-      art.font = `${fontSize}px "VT323", monospace`;art.fillStyle = '#eeedf6';
+      art.font = `${fontSize}px "VT323", monospace`;art.fillStyle = text;
       art.fillText('TURNING IDEAS',width/2,height/2-28,width-44);
-      art.fillStyle = '#b8a0ff';art.fillText('INTO SYSTEMS_',width/2,height/2+fontSize*.65,width-44);
-      art.font = '11px "Courier New", monospace';art.fillStyle = '#b1a8bf';
+      art.fillStyle = accent;art.fillText('INTO SYSTEMS_',width/2,height/2+fontSize*.65,width-44);
+      art.font = '11px "Courier New", monospace';art.fillStyle = muted;
       art.fillText('LORENZE PREPOTENTE / FULL-STACK DEVELOPER',width/2,height/2+fontSize*.65+64,width-48);
       art.fillStyle='#11101918';for(let y=0;y<height;y+=4)art.fillRect(0,y,width,1);
     }
     resize();
     window.addEventListener('resize',resize);
+    const themeObserver = new MutationObserver(resize);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     void document.fonts.load('80px "VT323"').then(() => { if(!disposed) resize(); });
     const started = performance.now();
     const draw = (now: number) => {
@@ -62,11 +69,11 @@ export function CyberIntro({ onDone }: { onDone: () => void }) {
       raf=requestAnimationFrame(draw);
     };
     raf=requestAnimationFrame(draw);
-    return () => { disposed=true;cancelAnimationFrame(raf);window.removeEventListener('resize',resize); };
+    return () => { disposed=true;cancelAnimationFrame(raf);window.removeEventListener('resize',resize);themeObserver.disconnect(); };
   }, []);
-  return <div className="cyber-intro" role="dialog" aria-modal="true" aria-label="Rence portfolio introduction" onKeyDown={event => { if(event.key==='Escape')doneRef.current(); }}>
+  return <div className="cyber-intro" role="region" aria-label="Rence portfolio introduction">
     <canvas ref={canvasRef} aria-hidden="true" />
+    <button className="intro-skip" type="button" onClick={() => doneRef.current()}>Skip intro</button>
     <p className="cyber-intro-label">Turning ideas into systems.</p>
-    <button autoFocus type="button" onClick={onDone}>Skip intro <i className="fa-solid fa-forward" aria-hidden="true" /></button>
   </div>;
 }

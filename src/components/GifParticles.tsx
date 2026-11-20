@@ -47,13 +47,16 @@ export function GifParticles({ src }: { src: string }) {
             sampler.drawImage(composite,(240-composite.width*scale)/2,(240-composite.height*scale)/2,composite.width*scale,composite.height*scale);
             const pixels = sampler.getImageData(0,0,240,240).data;
             ctx.clearRect(0,0,280,280);
+            const palette = getComputedStyle(canvas!);
+            const accent = palette.getPropertyValue('--particle-accent').trim() || '184,160,255';
+            const highlight = palette.getPropertyValue('--particle-highlight').trim() || '238,237,246';
             for(let y=0;y<240;y+=3) for(let x=0;x<240;x+=3) {
               const p=(y*240+x)*4;
               if(pixels[p+3]<32) continue;
               const light=(pixels[p]*.3+pixels[p+1]*.59+pixels[p+2]*.11)/255;
               if(light<.08) continue;
               const brightness=.45+light*.55;
-              ctx.fillStyle=light>.8 ? `rgba(238,237,246,${brightness})` : `rgba(184,160,255,${brightness})`;
+              ctx.fillStyle=light>.8 ? `rgba(${highlight},${brightness})` : `rgba(${accent},${brightness})`;
               ctx.fillRect(20 + x, 20 + y, 1.9, 1.9);
             }
             previous=frame; index=(index+1)%frames.length; last=now;

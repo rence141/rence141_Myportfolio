@@ -33,6 +33,5 @@ export default function App() {
     }
   }, [path, anchor]);
 
-  if (projectMatch) return <ProjectDetail key={projectMatch[1]} slug={projectMatch[1]} />;
-  return <Home splash={path === "/"} />;
+  return <>{projectMatch ? <ProjectDetail key={projectMatch[1]} slug={projectMatch[1]} /> : <Home splash={path === "/"} />}</>;
 }

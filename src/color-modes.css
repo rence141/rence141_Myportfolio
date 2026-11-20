@@ -1,0 +1,36 @@
+﻿/* Theme tokens override the legacy dark-only declarations. */
+:root, :root[data-theme="dark"] {
+  color-scheme: dark;
+  --site-bg: #111019; --site-surface: #191620; --site-raised: #282131;
+  --site-accent: #b8a0ff; --site-accent-hover: #cdbbff;
+  --site-text: #eeedf6; --site-muted: #b1a8bf; --site-border: #756582;
+  --site-accent-ink: #1b1328; --site-visited: #c2a8ee;
+  --particle-accent: 184,160,255; --particle-highlight: 238,237,246;
+}
+body, .retro { background: var(--site-bg); color: var(--site-text); }
+.retro h1, .retro h2, .retro h3, .gallery-card-info strong { color: var(--site-text); }
+.retro a, .retro a:link { color: var(--site-accent); }
+.retro a:visited { color: var(--site-visited); }
+.retro a:hover { color: var(--site-accent-hover); }
+.retro-projects p { color: var(--site-muted); }
+.retro-form input, .retro-form textarea, .gallery-card, .gallery-dialog header, .gallery-dialog footer { background: var(--site-surface); color: var(--site-text); }
+.retro-form input::placeholder, .retro-form textarea::placeholder { color: var(--site-muted); opacity: 1; }
+.retro-form button, .retro-toast { background: var(--site-accent); color: var(--site-accent-ink); border-color: var(--site-accent-hover); }
+.gallery-dialog, .gallery-dialog header button, .gallery-dialog footer button { color: var(--site-text); background: var(--site-bg); }
+.gallery-dialog footer button { background: var(--site-raised); }
+.gallery-img-wrap, .gallery-badge { background: var(--site-surface); }
+.gallery-img-wrap { border-color: var(--site-border); }
+.gallery-dialog-img-container { background: var(--site-surface); }
+.gallery-more-btn { color: var(--site-accent); background: var(--site-surface); border-color: var(--site-border); }
+.retro-github-scroll { background: var(--site-bg); }
+.retro-github-loading { color: var(--site-muted); }
+
+/* Shared dark palette across project details and media. */
+.retro-inquiry-box, .retro-metrics-box { background: var(--site-surface); color: var(--site-text); border-color: var(--site-border); }
+.retro-specs-table td, .retro-inquiry-box h3, .retro-metrics-box h3 { color: var(--site-text); }
+.retro-inquiry-box p, .retro-metrics-box li { color: var(--site-muted); }
+.retro-inquiry-box a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--site-accent); font-weight: 700; }
+.retro-inquiry-box a:hover, .retro-top-bar a:hover { color: var(--site-accent-hover); }
+.retro-lead p, .retro-lead li, .retro-text-cols p { hyphens: none; overflow-wrap: break-word; }
+/* GitHub Chart supplies a light SVG; invert its neutrals while retaining purple cells. */
+.retro-github-scroll img { filter: invert(.93) hue-rotate(180deg) saturate(1.2); }
