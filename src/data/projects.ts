@@ -16,6 +16,211 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+  "slug": "wcc-student-record-system",
+  "title": "West Coast College - Student Record System",
+  "subtitle": "Registrar web portal and student mobile application",
+  "summary": "A student record system spanning a college website, registrar workflows, and a mobile portal for student schedules, grades, announcements, and profiles.",
+  "icon": "fa-solid fa-graduation-cap",
+  "tags": [
+    "Student Records",
+    "Registrar Portal",
+    "Mobile App"
+  ],
+  "heroImage": "/Program_Overview.png",
+  "category": "Education / Web & Mobile",
+  "details": {
+    "Project": "West Coast College",
+    "Scope": "Website, registrar portal, student mobile app",
+    "Presentation": "Web and mobile screenshots"
+  },
+  "features": [
+    {
+      "title": "Registrar workflows",
+      "body": "Applicants, re-enrollment, curriculum setup, block assignment, and faculty load screens.",
+      "icon": "fa-address-book"
+    },
+    {
+      "title": "Academic administration",
+      "body": "Grade submissions, evaluation, registration documents, reports, and school year management screens.",
+      "icon": "fa-file-lines"
+    },
+    {
+      "title": "Student mobile portal",
+      "body": "Schedules, current grades, grade history, announcements, and student profile views.",
+      "icon": "fa-mobile-screen"
+    },
+    {
+      "title": "College website",
+      "body": "Public-facing website introducing West Coast College and its programs.",
+      "icon": "fa-school"
+    }
+  ],
+  "gallery": [
+    {
+      "src": "/Program_Overview.png",
+      "title": "College Website",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Applicants.png",
+      "title": "Applicants",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Re_Enrollment.png",
+      "title": "Re Enrollment",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Course_Catalog.png",
+      "title": "Course Catalog",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Curriculums.png",
+      "title": "Curriculums",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Create_Curriculum.png",
+      "title": "Create Curriculum",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Add_Block.png",
+      "title": "Add Block",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Assign_Block.png",
+      "title": "Assign Block",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Professor_Loads.png",
+      "title": "Professor Loads",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Grade_Submissions.png",
+      "title": "Grade Submissions",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Evaluation_Management.png",
+      "title": "Evaluation Management",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/COR_Generation.png",
+      "title": "COR Generation",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Documents.png",
+      "title": "Documents",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Announcements.png",
+      "title": "Announcements",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Reports.png",
+      "title": "Reports",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Close_School_Year.png",
+      "title": "Close School Year",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Student_Management.png",
+      "title": "Registrar Profile",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Settings.png",
+      "title": "Settings",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/Profile.png",
+      "title": "Profile",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/West_Coast_College_Homepage.png",
+      "title": "Registrar Announcements",
+      "caption": "West Coast College web portal screenshot.",
+      "badge": "Web"
+    },
+    {
+      "src": "/wcc-mobile-intro.jpg",
+      "title": "intro",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-homescreen.jpg",
+      "title": "homescreen",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-schedule.jpg",
+      "title": "schedule",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-grades-current.jpg",
+      "title": "grades current",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-grades-history.jpg",
+      "title": "grades history",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-announcement.jpg",
+      "title": "announcement",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    },
+    {
+      "src": "/wcc-mobile-profile.jpg",
+      "title": "profile",
+      "caption": "West Coast College student mobile app.",
+      "badge": "Mobile"
+    }
+  ]
+},
+  {
     slug: "meta-shark-ecommerce",
     title: "META SHARK E-Commerce",
     subtitle: "Multi-role marketplace for buyers, sellers, and administrators",

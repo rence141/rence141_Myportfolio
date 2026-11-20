@@ -1,0 +1,5 @@
+/* Intro: original typing -> slide -> card flow, with a simple staggered fade-in. */
+.intro-wow .wow-reveal { opacity: 0; transform: translateY(14px); }
+.intro-wow .intro-card.active .wow-reveal { animation: wowReveal .6s ease both; animation-delay: calc(var(--i) * 80ms + 300ms); }
+@keyframes wowReveal { to { opacity: 1; transform: none; } }
+.intro-wow .wow-status { margin: 12px 0 18px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--site-accent); }

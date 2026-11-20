@@ -88,8 +88,8 @@ textarea {
   opacity: 0;
   mix-blend-mode: overlay;
   padding: 20px;
-  max-width: 46vw;
-  transform: translateX(18vw);
+  max-width: 40vw;
+  overflow-wrap: anywhere;
 }
 
 .intro-panel.settled .intro-cycler {

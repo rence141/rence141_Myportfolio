@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { projects } from "../data/projects";
+import { ProjectGallery } from "./ProjectGallery";
+import "./home-retro.css";
 
 type ProjectDetailProps = {
   slug: string;
@@ -7,13 +9,14 @@ type ProjectDetailProps = {
 
 export function ProjectDetail({ slug }: ProjectDetailProps) {
   const project = useMemo(() => projects.find((item) => item.slug === slug), [slug]);
-  const [modalImage, setModalImage] = useState<string | null>(null);
 
   if (!project) {
     return (
       <main className="project-detail">
         <nav className="project-nav">
-          <a href="#/portfolio">Back to Portfolio</a>
+          <a href="#/portfolio#projects" className="project-back-link">
+            <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Back to Portfolio
+          </a>
         </nav>
         <section className="project-hero">
           <h1>Project not found</h1>
@@ -27,10 +30,10 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
   return (
     <main className="project-detail">
       <nav className="project-nav">
-        <a href="#/portfolio">
-          <i className="fa-solid fa-arrow-left" /> Back to Portfolio
+        <a href="#/portfolio#projects" className="project-back-link">
+          <i className="fa-solid fa-arrow-left" aria-hidden="true" /> Back to Portfolio
         </a>
-        <span>{project.tags[0]}</span>
+        <span className="project-tag-pill">{project.tags[0]}</span>
       </nav>
 
       <header className="project-hero">
@@ -68,21 +71,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             ))}
           </div>
 
-          {project.gallery && (
-            <>
-              <h2>Gallery</h2>
-              <div className="gallery-grid">
-                {project.gallery.map((item) => (
-                  <button key={item.src + item.title} className="gallery-card" onClick={() => setModalImage(item.src)}>
-                    <img src={item.src} alt={item.title} loading="lazy" />
-                    {item.badge && <span>{item.badge}</span>}
-                    <strong>{item.title}</strong>
-                    <small>{item.caption}</small>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
+          {project.gallery && <ProjectGallery images={project.gallery} isCollege={project.slug === "wcc-student-record-system"} />}
 
           {project.impact && (
             <>
@@ -98,7 +87,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
         </article>
 
         <aside className="project-sidebar">
-          <h3>Project Details</h3>
+          <h3>Project Details</h3><a className="project-contact-link" href="#/portfolio#contact"><i className="fa-regular fa-comment-dots" aria-hidden="true" /> Discuss a similar project</a>
           {Object.entries(project.details).map(([key, value]) => (
             <div key={key}>
               <small>{key}</small>
@@ -113,11 +102,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
         </aside>
       </section>
 
-      {modalImage && (
-        <button className="image-modal" onClick={() => setModalImage(null)} aria-label="Close image preview">
-          <img src={modalImage} alt="Expanded project screenshot" />
-        </button>
-      )}
+
     </main>
   );
 }
