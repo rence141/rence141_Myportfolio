@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
+import type { AudioEnergy } from './audioClimax';
 
 const COLS = 160;
 const ROWS = 20;
@@ -29,9 +30,10 @@ export function chunkWide(text: string, maxEm = LYRIC_MAX_EM): string[] {
 }
 
 // Pixel-grid lyric display: text is rasterised onto a small grid, then drawn as lit cells.
-export function LyricBoard({ text }: { text: string }) {
+export function LyricBoard({ text, energyRef }: { text: string; energyRef?: RefObject<AudioEnergy> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<Uint8Array>(new Uint8Array(COLS * ROWS));
+  const haloRef = useRef<Uint8Array>(new Uint8Array(COLS * ROWS));
 
   useEffect(() => {
     let cancelled = false;
@@ -39,6 +41,7 @@ export function LyricBoard({ text }: { text: string }) {
     sample.width = COLS; sample.height = ROWS;
     const ctx = sample.getContext('2d', { willReadFrequently: true });
     const mask = new Uint8Array(COLS * ROWS);
+    const halo = new Uint8Array(COLS * ROWS);
     const render = () => {
       if (cancelled || !ctx) return;
       ctx.clearRect(0, 0, COLS, ROWS);
@@ -52,7 +55,17 @@ export function LyricBoard({ text }: { text: string }) {
       const data = ctx.getImageData(0, 0, COLS, ROWS).data;
       const cutoff = small ? 90 : 110;
       for (let i = 0; i < mask.length; i++) mask[i] = data[i * 4 + 3] > cutoff ? 1 : 0;
+      halo.fill(0);
+      for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+        const i = y * COLS + x;
+        if (mask[i]) continue;
+        if ((x > 0 && mask[i - 1]) || (x < COLS - 1 && mask[i + 1]) ||
+            (y > 0 && mask[i - COLS]) || (y < ROWS - 1 && mask[i + COLS])) {
+          halo[i] = 1;
+        }
+      }
       maskRef.current = mask;
+      haloRef.current = halo;
     };
     render();
     // Re-rasterise once the pixel font finishes loading.
@@ -65,25 +78,58 @@ export function LyricBoard({ text }: { text: string }) {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
     canvas.width = COLS * CELL; canvas.height = ROWS * CELL;
+    const compact = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let tick = 0;
-    const draw = () => {
+    let lastDraw = -Infinity;
+    let raf = 0;
+    const draw = (now: number) => {
+      raf = requestAnimationFrame(draw);
       if (document.hidden) return;
+      const energy = energyRef?.current;
+      const climax = energy?.climax ?? 0;
+      const beat = reducedMotion ? 0 : (energy?.beat ?? 0);
+      const interval = compact ? 240 : climax > 0.5 ? 70 : 90;
+      if (now - lastDraw < interval) return;
+      lastDraw = now;
       tick++;
+
       ctx.fillStyle = '#100d18';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       const mask = maskRef.current;
+      const halo = haloRef.current;
+      const sparkleLimit = 4 + Math.round(climax * 18);
+      const brightSparkleLimit = Math.round(Math.max(0, climax - 0.55) * 6);
+      const showHalo = climax > 0.6;
+      const litColor = climax > 0.72 && beat > 0.55
+        ? '#e2d7ff'
+        : climax > 0.55
+          ? '#cbb8ff'
+          : '#b8a0ff';
+
       for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
         const index = y * COLS + x;
-        const sparkle = ((index * 2654435761 + tick * 40503) >>> 0) % 997 < 4;
-        ctx.fillStyle = mask[index] ? '#b8a0ff' : sparkle ? '#4a3a6b' : '#282033';
+        if (mask[index]) {
+          ctx.fillStyle = litColor;
+        } else if (showHalo && halo[index]) {
+          ctx.fillStyle = '#402f63';
+        } else {
+          const hash = ((index * 2654435761 + tick * 40503) >>> 0) % 997;
+          if (brightSparkleLimit > 0 && hash < brightSparkleLimit) {
+            ctx.fillStyle = '#8b6fd6';
+          } else if (hash < sparkleLimit) {
+            ctx.fillStyle = climax > 0.5 ? '#5c468c' : '#4a3a6b';
+          } else {
+            ctx.fillStyle = '#282033';
+          }
+        }
         ctx.fillRect(x * CELL + .5, y * CELL + .5, CELL - 1, CELL - 1);
       }
     };
-    const compact = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
-    const timer = window.setInterval(draw, compact ? 250 : 90);
-    draw();
-    return () => window.clearInterval(timer);
-  }, []);
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [energyRef]);
 
   return <div className="pixel-board">
     <canvas ref={canvasRef} className="lyric-board" role="img" aria-label={`Lyric: ${text}`} />

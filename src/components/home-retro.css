@@ -12,8 +12,8 @@
 .retro{max-width:1120px}
 .retro-masthead{text-align:center;border-top:4px double var(--site-text);border-bottom:1px solid var(--site-text);padding:8px 0 12px}
 .retro-dateline{display:flex;justify-content:space-between;gap:12px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--site-muted);border-bottom:1px solid var(--site-border);padding-bottom:6px}
-.retro-masthead h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:700;margin:12px 0 0;font-style:italic}
-.retro-motto{margin:2px 0 10px;color:var(--site-muted);font-style:italic}
+.retro-masthead h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:400;font-style:normal;line-height:1.05;letter-spacing:.04em;text-transform:uppercase;margin:14px 0 4px}
+.retro-motto{margin:4px 0 10px;color:var(--site-muted);font-style:italic;font-size:16px}
 .pixel-board{margin:22px 0 8px;padding:12px;border:1px solid var(--site-border);background:#100d18}
 .retro-masthead .pixel-board h1{margin:0;line-height:0;font-size:0}
 .pixel-board-grid{display:block;width:100%;height:auto}
@@ -70,6 +70,36 @@ to{opacity:1;transform:translate(0) scale(1)}
 .retro-projects article:nth-child(-n+3){border-top:0;padding-top:0}
 .retro-projects img{display:block;width:100%;height:150px;object-fit:cover;border:1px solid var(--site-border);filter:grayscale(.35) contrast(1.05)}
 .retro-kicker{display:block;margin:8px 0 2px;text-transform:uppercase;letter-spacing:.08em;font-size:12px!important;color:var(--site-accent)!important}
+#certificates{padding-top:16px}
+.cert-masthead{margin-top:18px}
+.cert-section{margin-top:24px}
+.cert-list{display:grid;grid-template-columns:repeat(2,1fr);margin-top:0}
+.cert-item{padding:18px 20px 24px;border-left:1px solid var(--site-border);border-top:1px dotted var(--site-border)}
+.cert-item:nth-child(odd){border-left:0;padding-left:0}
+.cert-item:nth-child(-n+2){border-top:0;padding-top:0}
+.cert-item h3{margin:4px 0 6px;font-family:VT323,monospace;font-size:1.55rem;font-weight:400;line-height:1.15;letter-spacing:.01em;color:var(--site-text)}
+.cert-item p{margin:0;color:var(--site-muted);font-size:15px}
+.cert-preview-btn{display:block;position:relative;width:100%;padding:0;margin:0 0 12px;border:1px solid var(--site-border);background:#0d0a14;cursor:pointer;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.cert-preview-btn img{display:block;width:100%;aspect-ratio:11/8.5;object-fit:cover;transition:transform .25s ease}
+.cert-preview-btn:hover,.cert-preview-btn:focus-visible{border-color:var(--site-accent);box-shadow:0 0 14px rgba(184,160,255,.22)}
+.cert-preview-btn:hover img{transform:scale(1.015)}
+.cert-preview-btn:focus-visible{outline:2px solid var(--site-accent);outline-offset:2px}
+.cert-preview-badge{position:absolute;right:8px;bottom:8px;padding:3px 8px;background:rgba(17,16,25,.9);border:1px solid var(--site-border);color:var(--site-accent);font-family:inherit;font-size:11px;line-height:1.2;text-transform:uppercase;letter-spacing:.08em;opacity:.88;transition:opacity .2s,border-color .2s}
+.cert-preview-btn:hover .cert-preview-badge,.cert-preview-btn:focus-visible .cert-preview-badge{opacity:1;border-color:var(--site-accent)}
+.cert-meta{display:block;color:var(--site-muted);font-size:14px;line-height:1.45;margin-bottom:8px}
+.cert-actions{font-size:15px;line-height:1.5;margin-top:6px;color:var(--site-muted)}
+.cert-action-btn{padding:0;border:0;background:transparent;color:var(--site-accent);font:inherit;text-decoration:underline;cursor:pointer}
+.cert-action-btn:hover,.cert-action-btn:focus-visible{color:var(--site-accent-hover)}
+.gallery-dialog.cert-dialog{font-family:Times New Roman,Times,Georgia,serif}
+.gallery-dialog.cert-dialog .cert-dialog-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px}
+.gallery-dialog.cert-dialog header strong{font-family:VT323,monospace;font-weight:400;font-size:1.65rem;line-height:1.1;letter-spacing:.015em;color:var(--site-text)}
+.gallery-dialog.cert-dialog header small{margin-left:0;font-size:14px;color:var(--site-muted)}
+.gallery-dialog.cert-dialog header button,.gallery-dialog.cert-dialog footer button{font-family:inherit;font-size:15px;line-height:1.2}
+.gallery-dialog.cert-dialog header button{width:auto;min-width:44px;padding:8px 16px;white-space:nowrap}
+.gallery-dialog.cert-dialog footer p{font-size:14px;line-height:1.45;color:var(--site-muted)}
+.cert-dialog-img-wrap{display:flex;justify-content:center;align-items:center;padding:16px}
+.cert-dialog-img-wrap img{max-width:100%;max-height:72vh;width:auto;height:auto;object-fit:contain;border:1px solid var(--site-border)}
+@media(prefers-reduced-motion:reduce){.cert-preview-btn,.cert-preview-btn img,.cert-preview-badge{transition:none}.cert-preview-btn:hover img{transform:none}}
 .retro-text-cols{column-count:3;column-gap:40px;column-rule:1px solid var(--site-border)}
 .retro-text-cols h2{column-span:all}
 .retro-text-cols p{text-align:left;-webkit-hyphens:auto;hyphens:auto;margin-top:0}
@@ -103,6 +133,8 @@ to{transform:translateY(0);opacity:1}
 .retro-dateline span:nth-child(2){display:none}
 .retro-projects{grid-template-columns:1fr}
 .retro-projects article,.retro-projects article:nth-child(n){border-left:0;padding-left:0;padding-right:0}
+.cert-list{grid-template-columns:1fr}
+.cert-item,.cert-item:nth-child(n){border-left:0;padding-left:0;padding-right:0}
 .retro-text-cols{column-count:1}
 #contact{display:block}
 }
@@ -273,9 +305,24 @@ to{transform:translate(0)}
 .egg-button:hover,.egg-button:focus-visible{opacity:1;animation:none;transform:scale(1.15)}
 @keyframes egg-glow{0%,100%{opacity:.22;box-shadow:0 0 3px #b8a0ff44}50%{opacity:.78;box-shadow:0 0 8px #b8a0ffcc}}
 .song-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px;padding-top:6px;border-top:1px dotted var(--site-border)}
-.song-meta{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font:13px/1.2 "DotGothic16","VT323",monospace;letter-spacing:.03em}
-.song-meta-title{color:var(--site-accent)}
-.song-meta-artist{color:var(--site-muted)}
+.song-meta{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;padding:5px 4px;margin:-5px -4px;font:13px/1.2 "DotGothic16","VT323",monospace;letter-spacing:.03em}
+.song-meta-note,.song-meta-title{color:var(--site-accent)}
+.song-meta-sep,.song-meta-artist{color:var(--site-muted)}
+.retro .song-meta a.song-meta-link{display:inline;padding:2px;text-decoration:none;transition:color .2s,background-color .2s,text-shadow .2s}
+.retro .song-meta a.song-meta-artist{white-space:nowrap}
+.retro .song-meta a.song-meta-title:link,.retro .song-meta a.song-meta-title:visited{color:var(--site-accent)}
+.retro .song-meta a.song-meta-artist:link,.retro .song-meta a.song-meta-artist:visited{color:var(--site-muted)}
+.retro .song-meta a.song-meta-link .song-meta-label{text-decoration-line:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:rgba(184,160,255,.45);transition:text-decoration-color .2s}
+.retro .song-meta a.song-meta-artist .song-meta-label{text-decoration-color:rgba(184,160,255,.35)}
+.retro .song-meta a.song-meta-title:hover,.retro .song-meta a.song-meta-title:focus-visible{color:var(--site-accent-hover);text-shadow:0 0 8px rgba(184,160,255,.45)}
+.retro .song-meta a.song-meta-artist:hover,.retro .song-meta a.song-meta-artist:focus-visible{color:var(--site-accent)}
+.retro .song-meta a.song-meta-link:hover .song-meta-label,.retro .song-meta a.song-meta-link:focus-visible .song-meta-label{text-decoration-color:var(--site-accent)}
+.retro .song-meta a.song-meta-link:active{color:var(--site-accent-hover);background:rgba(184,160,255,.16)}
+.retro .song-meta a.song-meta-link:focus-visible{outline:2px solid var(--site-accent);outline-offset:1px;background:rgba(184,160,255,.14)}
+.song-meta-ext-icon{display:inline-block;width:9px;height:9px;margin-left:4px;vertical-align:-1px;fill:currentColor;color:var(--site-accent);opacity:.72;transition:opacity .2s,transform .2s}
+.retro .song-meta a.song-meta-artist:hover .song-meta-ext-icon,.retro .song-meta a.song-meta-artist:focus-visible .song-meta-ext-icon{opacity:1;transform:translate(1px,-1px)}
+@media(prefers-reduced-motion:reduce){.retro .song-meta a.song-meta-link,.retro .song-meta a.song-meta-link .song-meta-label,.song-meta-ext-icon{transition:none}.retro .song-meta a.song-meta-artist:hover .song-meta-ext-icon,.retro .song-meta a.song-meta-artist:focus-visible .song-meta-ext-icon{transform:none}}
+@media(max-width:480px){.song-meta{white-space:normal;overflow:visible;line-height:1.55}.retro .song-meta a.song-meta-link{padding:4px 2px}}
 .egg-controls{display:flex;gap:4px;align-items:center;flex:none}
 .egg-ctrl{width:16px;height:16px;padding:0;border:1px solid var(--site-border);background:#100d18;color:#b8a0ff;display:grid;place-items:center;cursor:pointer;opacity:.78;transition:opacity .2s,border-color .2s,color .2s}
 .egg-ctrl svg{display:block;fill:currentColor}
@@ -290,5 +337,9 @@ to{transform:translate(0)}
 
 
 .lyric-board{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(54px,12vh,100px);margin:0 auto;image-rendering:pixelated}
-@media(max-width:600px){.welcome-board.playing .pixel-board,.song-stage{padding:5px}}
+.climax-pixel-overlay{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);pointer-events:none;z-index:2;image-rendering:pixelated}
+.welcome-board.playing{box-shadow:0 0 calc(var(--climax,0) * 16px + var(--beat,0) * var(--climax,0) * 6px) rgb(184 160 255 / calc(var(--climax,0) * .18 + var(--beat,0) * var(--climax,0) * .08))}
+.welcome-board.playing .pixel-board,.welcome-board.playing .song-stage{border-color:color-mix(in srgb,var(--site-border) calc(100% - var(--climax,0) * 45%),var(--site-accent));transition:border-color .2s linear}
+@media(prefers-reduced-motion:reduce){.welcome-board.playing{box-shadow:0 0 calc(var(--climax,0) * 14px) rgb(184 160 255 / calc(var(--climax,0) * .16))}.welcome-board.playing .pixel-board,.welcome-board.playing .song-stage{transition:none}}
+@media(max-width:600px){.welcome-board.playing .pixel-board,.song-stage{padding:5px}.climax-pixel-overlay{inset:-12px;width:calc(100% + 24px);height:calc(100% + 24px)}}
 

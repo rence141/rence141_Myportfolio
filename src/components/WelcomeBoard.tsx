@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { songs, type LyricLine } from '../data/songs';
 import { PixelTitle } from './PixelTitle';
 import { LyricBoard, chunkWide } from './LyricBoard';
+import { ClimaxAnalyzer, createAudioEnergy, type AudioEnergy } from './audioClimax';
+import { PixelClimaxOverlay } from './PixelClimaxOverlay';
 
 type YTPlayer = {
   loadVideoById: (id: string) => void;
@@ -53,9 +55,12 @@ export function WelcomeBoard({ name }: { name: string }) {
   const [songIndex, setSongIndex] = useState(-1);
   const [playbackError, setPlaybackError] = useState(false);
   const [lyric, setLyric] = useState<string | undefined>(undefined);
+  const boardRef = useRef<HTMLDivElement | null>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const analyzerRef = useRef<ClimaxAnalyzer | null>(null);
+  const energyRef = useRef<AudioEnergy>(createAudioEnergy());
   const [fetched, setFetched] = useState<Record<number, LyricLine[]>>({});
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef<Promise<YTPlayer> | null>(null);
@@ -68,7 +73,11 @@ export function WelcomeBoard({ name }: { name: string }) {
     const media = mediaRef.current;
     playerRef.current?.stopVideo();
     media?.pause();
+    analyzerRef.current ??= new ClimaxAnalyzer();
+    analyzerRef.current.resetTrack(energyRef.current);
     if (media && songs[index]?.src) {
+      analyzerRef.current.ensureConnected(media);
+      analyzerRef.current.resume();
       media.src = songs[index].src!;
       void media.play().catch(() => {
         if (playbackRequest.current === request) setPlaybackError(true);
@@ -80,6 +89,12 @@ export function WelcomeBoard({ name }: { name: string }) {
     }
     setSongIndex(index);
   };
+
+  const tickAudio = useCallback((now: number) => {
+    const media = mediaRef.current;
+    const playingLocal = Boolean(media && !media.paused && !media.ended && media.readyState >= 2);
+    analyzerRef.current?.update(now, playingLocal, energyRef.current);
+  }, []);
 
   const getPlayer = useCallback(() => {
     if (!readyRef.current) readyRef.current = loadYouTubeApi().then(YT => new Promise<YTPlayer>(resolve => {
@@ -170,7 +185,8 @@ export function WelcomeBoard({ name }: { name: string }) {
     return () => window.clearInterval(timer);
   }, [songIndex, fetched]);
 
-  // Draw the playing video as a pixelated violet dot grid (local files only).
+  // Draw the playing video as a pixelated violet dot grid (local files only),
+  // adding subtle pixel shimmer and delicate rising sparks during musical climaxes.
   useEffect(() => {
     const song = songIndex >= 0 ? songs[songIndex] : undefined;
     const canvas = canvasRef.current;
@@ -183,27 +199,78 @@ export function WelcomeBoard({ name }: { name: string }) {
     const sample = document.createElement('canvas'); sample.width = cols; sample.height = rows;
     const sctx = sample.getContext('2d', { willReadFrequently: true });
     if (!ctx || !sctx) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let raf = 0;
     let videoFrame = 0;
     const decodedFrames = typeof media.requestVideoFrameCallback === 'function';
     let lastDraw = -Infinity;
     let lastMediaTime = -1;
+    let frameTick = 0;
+    const sparks: { x: number; y: number; vy: number; vx: number; life: number; bright: boolean }[] = [];
     const draw = (now: number) => {
       if (!document.hidden && !media.paused && media.readyState >= 2 &&
           (decodedFrames || now - lastDraw >= frameInterval) && media.currentTime !== lastMediaTime) {
         lastDraw = now;
         lastMediaTime = media.currentTime;
+        frameTick++;
         sctx.drawImage(media, 0, 0, cols, rows);
         const data = sctx.getImageData(0, 0, cols, rows).data;
+
+        const energy = energyRef.current;
+        const climax = energy.climax;
+        const beat = reducedMotion ? 0 : energy.beat;
+        const high = energy.high;
+        const gain = 1.25 + climax * 0.14 + beat * climax * 0.08;
+        const hotCutoff = 0.85 - climax * 0.06;
+
         ctx.fillStyle = '#0d0a14';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const sparkleChance = climax > 0.4 ? Math.round((climax - 0.4) * (4 + high * 8)) : 0;
+
         for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
           const p = (y * cols + x) * 4;
-          const light = Math.min(1, ((data[p] * .3 + data[p + 1] * .59 + data[p + 2] * .11) / 255) * 1.25);
-          if (light < .06) continue;
+          const light = Math.min(1, ((data[p] * .3 + data[p + 1] * .59 + data[p + 2] * .11) / 255) * gain);
+          if (light < .06) {
+            if (sparkleChance > 0 && (((x * 73856093 ^ y * 19349663 ^ frameTick * 83492791) >>> 0) % 1000) < sparkleChance) {
+              ctx.fillStyle = climax > 0.7 ? '#6c51a8' : '#3d2c5e';
+              ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1);
+            }
+            continue;
+          }
           const b = .35 + light * .65;
-          ctx.fillStyle = light > .85 ? `rgb(${238 * b | 0},${237 * b | 0},${246 * b | 0})` : `rgb(${184 * b | 0},${160 * b | 0},${255 * b | 0})`;
+          ctx.fillStyle = light > hotCutoff
+            ? `rgb(${238 * b | 0},${237 * b | 0},${246 * b | 0})`
+            : `rgb(${184 * b | 0},${160 * b | 0},${255 * b | 0})`;
           ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1);
+
+          // Spawn delicate rising single-pixel sparks from bright regions during climax.
+          if (climax > 0.4 && light > 0.8 && sparks.length < 18 && Math.random() < climax * 0.0022) {
+            sparks.push({
+              x,
+              y,
+              vx: (Math.random() - 0.5) * 0.35,
+              vy: -(0.35 + Math.random() * 0.55),
+              life: 10 + Math.floor(Math.random() * 12),
+              bright: climax > 0.7 && Math.random() < 0.35,
+            });
+          }
+        }
+
+        // Update & draw subtle rising pixel sparks inside the dot grid.
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          const sp = sparks[i];
+          sp.x += sp.vx;
+          sp.y += sp.vy;
+          sp.life--;
+          const gx = Math.round(sp.x);
+          const gy = Math.round(sp.y);
+          if (sp.life <= 0 || gy < 0 || gx < 0 || gx >= cols) {
+            sparks.splice(i, 1);
+            continue;
+          }
+          ctx.fillStyle = sp.bright ? '#eeedf6' : sp.life > 6 ? '#cdbbff' : '#8d72d4';
+          ctx.fillRect(gx * cell, gy * cell, cell - 1, cell - 1);
         }
       }
       schedule();
@@ -230,6 +297,7 @@ export function WelcomeBoard({ name }: { name: string }) {
       media?.removeAttribute('src');
       media?.load();
       playerRef.current?.destroy();
+      analyzerRef.current?.dispose();
     };
   }, []);
 
@@ -238,8 +306,13 @@ export function WelcomeBoard({ name }: { name: string }) {
   const next = () => selectSong((songIndex + 1) % songs.length);
   const stop = () => selectSong(-1);
 
-  return <div className={songIndex >= 0 ? 'welcome-board playing' : 'welcome-board'}>
-    {lyric === undefined ? <PixelTitle name={name} /> : <LyricBoard text={lyric} />}
+  const currentSong = songIndex >= 0 ? songs[songIndex] : undefined;
+  const videoUrl = currentSong?.videoUrl ?? (currentSong?.youtubeId ? `https://www.youtube.com/watch?v=${currentSong.youtubeId}` : undefined);
+  const artistChannelUrl = currentSong?.artistChannelUrl;
+
+  return <div ref={boardRef} className={songIndex >= 0 ? 'welcome-board playing' : 'welcome-board'}>
+    <PixelClimaxOverlay active={songIndex >= 0} energyRef={energyRef} anchorRef={boardRef} onTick={tickAudio} />
+    {lyric === undefined ? <PixelTitle name={name} /> : <LyricBoard text={lyric} energyRef={energyRef} />}
     {songs.length > 0 && songIndex < 0 && (
       <div className="egg-hint">
         <button id="egg-play-btn" type="button" className="egg-button" onClick={start} aria-label="Play song" title="Play song" />
@@ -250,13 +323,57 @@ export function WelcomeBoard({ name }: { name: string }) {
           playsInline preload="metadata" aria-hidden="true"
           onError={() => { if (songIndex >= 0) setPlaybackError(true); }}
           onEnded={() => selectSong(songIndex + 1 < songs.length ? songIndex + 1 : -1)} />
-        {songIndex >= 0 && <>
+        {currentSong && <>
         {playbackError && <div role="status">Video could not start. <button type="button" className="egg-ctrl" onClick={() => selectSong(songIndex)}>Retry</button></div>}
-        {songs[songIndex].src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
+        {currentSong.src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
         <div className="song-bar">
           <span className="song-meta">
-            <span className="song-meta-title">♪ {songs[songIndex].title}</span>
-            {songs[songIndex].artist && <span className="song-meta-artist"> — {songs[songIndex].artist}</span>}
+            <span className="song-meta-note" aria-hidden="true">♪ </span>
+            {videoUrl ? (
+              <a
+                className="song-meta-link song-meta-title"
+                href={videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${currentSong.title} — official music video on YouTube (opens in a new tab)`}
+                title={`Watch ${currentSong.title} official music video on YouTube`}
+              >
+                <span className="song-meta-label">{currentSong.title}</span>
+              </a>
+            ) : (
+              <span className="song-meta-title">{currentSong.title}</span>
+            )}
+            {currentSong.artist && (
+              <>
+                <span className="song-meta-sep" aria-hidden="true"> — </span>
+                {artistChannelUrl ? (
+                  <a
+                    className="song-meta-link song-meta-artist"
+                    href={artistChannelUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${currentSong.artist} — official YouTube channel (opens in a new tab)`}
+                    title={`Visit ${currentSong.artist} official YouTube channel`}
+                  >
+                    <span className="song-meta-label">{currentSong.artist}</span>
+                    <svg className="song-meta-ext-icon" viewBox="0 0 9 9" width="9" height="9" shapeRendering="crispEdges" aria-hidden="true">
+                      <rect x="0" y="2" width="4" height="1" />
+                      <rect x="0" y="3" width="1" height="6" />
+                      <rect x="1" y="8" width="6" height="1" />
+                      <rect x="6" y="5" width="1" height="3" />
+                      <rect x="5" y="0" width="4" height="1" />
+                      <rect x="8" y="1" width="1" height="3" />
+                      <rect x="7" y="1" width="1" height="1" />
+                      <rect x="6" y="2" width="1" height="1" />
+                      <rect x="5" y="3" width="1" height="1" />
+                      <rect x="4" y="4" width="1" height="1" />
+                    </svg>
+                  </a>
+                ) : (
+                  <span className="song-meta-artist">{currentSong.artist}</span>
+                )}
+              </>
+            )}
           </span>
           <div className="egg-controls" role="group" aria-label="Song controls">
             <button type="button" className="egg-ctrl" onClick={prev} aria-label="Previous song" title="Previous song">
