@@ -179,6 +179,10 @@ to{transform:translate(0)}
 .retro-github-heading>a{font:13px Courier New,monospace}
 .retro-github>p{font-size:16px;color:var(--site-muted)}
 .retro-github>small{display:block;margin-top:10px;font-size:12px}
+.retro-github-scroll{max-width:100%;min-width:0;overflow-x:auto;padding:16px;border:1px solid var(--site-border);overscroll-behavior-x:contain}
+.retro-github-scroll>a{display:block;width:max-content;min-width:100%}
+.retro-github-scroll img{display:block;width:700px;max-width:none;height:auto}
+.retro-github-calendar>small{display:block;margin-top:10px;overflow-wrap:anywhere}
 .github-activity{margin:24px 0 0;padding:20px;background:var(--site-bg);border:1px solid var(--site-border)}
 .github-activity figcaption{color:var(--site-text);font-size:18px}
 .github-activity svg{display:block;width:100%;max-width:440px;margin:0 auto}
@@ -249,7 +253,13 @@ to{transform:translate(0)}
 :root,:root[data-theme=dark]{color-scheme:dark;--site-bg: #111019;--site-surface: #191620;--site-raised: #282131;--site-accent: #b8a0ff;--site-accent-hover: #cdbbff;--site-text: #eeedf6;--site-muted: #b1a8bf;--site-border: #756582;--site-accent-ink: #1b1328;--site-visited: #c2a8ee;--particle-accent: 184,160,255;--particle-highlight: 238,237,246}
 .retro-github-row{display:flex;flex-wrap:wrap;gap:20px;align-items:stretch;margin-top:12px}
 .retro-github-calendar{flex:2 1 420px;min-width:0}
-.retro-github-row .github-activity{flex:1 1 280px;margin:0}
+.retro-github-row .github-activity{flex:1 1 280px;min-width:0;max-width:100%;margin:0;overflow-wrap:anywhere}
+@media(max-width:600px){
+.retro-github-row{flex-direction:column}
+.retro-github-calendar,.retro-github-row .github-activity{flex:0 1 auto;width:100%}
+.retro-github-heading h2{min-width:0}
+.retro-github-heading>a{max-width:100%;overflow-wrap:anywhere}
+}
 
 
 .welcome-board{position:relative;margin:22px 0 8px}
@@ -277,7 +287,6 @@ to{transform:translate(0)}
 
 .song-video{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(180px,46vh,380px);margin:0 auto;background:#0d0a14;image-rendering:pixelated}
 .song-stage[hidden],.song-video[hidden]{display:none}
-.song-video-native{image-rendering:auto;object-fit:contain}
 
 
 .lyric-board{display:block;width:auto;max-width:100%;height:auto;max-height:clamp(54px,12vh,100px);margin:0 auto;image-rendering:pixelated}

@@ -50,7 +50,6 @@ const songHeading = (song: { title: string; artist: string }) => (song.artist ? 
 // corner starts playing favourite songs with live pixel lyrics and pixelated
 // video, revealing pixel prev, stop, and next buttons.
 export function WelcomeBoard({ name }: { name: string }) {
-  const [nativeVideo] = useState(() => window.matchMedia('(max-width: 600px), (pointer: coarse)').matches);
   const [songIndex, setSongIndex] = useState(-1);
   const [playbackError, setPlaybackError] = useState(false);
   const [lyric, setLyric] = useState<string | undefined>(undefined);
@@ -176,7 +175,7 @@ export function WelcomeBoard({ name }: { name: string }) {
     const song = songIndex >= 0 ? songs[songIndex] : undefined;
     const canvas = canvasRef.current;
     const media = mediaRef.current;
-    if (nativeVideo || !song?.src || !canvas || !media) return;
+    if (!song?.src || !canvas || !media) return;
     const cols = 128, rows = 72, cell = 6;
     const frameInterval = 1000 / 24;
     canvas.width = cols * cell; canvas.height = rows * cell;
@@ -222,7 +221,7 @@ export function WelcomeBoard({ name }: { name: string }) {
       cancelAnimationFrame(raf);
       if (videoFrame) media.cancelVideoFrameCallback(videoFrame);
     };
-  }, [songIndex, nativeVideo]);
+  }, [songIndex]);
   useEffect(() => {
     const media = mediaRef.current;
     return () => {
@@ -248,15 +247,13 @@ export function WelcomeBoard({ name }: { name: string }) {
       </div>
     )}
     <div className="song-stage" hidden={songIndex < 0}>
-        <video ref={mediaRef} className={nativeVideo ? 'song-video song-video-native' : 'egg-video-src'}
-          hidden={nativeVideo && !songs[songIndex]?.src}
-          playsInline preload="metadata" aria-label={nativeVideo ? 'Music video' : undefined}
-          aria-hidden={nativeVideo ? undefined : true}
+        <video ref={mediaRef} className="egg-video-src"
+          playsInline preload="metadata" aria-hidden="true"
           onError={() => { if (songIndex >= 0) setPlaybackError(true); }}
           onEnded={() => selectSong(songIndex + 1 < songs.length ? songIndex + 1 : -1)} />
         {songIndex >= 0 && <>
         {playbackError && <div role="status">Video could not start. <button type="button" className="egg-ctrl" onClick={() => selectSong(songIndex)}>Retry</button></div>}
-        {!nativeVideo && songs[songIndex].src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
+        {songs[songIndex].src && <canvas ref={canvasRef} className="song-video" role="img" aria-label="Pixelated music video" />}
         <div className="song-bar">
           <span className="song-meta">
             <span className="song-meta-title">♪ {songs[songIndex].title}</span>
