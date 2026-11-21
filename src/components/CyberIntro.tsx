@@ -51,14 +51,16 @@ export function CyberIntro({ onDone }: { onDone: () => void }) {
       if(disposed) return;
       const elapsed = now-started;
       context.clearRect(0,0,canvas.width,canvas.height);
+      const entrance = Math.max(0,Math.min(1,elapsed/650));
       const progress = Math.max(0,Math.min(1,(elapsed-2100)/950));
-      if(progress===0) context.drawImage(artwork,0,0);
+      if(entrance===1 && progress===0) context.drawImage(artwork,0,0);
       else {
         const cols = Math.ceil(width/32), rows = Math.ceil(height/32);
         const tileW=canvas.width/cols,tileH=canvas.height/rows;
         for(let row=0;row<rows;row++) for(let col=0;col<cols;col++) {
           const hash = ((col*374761393 ^ row*668265263)>>>0)%1000/1000;
           const threshold = .3*(col/cols)+.7*hash;
+          if(entrance<1 && entrance<=threshold)continue;
           if(progress>threshold)continue;
           const x=Math.floor(col*tileW),y=Math.floor(row*tileH);
           const w=Math.ceil(tileW),h=Math.ceil(tileH);
