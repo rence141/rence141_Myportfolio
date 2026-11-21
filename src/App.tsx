@@ -2,21 +2,23 @@ import { useEffect } from "react";
 import { Home } from "./components/Home";
 
 import { ProjectDetail } from "./components/ProjectDetail";
+import { Certificates } from "./components/Certificates";
 import { useHashRoute } from "./hooks/useHashRoute";
 
 export default function App() {
   const { path, anchor } = useHashRoute();
   const projectMatch = path.match(/^\/project\/(.+)$/);
+  const isCertificates = path === "/certificates";
 
   useEffect(() => {
-    document.title = projectMatch ? "Project | Rence" : path === "/portfolio" ? "Portfolio | Rence" : "Rence | Websites, Business Tools & Automation";
+    document.title = projectMatch ? "Project | Rence" : isCertificates ? "Certificates | Rence" : path === "/portfolio" ? "Portfolio | Rence" : "Rence | Websites, Business Tools & Automation";
     if (path === "/") return;
     const target = anchor ? document.getElementById(anchor) : document.querySelector("h1");
     if (target instanceof HTMLElement) {
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
     }
-  }, [path, anchor]);
+  }, [path, anchor, projectMatch, isCertificates]);
 
   useEffect(() => {
     if (path === "/portfolio" || path === "/") {
@@ -33,5 +35,7 @@ export default function App() {
     }
   }, [path, anchor]);
 
-  return <>{projectMatch ? <ProjectDetail key={projectMatch[1]} slug={projectMatch[1]} /> : <Home splash={path === "/"} />}</>;
+  if (projectMatch) return <ProjectDetail key={projectMatch[1]} slug={projectMatch[1]} />;
+  if (isCertificates) return <Certificates />;
+  return <Home splash={path === "/"} />;
 }

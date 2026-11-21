@@ -56,6 +56,7 @@ export function Home({ splash }: { splash: boolean }) {
             <a href="#/portfolio#projects" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>Projects</a> <b>|</b>{" "}
             <a href="#/portfolio#services" onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>What I do</a> <b>|</b>{" "}
             <a href="#/portfolio#about" onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}>About</a> <b>|</b>{" "}
+            <a href="#/certificates">Certificates</a> <b>|</b>{" "}
             <a href="#/portfolio#contact" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>Contact</a>
           </nav>
         </header>
