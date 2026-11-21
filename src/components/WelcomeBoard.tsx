@@ -233,19 +233,12 @@ export function WelcomeBoard({ name }: { name: string }) {
     };
   }, []);
 
-  const start = () => selectSong(0);
   const prev = () => selectSong((songIndex - 1 + songs.length) % songs.length);
   const next = () => selectSong((songIndex + 1) % songs.length);
   const stop = () => selectSong(-1);
 
   return <div className={songIndex >= 0 ? 'welcome-board playing' : 'welcome-board'}>
     {lyric === undefined ? <PixelTitle name={name} /> : <LyricBoard text={lyric} />}
-    {songs.length > 0 && songIndex < 0 && (
-      <div className="egg-hint">
-        <label htmlFor="egg-play-btn" className="egg-hint-text">♪ play song</label>
-        <button id="egg-play-btn" type="button" className="egg-button" onClick={start} aria-label="Play song" title="Play song" />
-      </div>
-    )}
     <div className="song-stage" hidden={songIndex < 0}>
         <video ref={mediaRef} className="egg-video-src"
           playsInline preload="metadata" aria-hidden="true"
